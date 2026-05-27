@@ -46,58 +46,14 @@ type Kvo[T helper.Number] struct {
 }
 
 // NewKvo function initializes a new KVO instance.
-func NewKvo[T helper.Number]() *Kvo[T] {
-	return &Kvo[T]{
-		ShortEma:  trend.NewEmaWithPeriod[T](DefaultKvoShortPeriod),
-		LongEma:   trend.NewEmaWithPeriod[T](DefaultKvoLongPeriod),
-		SignalEma: trend.NewEmaWithPeriod[T](DefaultKvoSignalPeriod),
-	}
-}
+func NewKvo[T helper.Number]() *Kvo[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes channels of numbers and computes the Klinger Volume Oscillator.
 // Returns kvo and signal.
 func (k *Kvo[T]) Compute(highs, lows, volumes <-chan T) (<-chan T, <-chan T) {
-	highsSplice := helper.Duplicate(highs, 2)
-	lowsSplice := helper.Duplicate(lows, 2)
-
-	previousHighs := helper.Shift(highsSplice[0], 1, 0)
-	previousLows := helper.Shift(lowsSplice[0], 1, 0)
-
-	highsCopy := highsSplice[1]
-	lowsCopy := lowsSplice[1]
-
-	vf := helper.Operate5(highsCopy, previousHighs, lowsCopy, previousLows, volumes, func(high, prevHigh, low, prevLow, volume T) T {
-		var trend T
-
-		if high > prevHigh && low >= prevLow {
-			trend = 1
-		} else if high <= prevHigh && low < prevLow {
-			trend = -1
-		} else {
-			trend = 0
-		}
-
-		return volume * trend
-	})
-
-	vfSplice := helper.Duplicate(helper.Skip(vf, 1), 2)
-
-	shortEma := k.ShortEma.Compute(vfSplice[0])
-	longEma := k.LongEma.Compute(vfSplice[1])
-
-	shortEma = helper.Skip(shortEma, k.LongEma.IdlePeriod()-k.ShortEma.IdlePeriod())
-
-	kvo := helper.Subtract(shortEma, longEma)
-
-	kvoSplice := helper.Duplicate(kvo, 2)
-
-	signal := k.SignalEma.Compute(kvoSplice[0])
-	kvoResult := helper.Skip(kvoSplice[1], k.SignalEma.IdlePeriod())
-
-	return kvoResult, signal
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that KVO won't yield any results.
-func (k *Kvo[T]) IdlePeriod() int {
-	return k.LongEma.IdlePeriod() + k.SignalEma.IdlePeriod() + 1
-}
+func (k *Kvo[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

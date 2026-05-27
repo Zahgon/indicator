@@ -1,12 +1,7 @@
 package main
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/strategy"
-	"github.com/cinar/indicator/v2/strategy/momentum"
-	"github.com/cinar/indicator/v2/strategy/trend"
-	"github.com/cinar/indicator/v2/strategy/volume"
 )
 
 // StrategyType defines the type of trading strategy to be used in a backtest.
@@ -62,72 +57,15 @@ const (
 // desired trading strategy at runtime. If an unsupported strategy type is
 // provided, it returns an error.
 func CreateStrategy(strategyType StrategyType) (strategy.Strategy, error) {
-	switch strategyType {
+	_ = "STUB: not implemented"
+	return *
+
 	// Base strategies
-	case StrategyBuyAndHold:
-		return strategy.NewBuyAndHoldStrategy(), nil
-
-	// Trend strategies
-	case StrategyAlligator:
-		return trend.NewAlligatorStrategy(), nil
-	case StrategyAroon:
-		return trend.NewAroonStrategy(), nil
-	case StrategyApo:
-		return trend.NewApoStrategy(), nil
-	case StrategyBop:
-		return trend.NewBopStrategy(), nil
-	case StrategyCci:
-		return trend.NewCciStrategy(), nil
-	case StrategyDema:
-		return trend.NewDemaStrategy(), nil
-	case StrategyGoldenCross:
-		return trend.NewGoldenCrossStrategy(), nil
-	case StrategyKama:
-		return trend.NewKamaStrategy(), nil
-	case StrategyKdj:
-		return trend.NewKdjStrategy(), nil
-	case StrategyMACD:
-		return trend.NewMacdStrategy(), nil
-	case StrategyQstick:
-		return trend.NewQstickStrategy(), nil
-	case StrategySmma:
-		return trend.NewSmmaStrategy(), nil
-	case StrategyTrima:
-		return trend.NewTrimaStrategy(), nil
-	case StrategyTripleMaCrossover:
-		return trend.NewTripleMovingAverageCrossoverStrategy(), nil
-	case StrategyTsi:
-		return trend.NewTsiStrategy(), nil
-	case StrategyVwma:
-		return trend.NewVwmaStrategy(), nil
-	case StrategyWeightedClose:
-		return trend.NewWeightedCloseStrategy(), nil
-
-	// Momentum strategies
-	case StrategyAwesomeOscillator:
-		return momentum.NewAwesomeOscillatorStrategy(), nil
-	case StrategyRsi:
-		return momentum.NewRsiStrategy(), nil
-	case StrategyStochasticRsi:
-		return momentum.NewStochasticRsiStrategy(), nil
-	case StrategyTripleRsi:
-		return momentum.NewTripleRsiStrategy(), nil
-
-	// Volume strategies
-	case StrategyChaikinMoneyFlow:
-		return volume.NewChaikinMoneyFlowStrategy(), nil
-	case StrategyEaseOfMovement:
-		return volume.NewEaseOfMovementStrategy(), nil
-	case StrategyForceIndex:
-		return volume.NewForceIndexStrategy(), nil
-	case StrategyMoneyFlowIndex:
-		return volume.NewMoneyFlowIndexStrategy(), nil
-	case StrategyNegativeVolumeIndex:
-		return volume.NewNegativeVolumeIndexStrategy(), nil
-	case StrategyWeightedAveragePrice:
-		return volume.NewWeightedAveragePriceStrategy(), nil
-
-	default:
-		return nil, fmt.Errorf("unsupported strategy: %s", strategyType)
-	}
+	new(strategy.Strategy), nil
 }
+
+// Trend strategies
+
+// Momentum strategies
+
+// Volume strategies

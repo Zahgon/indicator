@@ -42,32 +42,15 @@ type ChaikinOscillator[T helper.Number] struct {
 
 // NewChaikinOscillator function initializes a new Chaikin Oscillator instance.
 func NewChaikinOscillator[T helper.Number]() *ChaikinOscillator[T] {
-	return &ChaikinOscillator[T]{
-		Ad:       volume.NewAd[T](),
-		ShortEma: trend.NewEmaWithPeriod[T](DefaultChaikinOscillatorShortPeriod),
-		LongEma:  trend.NewEmaWithPeriod[T](DefaultChaikinOscillatorLongPeriod),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Chaikin Oscillator.
 func (c *ChaikinOscillator[T]) Compute(highs, lows, closings, volumes <-chan T) (<-chan T, <-chan T) {
-	adSplice := helper.Duplicate(
-		c.Ad.Compute(highs, lows, closings, volumes),
-		3,
-	)
-
-	shortEma := c.ShortEma.Compute(adSplice[0])
-	longEma := c.LongEma.Compute(adSplice[1])
-
-	shortEma = helper.Skip(shortEma, c.LongEma.IdlePeriod()-c.ShortEma.IdlePeriod())
-
-	co := helper.Subtract(shortEma, longEma)
-	adSplice[2] = helper.Skip(adSplice[2], c.LongEma.IdlePeriod())
-
-	return co, adSplice[2]
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that Chaikin Oscillator won't yield any results.
-func (c *ChaikinOscillator[T]) IdlePeriod() int {
-	return c.LongEma.IdlePeriod()
-}
+func (c *ChaikinOscillator[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

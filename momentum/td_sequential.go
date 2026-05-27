@@ -53,140 +53,38 @@ type TdSequential[T helper.Number] struct {
 }
 
 // NewTdSequential function initializes a new TD Sequential instance with default parameters.
-func NewTdSequential[T helper.Number]() *TdSequential[T] {
-	return &TdSequential[T]{
-		Lookback:          DefaultTdSequentialLookback,
-		CountdownLookback: DefaultTdSequentialCountdownLookback,
-		SetupPeriod:       DefaultTdSequentialSetupPeriod,
-		CountdownPeriod:   DefaultTdSequentialCountdownPeriod,
-	}
-}
+func NewTdSequential[T helper.Number]() *TdSequential[T] { _ = "STUB: not implemented"; return nil }
 
 // lessThan compares two generic numbers and returns true if a < b.
-func lessThan[T helper.Number](a, b T) bool {
-	return float64(a) < float64(b)
-}
+func lessThan[T helper.Number](a, b T) bool { _ = "STUB: not implemented"; return false }
 
 // greaterThan compares two generic numbers and returns true if a > b.
-func greaterThan[T helper.Number](a, b T) bool {
-	return float64(a) > float64(b)
-}
+func greaterThan[T helper.Number](a, b T) bool { _ = "STUB: not implemented"; return false }
 
 // lessOrEqual compares two generic numbers and returns true if a <= b.
-func lessOrEqual[T helper.Number](a, b T) bool {
-	return float64(a) <= float64(b)
-}
+func lessOrEqual[T helper.Number](a, b T) bool { _ = "STUB: not implemented"; return false }
 
 // greaterOrEqual compares two generic numbers and returns true if a >= b.
-func greaterOrEqual[T helper.Number](a, b T) bool {
-	return float64(a) >= float64(b)
-}
+func greaterOrEqual[T helper.Number](a, b T) bool { _ = "STUB: not implemented"; return false }
 
 // Compute function takes a channel of numbers and computes the TD Sequential indicator.
 // Returns four channels: buySetup, sellSetup, buyCountdown, sellCountdown.
 func (t *TdSequential[T]) Compute(closings <-chan T) (<-chan T, <-chan T, <-chan T, <-chan T) {
-	closings = helper.Buffered(closings, t.Lookback+t.CountdownLookback)
-
-	buySetup := make(chan T)
-	sellSetup := make(chan T)
-	buyCountdown := make(chan T)
-	sellCountdown := make(chan T)
-
-	go func() {
-		defer close(buySetup)
-		defer close(sellSetup)
-		defer close(buyCountdown)
-		defer close(sellCountdown)
-
-		var currentBuySetup, currentSellSetup T
-		var buyCountdownCount, sellCountdownCount int
-		inBuyCountdown := false
-		inSellCountdown := false
-		closeHistory := make([]T, 0, t.Lookback+t.CountdownLookback+1)
-
-		for current := range closings {
-			closeHistory = append(closeHistory, current)
-			if len(closeHistory) <= t.Lookback {
-				buySetup <- 0
-				sellSetup <- 0
-				buyCountdown <- 0
-				sellCountdown <- 0
-				continue
-			}
-
-			prevClose := closeHistory[len(closeHistory)-1-t.Lookback]
-
-			// Setup phase - buy (close < close 4 bars ago)
-			if lessThan(current, prevClose) {
-				if float64(currentBuySetup) >= 0 {
-					currentBuySetup = T(float64(currentBuySetup) + 1)
-				} else {
-					currentBuySetup = 1
-				}
-			} else {
-				currentBuySetup = 0
-			}
-
-			// Setup phase - sell (close > close 4 bars ago)
-			if greaterThan(current, prevClose) {
-				if float64(currentSellSetup) <= 0 {
-					currentSellSetup = T(float64(currentSellSetup) - 1)
-				} else {
-					currentSellSetup = -1
-				}
-			} else {
-				currentSellSetup = 0
-			}
-
-			// Check if setup completed
-			if float64(currentBuySetup) >= float64(t.SetupPeriod) {
-				inBuyCountdown = true
-			}
-			if float64(currentSellSetup) <= -float64(t.SetupPeriod) {
-				inSellCountdown = true
-			}
-
-			// Countdown phase - buy (close <= close 2 bars ago)
-			if inBuyCountdown && buyCountdownCount < t.CountdownPeriod {
-				if len(closeHistory) > t.CountdownLookback {
-					cdPrevClose := closeHistory[len(closeHistory)-1-t.CountdownLookback]
-					if lessOrEqual(current, cdPrevClose) {
-						buyCountdownCount++
-					}
-				}
-			}
-
-			// Countdown phase - sell (close >= close 2 bars ago)
-			if inSellCountdown && sellCountdownCount < t.CountdownPeriod {
-				if len(closeHistory) > t.CountdownLookback {
-					cdPrevClose := closeHistory[len(closeHistory)-1-t.CountdownLookback]
-					if greaterOrEqual(current, cdPrevClose) {
-						sellCountdownCount++
-					}
-				}
-			}
-
-			// Reset countdown when completed
-			if buyCountdownCount >= t.CountdownPeriod {
-				buyCountdownCount = 0
-				inBuyCountdown = false
-			}
-			if sellCountdownCount >= t.CountdownPeriod {
-				sellCountdownCount = 0
-				inSellCountdown = false
-			}
-
-			buySetup <- currentBuySetup
-			sellSetup <- currentSellSetup
-			buyCountdown <- T(buyCountdownCount)
-			sellCountdown <- T(sellCountdownCount)
-		}
-	}()
-
-	return buySetup, sellSetup, buyCountdown, sellCountdown
+	_ = "STUB: not implemented"
+	return nil, nil, nil, nil
 }
+
+// Setup phase - buy (close < close 4 bars ago)
+
+// Setup phase - sell (close > close 4 bars ago)
+
+// Check if setup completed
+
+// Countdown phase - buy (close <= close 2 bars ago)
+
+// Countdown phase - sell (close >= close 2 bars ago)
+
+// Reset countdown when completed
 
 // IdlePeriod is the initial period that TD Sequential won't yield meaningful results.
-func (t *TdSequential[T]) IdlePeriod() int {
-	return t.Lookback + t.SetupPeriod + t.CountdownPeriod
-}
+func (t *TdSequential[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

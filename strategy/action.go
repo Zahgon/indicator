@@ -4,8 +4,6 @@
 
 package strategy
 
-import "github.com/cinar/indicator/v2/helper"
-
 // Action represents the different action categories that a
 // strategy can recommend.
 type Action int
@@ -28,93 +26,28 @@ const (
 
 // Annotation returns a single character string representing the recommended action.
 // It returns "S" for Sell, "B" for Buy, and an empty string for Hold.
-func (a Action) Annotation() string {
-	switch a {
-	case Sell:
-		return "S"
-
-	case Buy:
-		return "B"
-
-	default:
-		return ""
-	}
-}
+func (a Action) Annotation() string { _ = "STUB: not implemented"; return "" }
 
 // ActionsToAnnotations takes a channel of action recommendations and returns a
 // new channel containing corresponding annotations for those actions.
-func ActionsToAnnotations(ac <-chan Action) <-chan string {
-	return helper.Map(NormalizeActions(ac), func(a Action) string {
-		return a.Annotation()
-	})
-}
+func ActionsToAnnotations(ac <-chan Action) <-chan string { _ = "STUB: not implemented"; return nil }
 
 // NormalizeActions transforms the given channel of actions to ensure a consistent and
 // predictable sequence. It eliminates consecutive occurrences of the same action
 // (Buy/Sell), ensuring the order follows a pattern of Hold, Buy, Hold, Sell.
-func NormalizeActions(ac <-chan Action) <-chan Action {
-	last := Sell
-
-	return helper.Map(ac, func(a Action) Action {
-		if a != Hold && a != last {
-			last = a
-			return a
-		}
-
-		return Hold
-	})
-}
+func NormalizeActions(ac <-chan Action) <-chan Action { _ = "STUB: not implemented"; return nil }
 
 // DenormalizeActions simplifies the representation of the action sequence and facilitates subsequent
 // processing by transforming the given channel of actions. It retains Hold actions until the
 // first Buy or Sell action appears. Subsequently, it replaces all remaining Hold actions with
 // the preceding Buy or Sell action, effectively merging consecutive actions.
-func DenormalizeActions(ac <-chan Action) <-chan Action {
-	last := Hold
-
-	return helper.Map(ac, func(a Action) Action {
-		if a != Hold && a != last {
-			last = a
-		}
-
-		return last
-	})
-}
+func DenormalizeActions(ac <-chan Action) <-chan Action { _ = "STUB: not implemented"; return nil }
 
 // CountActions taken a slice of Action channels, and counts them by their type.
 func CountActions(acs []<-chan Action) (int, int, int, bool) {
-	var buy, hold, sell int
-
-	for _, ac := range acs {
-		action, ok := <-ac
-		if !ok {
-			return 0, 0, 0, false
-		}
-
-		switch action {
-		case Sell:
-			sell++
-
-		case Buy:
-			buy++
-
-		default:
-			hold++
-		}
-	}
-
-	return buy, hold, sell, true
+	_ = "STUB: not implemented"
+	return 0, 0, 0, false
 }
 
 // CountTransactions counts the number of recommended Buy and Sell actions.
-func CountTransactions(ac <-chan Action) <-chan int {
-	var transactions int
-
-	return helper.Map(ac, func(action Action) int {
-		if action != Hold {
-			transactions++
-		}
-
-		return transactions
-	})
-}
+func CountTransactions(ac <-chan Action) <-chan int { _ = "STUB: not implemented"; return nil }

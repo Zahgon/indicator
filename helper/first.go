@@ -5,23 +5,4 @@
 package helper
 
 // First takes a channel of values and returns a new channel containing the first N values.
-func First[T any](c <-chan T, count int) <-chan T {
-	result := make(chan T, cap(c))
-
-	go func() {
-		for i := 0; i < count; i++ {
-			n, ok := <-c
-			if !ok {
-				break
-			}
-
-			result <- n
-		}
-
-		close(result)
-
-		Drain(c)
-	}()
-
-	return result
-}
+func First[T any](c <-chan T, count int) <-chan T { _ = "STUB: not implemented"; return nil }

@@ -41,44 +41,17 @@ type StochasticOscillator[T helper.Number] struct {
 
 // NewStochasticOscillator function initializes a new Stochastic Oscillator instance.
 func NewStochasticOscillator[T helper.Number]() *StochasticOscillator[T] {
-	return &StochasticOscillator[T]{
-		Max: trend.NewMovingMaxWithPeriod[T](DefaultStochasticOscillatorMaxAndMinPeriod),
-		Min: trend.NewMovingMinWithPeriod[T](DefaultStochasticOscillatorMaxAndMinPeriod),
-		Sma: trend.NewSmaWithPeriod[T](DefaultStochasticOscillatorPeriod),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Stochastic Oscillator. Returns k and d.
 func (s *StochasticOscillator[T]) Compute(highs, lows, closings <-chan T) (<-chan T, <-chan T) {
+	_ = "STUB: not implemented"
 	//	K = (Closing - Lowest Low) / (Highest High - Lowest Low) * 100
 	//	D = 3-Period SMA of K
-	lowestSplice := helper.Duplicate(
-		s.Min.Compute(lows),
-		2,
-	)
-
-	highest := s.Max.Compute(highs)
-
-	closings = helper.Skip(closings, s.Min.IdlePeriod())
-
-	kSplice := helper.Duplicate(
-		helper.MultiplyBy(
-			helper.Divide(
-				helper.Subtract(closings, lowestSplice[0]),
-				helper.Subtract(highest, lowestSplice[1]),
-			),
-			100,
-		),
-		2,
-	)
-
-	d := s.Sma.Compute(kSplice[0])
-	kSplice[1] = helper.Skip(kSplice[1], s.Sma.IdlePeriod())
-
-	return kSplice[1], d
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that Stochastic Oscillator won't yield any results.
-func (s *StochasticOscillator[T]) IdlePeriod() int {
-	return s.Max.IdlePeriod() + s.Sma.IdlePeriod()
-}
+func (s *StochasticOscillator[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

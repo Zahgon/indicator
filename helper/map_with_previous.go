@@ -15,16 +15,6 @@ package helper
 //		return p + c
 //	}, 0)
 func MapWithPrevious[F, T any](c <-chan F, f func(T, F) T, previous T) <-chan T {
-	mc := make(chan T)
-
-	go func() {
-		defer close(mc)
-
-		for n := range c {
-			previous = f(previous, n)
-			mc <- previous
-		}
-	}()
-
-	return mc
+	_ = "STUB: not implemented"
+	return nil
 }

@@ -4,8 +4,6 @@
 
 package helper
 
-import "fmt"
-
 // numericReportColumn is the number report column struct.
 type numericReportColumn[T Number] struct {
 	ReportColumn
@@ -15,28 +13,30 @@ type numericReportColumn[T Number] struct {
 
 // NewNumericReportColumn returns a new instance of a numeric data column for a report.
 func NewNumericReportColumn[T Number](name string, values <-chan T) ReportColumn {
-	return &numericReportColumn[T]{
-		name:   name,
-		values: values,
-	}
+	_ = "STUB: not implemented"
+	return *new(ReportColumn)
 }
 
 // Name returns the name of the report column.
 func (c *numericReportColumn[T]) Name() string {
-	return c.name
+	_ = "STUB: not implemented"
+
+	// Type returns number as the data type.
+	return ""
 }
 
-// Type returns number as the data type.
 func (*numericReportColumn[T]) Type() string {
-	return "number"
+	_ = "STUB: not implemented"
+
+	// Role returns the role of the report column.
+	return ""
 }
 
-// Role returns the role of the report column.
 func (*numericReportColumn[T]) Role() string {
-	return "data"
+	_ = "STUB: not implemented"
+
+	// Value returns the next data value for the report column.
+	return ""
 }
 
-// Value returns the next data value for the report column.
-func (c *numericReportColumn[T]) Value() string {
-	return fmt.Sprintf("%v", <-c.values)
-}
+func (c *numericReportColumn[T]) Value() string { _ = "STUB: not implemented"; return "" }

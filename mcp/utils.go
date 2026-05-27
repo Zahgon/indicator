@@ -13,10 +13,4 @@ import (
 // Returns:
 //   - A slice of time.Time values corresponding to the input timestamps
 //   - The order of elements in the output matches the order of the input timestamps
-func toTimeArray(timestamps []int64) []time.Time {
-	timeArray := make([]time.Time, len(timestamps))
-	for i, ts := range timestamps {
-		timeArray[i] = time.Unix(ts, 0)
-	}
-	return timeArray
-}
+func toTimeArray(timestamps []int64) []time.Time { _ = "STUB: not implemented"; return nil }

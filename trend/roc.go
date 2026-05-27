@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -24,49 +22,20 @@ type Roc[T helper.Float] struct {
 }
 
 // NewRoc function initializes a new Roc instance with the default parameters.
-func NewRoc[T helper.Float]() *Roc[T] {
-	return NewRocWithPeriod[T](DefaultRocPeriod)
-}
+func NewRoc[T helper.Float]() *Roc[T] { _ = "STUB: not implemented"; return nil }
 
 // NewRocWithPeriod function initializes a new Roc instance with the given parameters.
-func NewRocWithPeriod[T helper.Float](period int) *Roc[T] {
-	if period <= 0 {
-		period = DefaultRocPeriod
-	}
-	return &Roc[T]{
-		Period: period,
-	}
-}
+func NewRocWithPeriod[T helper.Float](period int) *Roc[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the ROC and the signal line.
-func (r *Roc[T]) Compute(values <-chan T) <-chan T {
-	window := helper.NewRing[T](r.Period)
-
-	rocs := helper.Map(values, func(value T) T {
-		var result T
-
-		if window.IsFull() {
-			p, ok := window.Get()
-			if ok && p != 0 {
-				result = (value - p) / p
-			}
-		}
-		window.Put(value)
-
-		return result
-	})
-
-	rocs = helper.Skip(rocs, r.IdlePeriod())
-
-	return rocs
-}
+func (r *Roc[T]) Compute(values <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that ROC won't yield any results.
 func (r *Roc[T]) IdlePeriod() int {
-	return r.Period
+	_ = "STUB: not implemented"
+
+	// String is the string representation of the ROC.
+	return 0
 }
 
-// String is the string representation of the ROC.
-func (r *Roc[T]) String() string {
-	return fmt.Sprintf("ROC(%d)", r.Period)
-}
+func (r *Roc[T]) String() string { _ = "STUB: not implemented"; return "" }

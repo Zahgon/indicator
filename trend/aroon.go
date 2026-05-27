@@ -34,34 +34,15 @@ type Aroon[T helper.Number] struct {
 
 // NewAroon function initializes a new Aroon instance
 // with the default parameters.
-func NewAroon[T helper.Number]() *Aroon[T] {
-	return &Aroon[T]{
-		Period: DefaultAroonPeriod,
-	}
-}
+func NewAroon[T helper.Number]() *Aroon[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Aroon
 // over the specified period.
 func (a *Aroon[T]) Compute(high, low <-chan T) (<-chan T, <-chan T) {
-	movingMax := NewMovingMaxWithPeriod[T](a.Period)
-	movingMin := NewMovingMinWithPeriod[T](a.Period)
-
-	sinceLastHigh := helper.MaxSince(movingMax.Compute(high), a.Period)
-	sinceLastLow := helper.MinSince(movingMin.Compute(low), a.Period)
-
-	// Aroon Up = ((25 - Period Since Last 25 Period High) / 25) * 100
-	aroonUp := helper.MultiplyBy(sinceLastHigh, -1)
-	aroonUp = helper.IncrementBy(aroonUp, T(a.Period))
-	aroonUp = helper.DivideBy(aroonUp, T(a.Period))
-	aroonUp = helper.MultiplyBy(aroonUp, 100)
-	aroonUp = helper.RoundDigits(aroonUp, 0)
-
-	// Aroon Down = ((25 - Period Since Last 25 Period Low) / 25) * 100
-	aroonDown := helper.MultiplyBy(sinceLastLow, -1)
-	aroonDown = helper.IncrementBy(aroonDown, T(a.Period))
-	aroonDown = helper.DivideBy(aroonDown, T(a.Period))
-	aroonDown = helper.MultiplyBy(aroonDown, 100)
-	aroonDown = helper.RoundDigits(aroonDown, 0)
-
-	return aroonUp, aroonDown
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Aroon Up = ((25 - Period Since Last 25 Period High) / 25) * 100
+
+// Aroon Down = ((25 - Period Since Last 25 Period Low) / 25) * 100

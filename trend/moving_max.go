@@ -16,35 +16,17 @@ type MovingMax[T helper.Number] struct {
 }
 
 // NewMovingMax function initializes a new Moving Max instance with the default parameters.
-func NewMovingMax[T helper.Number]() *MovingMax[T] {
-	return &MovingMax[T]{}
-}
+func NewMovingMax[T helper.Number]() *MovingMax[T] { _ = "STUB: not implemented"; return nil }
 
 // NewMovingMaxWithPeriod function initializes a new Moving Max instance with the given period.
 func NewMovingMaxWithPeriod[T helper.Number](period int) *MovingMax[T] {
-	return &MovingMax[T]{
-		Period: period,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the
 // Moving Max over the specified period.
-func (m *MovingMax[T]) Compute(c <-chan T) <-chan T {
-	cs := helper.Duplicate(c, 2)
-	cs[1] = helper.Shift(cs[1], m.Period, 0)
-
-	bst := helper.NewBst[T]()
-
-	maxs := helper.Operate(cs[0], cs[1], func(c, b T) T {
-		bst.Insert(c)
-		bst.Remove(b)
-		return bst.Max()
-	})
-
-	return helper.Skip(maxs, m.Period-1)
-}
+func (m *MovingMax[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that Mocing Max won't yield any results.
-func (m *MovingMax[T]) IdlePeriod() int {
-	return m.Period - 1
-}
+func (m *MovingMax[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

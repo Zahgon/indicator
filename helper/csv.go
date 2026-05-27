@@ -6,14 +6,8 @@ package helper
 
 import (
 	"encoding/csv"
-	"errors"
 	"io"
-	"io/fs"
 	"log/slog"
-	"os"
-	"path/filepath"
-	"reflect"
-	"sync"
 )
 
 const (
@@ -56,147 +50,43 @@ type Csv[T any] struct {
 type CsvOption[T any] func(*Csv[T])
 
 // WithoutCsvHeader disables the header row in the CSV.
-func WithoutCsvHeader[T any]() CsvOption[T] {
-	return func(c *Csv[T]) {
-		c.hasHeader = false
-	}
-}
+func WithoutCsvHeader[T any]() CsvOption[T] { _ = "STUB: not implemented"; return nil }
 
 // WithCsvLogger sets the logger for the CSV instance.
-func WithCsvLogger[T any](logger *slog.Logger) CsvOption[T] {
-	return func(c *Csv[T]) {
-		c.Logger = logger
-	}
-}
+func WithCsvLogger[T any](logger *slog.Logger) CsvOption[T] { _ = "STUB: not implemented"; return nil }
 
 // WithCsvDefaultDateTimeFormat sets the default date and time format for the CSV instance.
 func WithCsvDefaultDateTimeFormat[T any](format string) CsvOption[T] {
-	return func(c *Csv[T]) {
-		c.defaultDateTimeFormat = format
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewCsv creates a new CSV instance with the provided options.
 func NewCsv[T any](options ...CsvOption[T]) (*Csv[T], error) {
-	c := &Csv[T]{
-		hasHeader:             true,
-		Logger:                slog.Default(),
-		defaultDateTimeFormat: DefaultDateTimeFormat,
-	}
-
-	// Apply options to the CSV instance.
-	for _, option := range options {
-		option(c)
-	}
-
-	// Row type must be a pointer to struct.
-	structType := reflect.TypeOf((*T)(nil)).Elem()
-	if structType.Kind() != reflect.Struct {
-		return nil, errors.New("type not a struct")
-	}
-
-	// Create a mapping linking CSV columns to corresponding struct fields.
-	c.columns = make([]csvColumn, structType.NumField())
-	for i := 0; i < structType.NumField(); i++ {
-		field := structType.Field(i)
-
-		header, ok := field.Tag.Lookup(CsvHeaderTag)
-		if !ok {
-			header = field.Name
-		}
-
-		format, ok := field.Tag.Lookup(CsvFormatTag)
-		if !ok {
-			format = c.defaultDateTimeFormat
-		}
-
-		c.columns[i] = csvColumn{
-			Header:      header,
-			ColumnIndex: i,
-			FieldIndex:  i,
-			Format:      format,
-		}
-	}
-
-	return c, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
+
+// Apply options to the CSV instance.
+
+// Row type must be a pointer to struct.
+
+// Create a mapping linking CSV columns to corresponding struct fields.
 
 // ReadFromReader parses the CSV data from the provided reader,
 // maps the data to corresponding struct fields, and delivers
 // the resulting it through the channel.
-func (c *Csv[T]) ReadFromReader(reader io.Reader) <-chan *T {
-	rows := make(chan *T)
+func (c *Csv[T]) ReadFromReader(reader io.Reader) <-chan *T { _ = "STUB: not implemented"; return nil }
 
-	go func() {
-		defer close(rows)
-
-		csvReader := csv.NewReader(reader)
-
-		// If CSV has headers, align column indices to match the
-		// order of column headers.
-		if c.hasHeader {
-			err := c.updateColumnIndexes(csvReader)
-			if err != nil {
-				c.Logger.Error("Unable to update the column indexes.", "error", err)
-				return
-			}
-		}
-
-		for {
-			record, err := csvReader.Read()
-			if err == io.EOF {
-				break
-			}
-
-			if err != nil {
-				c.Logger.Error("Unable to read row.", "error", err)
-				break
-			}
-
-			row := new(T)
-			rowValue := reflect.ValueOf(row).Elem()
-
-			for _, column := range c.columns {
-				if column.ColumnIndex == -1 {
-					continue
-				}
-
-				err := setReflectValue(rowValue.Field(column.FieldIndex),
-					record[column.ColumnIndex], column.Format)
-				if err != nil {
-					c.Logger.Error("Unable to set value.", "error", err)
-					return
-				}
-			}
-
-			rows <- row
-		}
-	}()
-
-	return rows
-}
+// If CSV has headers, align column indices to match the
+// order of column headers.
 
 // ReadFromFile parses the CSV data from the provided file name,
 // maps the data to corresponding struct fields, and delivers
 // the resulting rows through the channel.
 func (c *Csv[T]) ReadFromFile(fileName string) (<-chan *T, error) {
-	file, err := os.Open(filepath.Clean(fileName))
-	if err != nil {
-		return nil, err
-	}
-
-	wg := &sync.WaitGroup{}
-	rows := Waitable(wg, c.ReadFromReader(file))
-
-	go func() {
-		wg.Wait()
-		err := file.Close()
-		if err != nil {
-			c.Logger.Error("Unable to close file.", "error", err)
-		}
-	}()
-
-	return rows, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // AppendToFile appends the provided rows of data to the end of the specified file, creating
@@ -204,116 +94,41 @@ func (c *Csv[T]) ReadFromFile(fileName string) (<-chan *T, error) {
 // file's column order matches the field order of the given row struct to ensure consistent
 // data structure.
 func (c *Csv[T]) AppendToFile(fileName string, rows <-chan *T) error {
-	file, err := os.OpenFile(filepath.Clean(fileName), os.O_APPEND|os.O_WRONLY, 0o600)
-	if err != nil {
-		return err
-	}
-
-	err = c.writeToWriter(file, false, rows)
-	if err != nil {
-		return err
-	}
-
-	return file.Close()
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // WriteToFile creates a new file with the given name and writes the provided rows
 // of data to it, overwriting any existing content.
 func (c *Csv[T]) WriteToFile(fileName string, rows <-chan *T) error {
-	file, err := os.OpenFile(filepath.Clean(fileName), os.O_CREATE|os.O_WRONLY, 0o600)
-	if err != nil {
-		return err
-	}
-
-	err = c.writeToWriter(file, true, rows)
-	if err != nil {
-		return err
-	}
-
-	return file.Close()
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // updateColumnIndexes aligns column indices to match the order of column headers.
 func (c *Csv[T]) updateColumnIndexes(csvReader *csv.Reader) error {
-	headers, err := csvReader.Read()
-	if err != nil {
-		return err
-	}
-
-	headerMap := make(map[string]int)
-	for i, header := range headers {
-		headerMap[header] = i
-	}
-
-	for i := range c.columns {
-		index, ok := headerMap[c.columns[i].Header]
-		if !ok {
-			index = -1
-		}
-
-		c.columns[i].ColumnIndex = index
-	}
-
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // writeToWriter writes the provided rows of data to the specified writer, with the option
 // to include or exclude headers for flexibility in data presentation.
 func (c *Csv[T]) writeToWriter(writer io.Writer, writeHeader bool, rows <-chan *T) error {
-	csvWriter := csv.NewWriter(writer)
-
-	if writeHeader {
-		err := c.writeHeaderToCsvWriter(csvWriter)
-		if err != nil {
-			return err
-		}
-	}
-
-	record := make([]string, len(c.columns))
-
-	for row := range rows {
-		rowValue := reflect.ValueOf(row).Elem()
-
-		for i, column := range c.columns {
-			stringValue, err := getReflectValue(rowValue.Field(column.FieldIndex), column.Format)
-			if err != nil {
-				return err
-			}
-
-			record[i] = stringValue
-		}
-
-		err := csvWriter.Write(record)
-		if err != nil {
-			return err
-		}
-	}
-
-	csvWriter.Flush()
-
-	return csvWriter.Error()
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // writeHeaderToCsvWriter writes the column headers for the CSV data to the specified CSV writer.
 func (c *Csv[T]) writeHeaderToCsvWriter(csvWriter *csv.Writer) error {
-	header := make([]string, len(c.columns))
-
-	for i, column := range c.columns {
-		header[i] = column.Header
-	}
-
-	return csvWriter.Write(header)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // ReadFromCsvFile creates a CSV instance, parses CSV data from the provided filename,
 // maps the data to corresponding struct fields, and delivers it through the channel.
 func ReadFromCsvFile[T any](fileName string, options ...CsvOption[T]) (<-chan *T, error) {
-	c, err := NewCsv[T](options...)
-	if err != nil {
-		return nil, err
-	}
-
-	return c.ReadFromFile(fileName)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // AppendOrWriteToCsvFile writes the provided rows of data to the specified file, appending to
@@ -321,19 +136,6 @@ func ReadFromCsvFile[T any](fileName string, options ...CsvOption[T]) (<-chan *T
 // function assumes that the existing file's column order matches the field order of the
 // given row struct to ensure consistent data structure.
 func AppendOrWriteToCsvFile[T any](fileName string, rows <-chan *T, options ...CsvOption[T]) error {
-	c, err := NewCsv[T](options...)
-	if err != nil {
-		return err
-	}
-
-	stat, err := os.Stat(filepath.Clean(fileName))
-	if err != nil {
-		if !errors.Is(err, fs.ErrNotExist) {
-			return err
-		}
-	} else if stat.Size() > 0 {
-		return c.AppendToFile(fileName, rows)
-	}
-
-	return c.WriteToFile(fileName, rows)
+	_ = "STUB: not implemented"
+	return nil
 }

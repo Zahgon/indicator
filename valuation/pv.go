@@ -4,11 +4,7 @@
 
 package valuation
 
-import "math"
-
 // Pv calculates the Present Value (PV) of a Future Value (FV).
 //
-//  Formula: PV = FV / (1 + rate)^years
-func Pv(fv, rate float64, years int) float64 {
-	return fv / math.Pow((1+rate), float64(years))
-}
+//	Formula: PV = FV / (1 + rate)^years
+func Pv(fv, rate float64, years int) float64 { _ = "STUB: not implemented"; return 0 }

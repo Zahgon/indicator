@@ -21,22 +21,13 @@ type Vpt[T helper.Number] struct{}
 
 // NewVpt function initializes a new VPT instance with the default parameters.
 func NewVpt[T helper.Number]() *Vpt[T] {
-	return &Vpt[T]{}
+	_ = "STUB: not implemented"
+
+	// Compute function takes a channel of numbers and computes the VPT.
+	return nil
 }
 
-// Compute function takes a channel of numbers and computes the VPT.
-func (*Vpt[T]) Compute(closings, volumes <-chan T) <-chan T {
-	ratios := helper.Multiply(
-		helper.ChangeRatio(closings, 1),
-		helper.Skip(volumes, 1),
-	)
-
-	return helper.MapWithPrevious(ratios, func(previous, current T) T {
-		return previous + current
-	}, 0)
-}
+func (*Vpt[T]) Compute(closings, volumes <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that VPT won't yield any results.
-func (*Vpt[T]) IdlePeriod() int {
-	return 1
-}
+func (*Vpt[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

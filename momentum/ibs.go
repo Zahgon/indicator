@@ -22,26 +22,22 @@ type InternalBarStrength[T helper.Number] struct{}
 
 // NewInternalBarStrength function initializes a new InternalBarStrength instance.
 func NewInternalBarStrength[T helper.Number]() *InternalBarStrength[T] {
-	return &InternalBarStrength[T]{}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes channels of highs, lows, and closings and computes the IBS.
 func (ibs *InternalBarStrength[T]) Compute(highs, lows, closings <-chan T) <-chan T {
-	return helper.Operate3(highs, lows, closings, func(high, low, closing T) T {
-		denom := high - low
-		if denom == 0 {
-			return 0
-		}
-		return (closing - low) / denom
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that InternalBarStrength won't yield any results.
 func (ibs *InternalBarStrength[T]) IdlePeriod() int {
+	_ = "STUB: not implemented"
+
+	// String is the string representation of the InternalBarStrength.
 	return 0
 }
 
-// String is the string representation of the InternalBarStrength.
-func (ibs *InternalBarStrength[T]) String() string {
-	return "IBS"
-}
+func (ibs *InternalBarStrength[T]) String() string { _ = "STUB: not implemented"; return "" }

@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -96,99 +94,17 @@ type Kst[T helper.Float] struct {
 }
 
 // NewKst function initializes a new KST instance with default parameters.
-func NewKst[T helper.Float]() *Kst[T] {
-	return &Kst[T]{
-		RocPeriod1:   DefaultKstRocPeriod1,
-		RocPeriod2:   DefaultKstRocPeriod2,
-		RocPeriod3:   DefaultKstRocPeriod3,
-		RocPeriod4:   DefaultKstRocPeriod4,
-		SmaPeriod1:   DefaultKstSmaPeriod1,
-		SmaPeriod2:   DefaultKstSmaPeriod2,
-		SmaPeriod3:   DefaultKstSmaPeriod3,
-		SmaPeriod4:   DefaultKstSmaPeriod4,
-		SignalPeriod: DefaultKstSignalPeriod,
-	}
-}
+func NewKst[T helper.Float]() *Kst[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the KST
 // and the signal line.
 func (k *Kst[T]) Compute(c <-chan T) (kstResult <-chan T, signalResult <-chan T) {
-	rocPeriods := []int{k.RocPeriod1, k.RocPeriod2, k.RocPeriod3, k.RocPeriod4}
-	smaPeriods := []int{k.SmaPeriod1, k.SmaPeriod2, k.SmaPeriod3, k.SmaPeriod4}
-
-	maxRocPeriod := 0
-	for _, p := range rocPeriods {
-		if p > maxRocPeriod {
-			maxRocPeriod = p
-		}
-	}
-
-	c = helper.Buffered(c, maxRocPeriod)
-
-	cs := helper.Duplicate(c, 4)
-
-	maxIdle := 0
-	idles := make([]int, 4)
-	for i := 0; i < 4; i++ {
-		idles[i] = rocPeriods[i] + smaPeriods[i] - 1
-		if idles[i] > maxIdle {
-			maxIdle = idles[i]
-		}
-	}
-
-	rcma := make([]<-chan T, 4)
-	for i := 0; i < 4; i++ {
-		roc := NewRocWithPeriod[T](rocPeriods[i])
-		rcma[i] = roc.Compute(cs[i])
-
-		sma := NewSmaWithPeriod[T](smaPeriods[i])
-		rcma[i] = sma.Compute(rcma[i])
-
-		skipCount := maxIdle - idles[i]
-		if skipCount > 0 {
-			rcma[i] = helper.Skip(rcma[i], skipCount)
-		}
-	}
-
-	kst := helper.Add(
-		helper.Add(
-			helper.MultiplyBy(rcma[0], T(1)),
-			helper.MultiplyBy(rcma[1], T(2)),
-		),
-		helper.Add(
-			helper.MultiplyBy(rcma[2], T(3)),
-			helper.MultiplyBy(rcma[3], T(4)),
-		),
-	)
-
-	kstSplice := helper.Duplicate(kst, 2)
-
-	signal := NewSmaWithPeriod[T](k.SignalPeriod)
-	signalResult = signal.Compute(kstSplice[0])
-
-	return helper.Skip(kstSplice[1], k.SignalPeriod-1), signalResult
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that KST won't yield any results.
-func (k *Kst[T]) IdlePeriod() int {
-	rocPeriods := []int{k.RocPeriod1, k.RocPeriod2, k.RocPeriod3, k.RocPeriod4}
-	smaPeriods := []int{k.SmaPeriod1, k.SmaPeriod2, k.SmaPeriod3, k.SmaPeriod4}
-
-	maxIdle := 0
-	for i := 0; i < 4; i++ {
-		idle := rocPeriods[i] + smaPeriods[i] - 1
-		if idle > maxIdle {
-			maxIdle = idle
-		}
-	}
-
-	return maxIdle + k.SignalPeriod - 1
-}
+func (k *Kst[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the KST.
-func (k *Kst[T]) String() string {
-	return fmt.Sprintf("KST(%d,%d,%d,%d,%d,%d,%d,%d,%d)",
-		k.RocPeriod1, k.RocPeriod2, k.RocPeriod3, k.RocPeriod4,
-		k.SmaPeriod1, k.SmaPeriod2, k.SmaPeriod3, k.SmaPeriod4,
-		k.SignalPeriod)
-}
+func (k *Kst[T]) String() string { _ = "STUB: not implemented"; return "" }

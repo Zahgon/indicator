@@ -14,8 +14,4 @@ package helper
 //	bc := helper.SliceToChan([]int{1, 2, 3, 4, 5})
 //	actual := helper.Subtract(ac, bc)
 //	fmt.Println(helper.ChanToSlice(actual)) // [1, 2, 3, 4, 5]
-func Subtract[T Number](ac, bc <-chan T) <-chan T {
-	return Operate(ac, bc, func(a, b T) T {
-		return a - b
-	})
-}
+func Subtract[T Number](ac, bc <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }

@@ -5,10 +5,7 @@
 package momentum
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
-	"github.com/cinar/indicator/v2/trend"
 )
 
 const (
@@ -33,38 +30,23 @@ type ElderRay[T helper.Number] struct {
 }
 
 // NewElderRay function initializes a new Elder-Ray Index instance with the default parameters.
-func NewElderRay[T helper.Number]() *ElderRay[T] {
-	return NewElderRayWithPeriod[T](DefaultElderRayPeriod)
-}
+func NewElderRay[T helper.Number]() *ElderRay[T] { _ = "STUB: not implemented"; return nil }
 
 // NewElderRayWithPeriod function initializes a new Elder-Ray Index instance with the given period.
 func NewElderRayWithPeriod[T helper.Number](period int) *ElderRay[T] {
-	return &ElderRay[T]{
-		Period: period,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes channels of highs, lows, and closings and computes the Elder-Ray Index.
 // Returns bullPower and bearPower channels.
 func (e *ElderRay[T]) Compute(highs, lows, closings <-chan T) (<-chan T, <-chan T) {
-	ema := trend.NewEmaWithPeriod[T](e.Period)
-	emas := helper.Duplicate(ema.Compute(closings), 2)
-
-	highs = helper.Skip(highs, e.IdlePeriod())
-	lows = helper.Skip(lows, e.IdlePeriod())
-
-	bullPower := helper.Subtract(highs, emas[0])
-	bearPower := helper.Subtract(lows, emas[1])
-
-	return bullPower, bearPower
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that Elder-Ray Index won't yield any results.
-func (e *ElderRay[T]) IdlePeriod() int {
-	return e.Period - 1
-}
+func (e *ElderRay[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the Elder-Ray Index.
-func (e *ElderRay[T]) String() string {
-	return fmt.Sprintf("Elder-Ray Index(%d)", e.Period)
-}
+func (e *ElderRay[T]) String() string { _ = "STUB: not implemented"; return "" }

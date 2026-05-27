@@ -6,8 +6,6 @@ package asset
 
 import (
 	"time"
-
-	"github.com/cinar/indicator/v2/helper"
 )
 
 // Snapshot captures a single observation of an asset's price
@@ -41,52 +39,46 @@ type Snapshot struct {
 // channel and returns a new channel containing only those date values.The
 // original snapshots channel can no longer be directly used afterward.
 func SnapshotsAsDates(snapshots <-chan *Snapshot) <-chan time.Time {
-	return helper.Map(snapshots, func(snapshot *Snapshot) time.Time {
-		return snapshot.Date
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SnapshotsAsOpenings extracts the open field from each snapshot in the provided
 // channel and returns a new channel containing only those open values.The
 // original snapshots channel can no longer be directly used afterward.
 func SnapshotsAsOpenings(snapshots <-chan *Snapshot) <-chan float64 {
-	return helper.Map(snapshots, func(snapshot *Snapshot) float64 {
-		return snapshot.Open
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SnapshotsAsHighs extracts the high field from each snapshot in the provided
 // channel and returns a new channel containing only those high values.The
 // original snapshots channel can no longer be directly used afterward.
 func SnapshotsAsHighs(snapshots <-chan *Snapshot) <-chan float64 {
-	return helper.Map(snapshots, func(snapshot *Snapshot) float64 {
-		return snapshot.High
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SnapshotsAsLows extracts the low field from each snapshot in the provided
 // channel and returns a new channel containing only those low values.The
 // original snapshots channel can no longer be directly used afterward.
 func SnapshotsAsLows(snapshots <-chan *Snapshot) <-chan float64 {
-	return helper.Map(snapshots, func(snapshot *Snapshot) float64 {
-		return snapshot.Low
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SnapshotsAsClosings extracts the close field from each snapshot in the provided
 // channel and returns a new channel containing only those close values.The
 // original snapshots channel can no longer be directly used afterward.
 func SnapshotsAsClosings(snapshots <-chan *Snapshot) <-chan float64 {
-	return helper.Map(snapshots, func(snapshot *Snapshot) float64 {
-		return snapshot.Close
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // SnapshotsAsVolumes extracts the volume field from each snapshot in the provided
 // channel and returns a new channel containing only those volume values.The
 // original snapshots channel can no longer be directly used afterward.
 func SnapshotsAsVolumes(snapshots <-chan *Snapshot) <-chan float64 {
-	return helper.Map(snapshots, func(snapshot *Snapshot) float64 {
-		return snapshot.Volume
-	})
+	_ = "STUB: not implemented"
+	return nil
 }

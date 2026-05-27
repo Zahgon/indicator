@@ -12,12 +12,4 @@ package helper
 //	c := helper.SliceToChan([]int{-10, 20, 4, -5})
 //	negatives := helper.KeepPositives(c)
 //	fmt.Println(helper.ChanToSlice(negatives)) // [-10, 0, 0, -5]
-func KeepNegatives[T Number](c <-chan T) <-chan T {
-	return Apply(c, func(n T) T {
-		if n < 0 {
-			return n
-		}
-
-		return 0
-	})
-}
+func KeepNegatives[T Number](c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }

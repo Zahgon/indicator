@@ -44,59 +44,20 @@ type Ppo[T helper.Number] struct {
 }
 
 // NewPpo function initializes a new Percentage Price Oscillator instance.
-func NewPpo[T helper.Number]() *Ppo[T] {
-	return &Ppo[T]{
-		ShortEma:  trend.NewEmaWithPeriod[T](DefaultPpoShortPeriod),
-		LongEma:   trend.NewEmaWithPeriod[T](DefaultPpoLongPeriod),
-		SignalEma: trend.NewEmaWithPeriod[T](DefaultPpoSignalPeriod),
-	}
-}
+func NewPpo[T helper.Number]() *Ppo[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Percentage Price Oscillator.
 // Returns ppo, signal, histogram.
 func (p *Ppo[T]) Compute(closings <-chan T) (<-chan T, <-chan T, <-chan T) {
-	closingsSplice := helper.Duplicate(
-		closings,
-		2,
-	)
-
-	shortEma := p.ShortEma.Compute(closingsSplice[0])
-
-	longEmaSplice := helper.Duplicate(
-		p.LongEma.Compute(closingsSplice[1]),
-		2,
-	)
-
-	shortEma = helper.Skip(shortEma, p.LongEma.IdlePeriod()-p.ShortEma.IdlePeriod())
-
-	//	PPO = ((EMA(shortPeriod, prices) - EMA(longPeriod, prices)) / EMA(longPeriod, prices)) * 100
-	ppoSplice := helper.Duplicate(
-		helper.MultiplyBy(
-			helper.Divide(
-				helper.Subtract(shortEma, longEmaSplice[0]),
-				longEmaSplice[1],
-			),
-			100,
-		),
-		3,
-	)
-
-	//	Signal = EMA(9, PPO)
-	signalSplice := helper.Duplicate(
-		p.SignalEma.Compute(ppoSplice[0]),
-		2,
-	)
-
-	ppoSplice[1] = helper.Skip(ppoSplice[1], p.SignalEma.IdlePeriod())
-	ppoSplice[2] = helper.Skip(ppoSplice[2], p.SignalEma.IdlePeriod())
-
-	//	Histogram = PPO - Signal
-	histogram := helper.Subtract(ppoSplice[1], signalSplice[0])
-
-	return ppoSplice[2], signalSplice[1], histogram
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
+
+//	PPO = ((EMA(shortPeriod, prices) - EMA(longPeriod, prices)) / EMA(longPeriod, prices)) * 100
+
+//	Signal = EMA(9, PPO)
+
+//	Histogram = PPO - Signal
 
 // IdlePeriod is the initial period that Percentage Price Oscillator won't yield any results.
-func (p *Ppo[T]) IdlePeriod() int {
-	return p.LongEma.IdlePeriod() + p.SignalEma.IdlePeriod()
-}
+func (p *Ppo[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

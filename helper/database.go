@@ -6,31 +6,10 @@ package helper
 
 import (
 	"database/sql"
-	"fmt"
-	"log"
 )
 
 // CloseDatabaseWithError closes the database after an error.
-func CloseDatabaseWithError(db *sql.DB, err error) error {
-	closeErr := db.Close()
-	if closeErr == nil {
-		return err
-	}
-
-	closeErr = fmt.Errorf("unable to close database: %w", closeErr)
-
-	if err != nil {
-		log.Println(closeErr)
-		return err
-	}
-
-	return closeErr
-}
+func CloseDatabaseWithError(db *sql.DB, err error) error { _ = "STUB: not implemented"; return nil }
 
 // CloseDatabaseRows closes the database rows.
-func CloseDatabaseRows(rows *sql.Rows) {
-	err := rows.Close()
-	if err != nil {
-		log.Println(err)
-	}
-}
+func CloseDatabaseRows(rows *sql.Rows) { _ = "STUB: not implemented"; return }

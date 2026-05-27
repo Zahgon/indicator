@@ -5,8 +5,6 @@
 package momentum
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/momentum"
@@ -38,71 +36,31 @@ type StochasticOscillatorStrategy struct {
 // NewStochasticOscillatorStrategy function initializes a new Stochastic Oscillator strategy instance with
 // the default parameters.
 func NewStochasticOscillatorStrategy() *StochasticOscillatorStrategy {
-	return NewStochasticOscillatorStrategyWith(
-		DefaultStochasticOscillatorStrategyBuyAt,
-		DefaultStochasticOscillatorStrategySellAt,
-	)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewStochasticOscillatorStrategyWith function initializes a new Stochastic Oscillator strategy instance with
 // the given parameters.
 func NewStochasticOscillatorStrategyWith(buyAt, sellAt float64) *StochasticOscillatorStrategy {
-	return &StochasticOscillatorStrategy{
-		StochasticOscillator: momentum.NewStochasticOscillator[float64](),
-		BuyAt:                buyAt,
-		SellAt:               sellAt,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
-func (s *StochasticOscillatorStrategy) Name() string {
-	return fmt.Sprintf("Stochastic Oscillator Strategy (%.0f,%.0f)", s.BuyAt, s.SellAt)
-}
+func (s *StochasticOscillatorStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (s *StochasticOscillatorStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	snapshotsSplice := helper.Duplicate(snapshots, 3)
-
-	highs := asset.SnapshotsAsHighs(snapshotsSplice[0])
-	lows := asset.SnapshotsAsLows(snapshotsSplice[1])
-	closings := asset.SnapshotsAsClosings(snapshotsSplice[2])
-
-	k, d := s.StochasticOscillator.Compute(highs, lows, closings)
-
-	var prevK, prevD float64
-	var hasPrev bool
-
-	actions := helper.Operate(k, d, func(kVal, dVal float64) strategy.Action {
-		if !hasPrev {
-			prevK = kVal
-			prevD = dVal
-			hasPrev = true
-			return strategy.Hold
-		}
-
-		action := strategy.Hold
-
-		if prevK <= prevD && kVal > dVal && kVal < s.BuyAt {
-			action = strategy.Buy
-		} else if prevK >= prevD && kVal < dVal && kVal > s.SellAt {
-			action = strategy.Sell
-		}
-
-		prevK = kVal
-		prevD = dVal
-
-		return action
-	})
-
-	// Stochastic Oscillator starts only after the idle period.
-	actions = helper.Shift(actions, s.StochasticOscillator.IdlePeriod(), strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
 
+// Stochastic Oscillator starts only after the idle period.
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (s *StochasticOscillatorStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> highs   -|
@@ -112,32 +70,5 @@ func (s *StochasticOscillatorStrategy) Report(c <-chan *asset.Snapshot) *helper.
 	// snapshots[5] -> actions  -> annotations
 	//              -> outcomes
 	//
-	snapshots := helper.Duplicate(c, 6)
-
-	dates := asset.SnapshotsAsDates(snapshots[0])
-	highs := asset.SnapshotsAsHighs(snapshots[1])
-	lows := asset.SnapshotsAsLows(snapshots[2])
-	closings := asset.SnapshotsAsClosings(snapshots[3])
-	closings2 := asset.SnapshotsAsClosings(snapshots[4])
-
-	k, d := s.StochasticOscillator.Compute(highs, lows, closings)
-	k = helper.Shift(k, s.StochasticOscillator.IdlePeriod(), 0)
-	d = helper.Shift(d, s.StochasticOscillator.IdlePeriod(), 0)
-
-	actions, outcomes := strategy.ComputeWithOutcome(s, snapshots[5])
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	report := helper.NewReport(s.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closings2))
-	report.AddColumn(helper.NewNumericReportColumn("K", k), 1)
-	report.AddColumn(helper.NewNumericReportColumn("D", d), 1)
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

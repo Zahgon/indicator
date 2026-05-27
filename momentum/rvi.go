@@ -5,10 +5,7 @@
 package momentum
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
-	"github.com/cinar/indicator/v2/trend"
 )
 
 const (
@@ -51,99 +48,64 @@ type Rvi[T helper.Float] struct {
 }
 
 // NewRvi function initializes a new RVI instance.
-func NewRvi[T helper.Float]() *Rvi[T] {
-	return &Rvi[T]{
-		Period:       DefaultRviPeriod,
-		SignalPeriod: DefaultRviSignalPeriod,
-	}
-}
+func NewRvi[T helper.Float]() *Rvi[T] { _ = "STUB: not implemented"; return nil }
 
 // computeFir applies a 4-bar FIR filter with weights 1-2-2-1.
 func computeFir[T helper.Float](c <-chan T) <-chan T {
+	_ = "STUB: not implemented"
 	// FIR with weights 1-2-2-1:
 	// output[n] = (1*input[n] + 2*input[n-1] + 2*input[n-2] + 1*input[n-3]) / 6
-
-	// Duplicate to get delayed versions
-	cs := helper.Duplicate(c, 4)
-
-	// Shift each copy to get delayed values
-	delayed0 := cs[0] // current
-	delayed1 := helper.Shift(cs[1], 1, 0)
-	delayed2 := helper.Shift(cs[2], 2, 0)
-	delayed3 := helper.Shift(cs[3], 3, 0)
-
-	// Apply weights: 1*current + 2*prev1 + 2*prev2 + 1*prev3
-	weighted := helper.Add(
-		helper.Add(delayed0, helper.MultiplyBy(delayed1, 2)),
-		helper.Add(helper.MultiplyBy(delayed2, 2), delayed3),
-	)
-
-	// Divide by sum of weights (6)
-	result := helper.MultiplyBy(weighted, T(1)/T(RviFirSum))
-
-	// Skip first 3 values (FIR warmup)
-	return helper.Skip(result, RviFirPeriod-1)
+	return nil
 }
+
+// Duplicate to get delayed versions
+
+// Shift each copy to get delayed values
+// current
+
+// Apply weights: 1*current + 2*prev1 + 2*prev2 + 1*prev3
+
+// Divide by sum of weights (6)
+
+// Skip first 3 values (FIR warmup)
 
 // Compute function takes channels of OHLC numbers and computes the
 // Relative Vigor Index and its signal line.
 func (r *Rvi[T]) Compute(opens, highs, lows, closings <-chan T) (rviResult <-chan T, signalResult <-chan T) {
-	return r.computeSimple(opens, highs, lows, closings)
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // computeSimple is a simpler implementation.
 func (r *Rvi[T]) computeSimple(opens, highs, lows, closings <-chan T) (rviResult <-chan T, signalResult <-chan T) {
+	_ = "STUB: not implemented"
 	// Collect inputs to allow multiple passes
-	openVals := helper.ChanToSlice(opens)
-	highVals := helper.ChanToSlice(highs)
-	lowVals := helper.ChanToSlice(lows)
-	closeVals := helper.ChanToSlice(closings)
-
-	// Create channels for each calculation
-	openChan := helper.SliceToChan(openVals)
-	highChan := helper.SliceToChan(highVals)
-	lowChan := helper.SliceToChan(lowVals)
-	closeChan := helper.SliceToChan(closeVals)
-
-	// Compute: Close - Open
-	numeratorRaw := helper.Subtract(closeChan, openChan)
-
-	// Compute: High - Low
-	denominatorRaw := helper.Subtract(highChan, lowChan)
-
-	// Apply 4-bar FIR filter
-	numeratorFir := computeFir(numeratorRaw)
-	denominatorFir := computeFir(denominatorRaw)
-
-	// Apply SMA to filtered values
-	smaNum := trend.NewSmaWithPeriod[T](r.Period)
-	smaDen := trend.NewSmaWithPeriod[T](r.Period)
-
-	smaNumerator := smaNum.Compute(numeratorFir)
-	smaDenominator := smaDen.Compute(denominatorFir)
-
-	// Divide: RVI = SMA(FIR(Numerator)) / SMA(FIR(Denominator))
-	rvi := helper.Divide(smaNumerator, smaDenominator)
-
-	rviSplice := helper.Duplicate(rvi, 2)
-
-	// Compute signal line
-	signalSma := trend.NewSmaWithPeriod[T](r.SignalPeriod)
-	signalResult = signalSma.Compute(rviSplice[0])
-
-	return helper.Skip(rviSplice[1], r.SignalPeriod-1), signalResult
+	return nil, nil
 }
+
+// Create channels for each calculation
+
+// Compute: Close - Open
+
+// Compute: High - Low
+
+// Apply 4-bar FIR filter
+
+// Apply SMA to filtered values
+
+// Divide: RVI = SMA(FIR(Numerator)) / SMA(FIR(Denominator))
+
+// Compute signal line
 
 // IdlePeriod is the initial period that RVI won't yield any results.
 func (r *Rvi[T]) IdlePeriod() int {
+	_ = "STUB: not implemented"
 	// FIR filter: RviFirPeriod-1 = 3
 	// SMA: Period-1
 	// Signal SMA: SignalPeriod-1
 	// Total: 3 + (Period-1) + (SignalPeriod-1) = Period + SignalPeriod + 1
-	return RviFirPeriod - 1 + r.Period - 1 + r.SignalPeriod - 1
+	return 0
 }
 
 // String is the string representation of the RVI.
-func (r *Rvi[T]) String() string {
-	return fmt.Sprintf("RVI(%d,%d)", r.Period, r.SignalPeriod)
-}
+func (r *Rvi[T]) String() string { _ = "STUB: not implemented"; return "" }

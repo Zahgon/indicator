@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/strategy"
@@ -36,63 +34,33 @@ type SmmaStrategy struct {
 }
 
 // NewSmmaStrategy function initializes a new SMMA strategy instance.
-func NewSmmaStrategy() *SmmaStrategy {
-	return NewSmmaStrategyWith(
-		DefaultSmmaStrategyShortPeriod,
-		DefaultSmmaStrategyLongPeriod,
-	)
-}
+func NewSmmaStrategy() *SmmaStrategy { _ = "STUB: not implemented"; return nil }
 
 // NewSmmaStrategyWith function initializes a new SMMA strategy instance with the given parameters.
 func NewSmmaStrategyWith(shortPeriod, longPeriod int) *SmmaStrategy {
-	return &SmmaStrategy{
-		ShortSmma: trend.NewSmmaWithPeriod[float64](shortPeriod),
-		LongSmma:  trend.NewSmmaWithPeriod[float64](longPeriod),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
-func (s *SmmaStrategy) Name() string {
-	return fmt.Sprintf("SMMA Strategy (%d,%d)",
-		s.ShortSmma.Period,
-		s.LongSmma.Period,
-	)
-}
+func (s *SmmaStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (s *SmmaStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	closingsSplice := helper.Duplicate(asset.SnapshotsAsClosings(snapshots), 2)
-
-	shortSmmas := s.ShortSmma.Compute(closingsSplice[0])
-	longSmmas := s.LongSmma.Compute(closingsSplice[1])
-
-	commonPeriod := helper.CommonPeriod(s.ShortSmma.Period, s.LongSmma.Period)
-	shortSmmas = helper.SyncPeriod(commonPeriod, s.ShortSmma.Period, shortSmmas)
-	longSmmas = helper.SyncPeriod(commonPeriod, s.LongSmma.Period, longSmmas)
-
-	actions := helper.Operate(shortSmmas, longSmmas, func(shortSmma, longSmma float64) strategy.Action {
-		// A short-perios SMMA value crossing above long-period SMMA suggests a bullish trend.
-		if shortSmma > longSmma {
-			return strategy.Buy
-		}
-
-		// A short-period SMMA value crossing below long-period SMMA suggests a bearish trend.
-		if longSmma > shortSmma {
-			return strategy.Sell
-		}
-
-		return strategy.Hold
-	})
-
-	// SMMA strategy starts only after a full period.
-	actions = helper.Shift(actions, commonPeriod, strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// A short-perios SMMA value crossing above long-period SMMA suggests a bullish trend.
+
+// A short-period SMMA value crossing below long-period SMMA suggests a bearish trend.
+
+// SMMA strategy starts only after a full period.
 
 // Report processes the provided asset snapshots and generates a
 // report annotated with the recommended actions.
 func (s *SmmaStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> closings[0] -> closings
@@ -101,36 +69,5 @@ func (s *SmmaStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
 	// snapshots[2] -> actions     -> annotations
 	//              -> outcomes
 	//
-	snapshots := helper.Duplicate(c, 3)
-
-	dates := asset.SnapshotsAsDates(snapshots[0])
-	closings := helper.Duplicate(asset.SnapshotsAsClosings(snapshots[1]), 3)
-
-	shortSmmas := s.ShortSmma.Compute(closings[1])
-	longSmmas := s.LongSmma.Compute(closings[2])
-
-	actions, outcomes := strategy.ComputeWithOutcome(s, snapshots[2])
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	commonPeriod := helper.CommonPeriod(s.ShortSmma.Period, s.LongSmma.Period)
-	dates = helper.SyncPeriod(commonPeriod, 0, dates)
-	closings[0] = helper.Skip(closings[0], commonPeriod)
-	shortSmmas = helper.SyncPeriod(commonPeriod, s.ShortSmma.Period, shortSmmas)
-	longSmmas = helper.SyncPeriod(commonPeriod, s.LongSmma.Period, longSmmas)
-	annotations = helper.Skip(annotations, commonPeriod)
-	outcomes = helper.Skip(outcomes, commonPeriod)
-
-	report := helper.NewReport(s.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closings[0]))
-	report.AddColumn(helper.NewNumericReportColumn("MACD", shortSmmas), 1)
-	report.AddColumn(helper.NewNumericReportColumn("Signal", longSmmas), 1)
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

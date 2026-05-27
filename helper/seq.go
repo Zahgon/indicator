@@ -18,16 +18,4 @@ package helper
 //	fmt.Println(<- s) // 2
 //	fmt.Println(<- s) // 3
 //	fmt.Println(<- s) // 4
-func Seq[T Number](from, to, increment T) <-chan T {
-	c := make(chan T)
-
-	go func() {
-		for i := from; i < to; i += increment {
-			c <- i
-		}
-
-		close(c)
-	}()
-
-	return c
-}
+func Seq[T Number](from, to, increment T) <-chan T { _ = "STUB: not implemented"; return nil }

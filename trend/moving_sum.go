@@ -18,34 +18,17 @@ type MovingSum[T helper.Number] struct {
 }
 
 // NewMovingSum function initializes a new Moving Sum instance with the default parameters.
-func NewMovingSum[T helper.Number]() *MovingSum[T] {
-	return NewMovingSumWithPeriod[T](1)
-}
+func NewMovingSum[T helper.Number]() *MovingSum[T] { _ = "STUB: not implemented"; return nil }
 
 // NewMovingSumWithPeriod function initializes a new Moving Sum instance with the given period.
 func NewMovingSumWithPeriod[T helper.Number](period int) *MovingSum[T] {
-	return &MovingSum[T]{
-		Period: period,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the
 // Moving Sum over the specified period.
-func (m *MovingSum[T]) Compute(c <-chan T) <-chan T {
-	cs := helper.Duplicate(c, 2)
-	cs[1] = helper.Shift(cs[1], m.Period, 0)
-
-	sum := T(0)
-
-	sums := helper.Operate(cs[0], cs[1], func(c, b T) T {
-		sum = sum + c - b
-		return sum
-	})
-
-	return helper.Skip(sums, m.Period-1)
-}
+func (m *MovingSum[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that Moving Sum won't yield any results.
-func (m *MovingSum[T]) IdlePeriod() int {
-	return m.Period - 1
-}
+func (m *MovingSum[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

@@ -24,25 +24,16 @@ type Mfm[T helper.Number] struct{}
 
 // NewMfm function initializes a new MFM instance with the default parameters.
 func NewMfm[T helper.Number]() *Mfm[T] {
-	return &Mfm[T]{}
+	_ = "STUB: not implemented"
+
+	// Compute function takes a channel of numbers and computes the MFM.
+	return nil
 }
 
-// Compute function takes a channel of numbers and computes the MFM.
 func (*Mfm[T]) Compute(highs, lows, closings <-chan T) <-chan T {
-	highsSplice := helper.Duplicate(highs, 2)
-	lowsSplice := helper.Duplicate(lows, 2)
-	closingsSplice := helper.Duplicate(closings, 2)
-
-	return helper.Divide(
-		helper.Subtract(
-			helper.Subtract(closingsSplice[0], lowsSplice[0]),
-			helper.Subtract(highsSplice[0], closingsSplice[1]),
-		),
-		helper.Subtract(highsSplice[1], lowsSplice[1]),
-	)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that MFM won't yield any results.
-func (*Mfm[T]) IdlePeriod() int {
-	return 0
-}
+func (*Mfm[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

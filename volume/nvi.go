@@ -34,38 +34,19 @@ type Nvi[T helper.Number] struct {
 }
 
 // NewNvi function initializes a new NVI instance with the default parameters.
-func NewNvi[T helper.Number]() *Nvi[T] {
-	initial := DefaultNviInitial
-
-	return &Nvi[T]{
-		Initial: T(initial),
-	}
-}
+func NewNvi[T helper.Number]() *Nvi[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the NVI.
 func (n *Nvi[T]) Compute(closings, volumes <-chan T) <-chan T {
-	closingRatios := helper.ChangeRatio(closings, 1)
-	volumeChanges := helper.Change(volumes, 1)
-
-	previous := n.Initial
-
-	return helper.Operate(closingRatios, volumeChanges, func(closingRatio, volumeChange T) T {
-		// If Volume is greather than Previous Volume:
-		//	NVI = Previous NVI
-		current := previous
-
-		// Otherwise:
-		//	NVI = Previous NVI + (((Closing - Previous Closing) / Previous Closing) * Previous NVI)
-		if volumeChange <= 0 {
-			current += closingRatio * previous
-		}
-
-		previous = current
-		return current
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// If Volume is greather than Previous Volume:
+//	NVI = Previous NVI
+
+// Otherwise:
+//	NVI = Previous NVI + (((Closing - Previous Closing) / Previous Closing) * Previous NVI)
 
 // IdlePeriod is the initial period that NVI won't yield any results.
-func (*Nvi[T]) IdlePeriod() int {
-	return 1
-}
+func (*Nvi[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

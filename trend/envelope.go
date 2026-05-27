@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -29,54 +27,24 @@ type Envelope[T helper.Number] struct {
 
 // NewEnvelope function initializes a new Envelope instance with the default parameters.
 func NewEnvelope[T helper.Number](ma Ma[T], percentage T) *Envelope[T] {
-	return &Envelope[T]{
-		Ma:         ma,
-		Percentage: percentage,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewEnvelopeWithSma function initalizes a new Envelope instance using SMA.
-func NewEnvelopeWithSma[T helper.Number]() *Envelope[T] {
-	return NewEnvelope(
-		NewSmaWithPeriod[T](DefaultEnvelopePeriod),
-		T(DefaultEnvelopePercentage),
-	)
-}
+func NewEnvelopeWithSma[T helper.Number]() *Envelope[T] { _ = "STUB: not implemented"; return nil }
 
 // NewEnvelopeWithEma function initializes a new Envelope instance using EMA.
-func NewEnvelopeWithEma[T helper.Number]() *Envelope[T] {
-	return NewEnvelope(
-		NewEmaWithPeriod[T](DefaultEnvelopePeriod),
-		T(DefaultEnvelopePercentage),
-	)
-}
+func NewEnvelopeWithEma[T helper.Number]() *Envelope[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Envelope over the specified period.
 func (e *Envelope[T]) Compute(closings <-chan T) (<-chan T, <-chan T, <-chan T) {
-	middleSplice := helper.Duplicate(
-		e.Ma.Compute(closings),
-		3,
-	)
-
-	upper := helper.MultiplyBy(
-		middleSplice[0],
-		1+(e.Percentage/100.0),
-	)
-
-	lower := helper.MultiplyBy(
-		middleSplice[2],
-		1-(e.Percentage/100.0),
-	)
-
-	return upper, middleSplice[1], lower
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
 
 // IdlePeriod is the initial period that Envelope yield any results.
-func (e *Envelope[T]) IdlePeriod() int {
-	return e.Ma.IdlePeriod()
-}
+func (e *Envelope[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the Envelope.
-func (e *Envelope[T]) String() string {
-	return fmt.Sprintf("Envelope(%s,%v)", e.Ma.String(), e.Percentage)
-}
+func (e *Envelope[T]) String() string { _ = "STUB: not implemented"; return "" }

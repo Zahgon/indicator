@@ -4,8 +4,6 @@
 
 package helper
 
-import "math"
-
 // Pow takes a channel of type T values and returns the element-wise
 // base-value exponential of y.
 //
@@ -14,8 +12,4 @@ import "math"
 //	c := helper.SliceToChan([]int{2, 3, 5, 10})
 //	squared := helper.Pow(c, 2)
 //	fmt.Println(helper.ChanToSlice(squared)) // [4, 9, 25, 100]
-func Pow[T Number](c <-chan T, y T) <-chan T {
-	return Apply(c, func(n T) T {
-		return T(math.Pow(float64(n), float64(y)))
-	})
-}
+func Pow[T Number](c <-chan T, y T) <-chan T { _ = "STUB: not implemented"; return nil }

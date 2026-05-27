@@ -24,21 +24,13 @@ type Mfv[T helper.Number] struct {
 }
 
 // NewMfv function initializes a new MFV instance with the default parameters.
-func NewMfv[T helper.Number]() *Mfv[T] {
-	return &Mfv[T]{
-		Mfm: NewMfm[T](),
-	}
-}
+func NewMfv[T helper.Number]() *Mfv[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the MFV.
 func (m *Mfv[T]) Compute(highs, lows, closings, volumes <-chan T) <-chan T {
-	return helper.Multiply(
-		m.Mfm.Compute(highs, lows, closings),
-		volumes,
-	)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that MFV won't yield any results.
-func (*Mfv[T]) IdlePeriod() int {
-	return 0
-}
+func (*Mfv[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

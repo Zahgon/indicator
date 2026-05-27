@@ -6,7 +6,6 @@ package backtest
 
 import (
 	"github.com/cinar/indicator/v2/asset"
-	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/strategy"
 )
 
@@ -35,52 +34,33 @@ type DataReport struct {
 }
 
 // NewDataReport initializes a new data report instance.
-func NewDataReport() *DataReport {
-	return &DataReport{
-		Results: make(map[string][]*DataStrategyResult),
-	}
-}
+func NewDataReport() *DataReport { _ = "STUB: not implemented"; return nil }
 
 // Begin is called when the backtest begins.
 func (*DataReport) Begin(_ []string, _ []strategy.Strategy) error {
+	_ = "STUB: not implemented"
+
+	// AssetBegin is called when backtesting for the given asset begins.
 	return nil
 }
 
-// AssetBegin is called when backtesting for the given asset begins.
 func (d *DataReport) AssetBegin(name string, strategies []strategy.Strategy) error {
-	d.Results[name] = make([]*DataStrategyResult, 0, len(strategies))
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // Write writes the given strategy actions and outomes to the report.
 func (d *DataReport) Write(assetName string, currentStrategy strategy.Strategy, snapshots <-chan *asset.Snapshot, actions <-chan strategy.Action, outcomes <-chan float64) error {
-	go helper.Drain(snapshots)
-
-	actionsSplice := helper.Duplicate(actions, 2)
-
-	lastOutcome := helper.Last(outcomes, 1)
-	lastAction := helper.Last(actionsSplice[0], 1)
-	transactions := helper.ChanToSlice(actionsSplice[1])
-
-	result := &DataStrategyResult{
-		Asset:        assetName,
-		Strategy:     currentStrategy,
-		Outcome:      <-lastOutcome,
-		Action:       <-lastAction,
-		Transactions: transactions,
-	}
-
-	d.Results[assetName] = append(d.Results[assetName], result)
-
+	_ = "STUB: not implemented"
 	return nil
 }
 
 // AssetEnd is called when backtesting for the given asset ends.
 func (*DataReport) AssetEnd(_ string) error {
+	_ = "STUB: not implemented"
+
+	// End is called when the backtest ends.
 	return nil
 }
 
-// End is called when the backtest ends.
-func (*DataReport) End() error {
-	return nil
-}
+func (*DataReport) End() error { _ = "STUB: not implemented"; return nil }

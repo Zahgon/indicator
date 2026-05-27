@@ -5,23 +5,4 @@
 package helper
 
 // Last takes a channel of values and returns a new channel containing the last N values.
-func Last[T any](c <-chan T, count int) <-chan T {
-	result := make(chan T, cap(c))
-
-	go func() {
-		defer close(result)
-
-		ring := NewRing[T](count)
-
-		for n := range c {
-			ring.Put(n)
-		}
-
-		for !ring.IsEmpty() {
-			n, _ := ring.Get()
-			result <- n
-		}
-	}()
-
-	return result
-}
+func Last[T any](c <-chan T, count int) <-chan T { _ = "STUB: not implemented"; return nil }

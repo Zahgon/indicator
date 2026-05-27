@@ -4,10 +4,6 @@
 
 package backtest
 
-import (
-	"fmt"
-)
-
 const (
 	// HTMLReportBuilderName is the name for the HTML report builder.
 	HTMLReportBuilderName = "html"
@@ -23,20 +19,18 @@ var reportBuilders = map[string]ReportBuilderFunc{
 
 // RegisterReportBuilder registers the given builder.
 func RegisterReportBuilder(name string, builder ReportBuilderFunc) {
-	reportBuilders[name] = builder
+	_ = "STUB: not implemented"
+	return
 }
 
 // NewReport builds a new report by the given name type and the configuration.
 func NewReport(name, config string) (Report, error) {
-	builder, ok := reportBuilders[name]
-	if !ok {
-		return nil, fmt.Errorf("unknown report: %s", name)
-	}
-
-	return builder(config)
+	_ = "STUB: not implemented"
+	return *new(Report), nil
 }
 
 // htmlReportBuilder builds a new HTML report instance.
 func htmlReportBuilder(config string) (Report, error) {
-	return NewHTMLReport(config), nil
+	_ = "STUB: not implemented"
+	return *new(Report), nil
 }

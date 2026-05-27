@@ -41,63 +41,20 @@ type SlowStochastic[T helper.Number] struct {
 }
 
 // NewSlowStochastic function initializes a new SlowStochastic instance with the default parameters.
-func NewSlowStochastic[T helper.Number]() *SlowStochastic[T] {
-	return &SlowStochastic[T]{
-		Period:  DefaultSlowStochasticPeriod,
-		KPeriod: DefaultSlowStochasticKPeriod,
-		DPeriod: DefaultSlowStochasticDPeriod,
-	}
-}
+func NewSlowStochastic[T helper.Number]() *SlowStochastic[T] { _ = "STUB: not implemented"; return nil }
 
 // NewSlowStochasticWithPeriod function initializes a new SlowStochastic instance with the given periods.
 func NewSlowStochasticWithPeriod[T helper.Number](period, kPeriod, dPeriod int) *SlowStochastic[T] {
-	return &SlowStochastic[T]{
-		Period:  period,
-		KPeriod: kPeriod,
-		DPeriod: dPeriod,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Slow Stochastic indicator.
 // Returns Slow %K and Slow %D.
 func (s *SlowStochastic[T]) Compute(values <-chan T) (<-chan T, <-chan T) {
-	movingMin := NewMovingMinWithPeriod[T](s.Period)
-	movingMax := NewMovingMaxWithPeriod[T](s.Period)
-
-	values = helper.Buffered(values, s.Period)
-	inputs := helper.Duplicate(values, 3)
-
-	lowestSplice := helper.Duplicate(
-		movingMin.Compute(inputs[0]),
-		2,
-	)
-
-	highest := movingMax.Compute(inputs[1])
-
-	skipped := helper.Skip(inputs[2], movingMin.IdlePeriod())
-
-	fastK := helper.MultiplyBy(
-		helper.Divide(
-			helper.Subtract(skipped, lowestSplice[0]),
-			helper.Subtract(highest, lowestSplice[1]),
-		),
-		100,
-	)
-
-	slowKSma := NewSmaWithPeriod[T](s.KPeriod)
-	slowK := slowKSma.Compute(fastK)
-
-	slowKDuplicate := helper.Duplicate(slowK, 2)
-
-	slowDSma := NewSmaWithPeriod[T](s.DPeriod)
-	slowD := slowDSma.Compute(slowKDuplicate[0])
-
-	slowKDuplicate[1] = helper.Skip(slowKDuplicate[1], s.DPeriod-1)
-
-	return slowKDuplicate[1], slowD
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that Slow Stochastic won't yield any results.
-func (s *SlowStochastic[T]) IdlePeriod() int {
-	return s.Period + s.KPeriod + s.DPeriod - 3
-}
+func (s *SlowStochastic[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

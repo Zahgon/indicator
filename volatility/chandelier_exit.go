@@ -6,7 +6,6 @@ package volatility
 
 import (
 	"github.com/cinar/indicator/v2/helper"
-	"github.com/cinar/indicator/v2/trend"
 )
 
 const (
@@ -36,48 +35,13 @@ type ChandelierExit[T helper.Number] struct {
 }
 
 // NewChandelierExit function initializes a new Chandelier Exit instance with the default parameters.
-func NewChandelierExit[T helper.Number]() *ChandelierExit[T] {
-	return &ChandelierExit[T]{
-		Period:     DefaultChandelierExitPeriod,
-		Multiplier: DefaultChandelierExitMultiplier,
-	}
-}
+func NewChandelierExit[T helper.Number]() *ChandelierExit[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Chandelier Exit over the specified period.
 func (c *ChandelierExit[T]) Compute(highs, lows, closings <-chan T) (<-chan T, <-chan T) {
-	highsSplice := helper.Duplicate(highs, 2)
-	lowsSplice := helper.Duplicate(lows, 2)
-
-	movingMax := trend.NewMovingMaxWithPeriod[T](c.Period)
-	movingMin := trend.NewMovingMinWithPeriod[T](c.Period)
-
-	atr := NewAtrWithPeriod[T](c.Period)
-
-	maxHighs := helper.Skip(
-		movingMax.Compute(highsSplice[0]),
-		atr.IdlePeriod()-movingMax.IdlePeriod(),
-	)
-
-	minLows := helper.Skip(
-		movingMin.Compute(lowsSplice[0]),
-		atr.IdlePeriod()-movingMin.IdlePeriod(),
-	)
-
-	atr3Splice := helper.Duplicate(
-		helper.MultiplyBy(
-			atr.Compute(highsSplice[1], lowsSplice[1], closings),
-			c.Multiplier,
-		),
-		2,
-	)
-
-	ceLong := helper.Subtract(maxHighs, atr3Splice[0])
-	ceShort := helper.Add(minLows, atr3Splice[1])
-
-	return ceLong, ceShort
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that Chandelier Exit won't yield any results.
-func (c *ChandelierExit[T]) IdlePeriod() int {
-	return c.Period
-}
+func (c *ChandelierExit[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

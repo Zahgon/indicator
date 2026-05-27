@@ -14,16 +14,4 @@ package helper
 //	fmt.Println(<- c)  // 4
 //	fmt.Println(<- c)  // 6
 //	fmt.Println(<- c)  // 8
-func SliceToChan[T any](slice []T) <-chan T {
-	c := make(chan T)
-
-	go func() {
-		defer close(c)
-
-		for _, n := range slice {
-			c <- n
-		}
-	}()
-
-	return c
-}
+func SliceToChan[T any](slice []T) <-chan T { _ = "STUB: not implemented"; return nil }

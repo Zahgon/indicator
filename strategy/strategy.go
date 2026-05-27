@@ -40,34 +40,16 @@ type Strategy interface {
 // ComputeWithOutcome uses the given strategy to processes the provided asset snapshots and
 // generates a stream of actionable recommendations and outcomes.
 func ComputeWithOutcome(s Strategy, c <-chan *asset.Snapshot) (<-chan Action, <-chan float64) {
-	snapshots := helper.Duplicate(c, 2)
-
-	actions := helper.Duplicate(s.Compute(snapshots[0]), 2)
-	closings := asset.SnapshotsAsClosings(snapshots[1])
-
-	outcomes := Outcome(closings, actions[1])
-
-	return actions[0], outcomes
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // AllStrategies returns a slice containing references to all available base strategies.
-func AllStrategies() []Strategy {
-	return []Strategy{
-		NewBuyAndHoldStrategy(),
-	}
-}
+func AllStrategies() []Strategy { _ = "STUB: not implemented"; return nil }
 
 // ActionSources creates a slice of action channels, one for each strategy, where each channel emits actions
 // computed by its corresponding strategy based on snapshots from the provided snapshot channel.
 func ActionSources(strategies []Strategy, snapshots <-chan *asset.Snapshot) []<-chan Action {
-	snapshotsSplice := helper.Duplicate(snapshots, len(strategies))
-	sources := make([]<-chan Action, len(strategies))
-
-	for i, strategy := range strategies {
-		sources[i] = DenormalizeActions(
-			strategy.Compute(snapshotsSplice[i]),
-		)
-	}
-
-	return sources
+	_ = "STUB: not implemented"
+	return nil
 }

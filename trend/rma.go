@@ -28,41 +28,15 @@ type Rma[T helper.Number] struct {
 }
 
 // NewRma function initializes a new RMA instance with the default parameters.
-func NewRma[T helper.Number]() *Rma[T] {
-	return NewRmaWithPeriod[T](DefaultRmaPeriod)
-}
+func NewRma[T helper.Number]() *Rma[T] { _ = "STUB: not implemented"; return nil }
 
 // NewRmaWithPeriod function initializes a new RMA instance with the given period.
-func NewRmaWithPeriod[T helper.Number](period int) *Rma[T] {
-	return &Rma[T]{
-		Period: period,
-	}
-}
+func NewRmaWithPeriod[T helper.Number](period int) *Rma[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the RMA over the specified period.
-func (r *Rma[T]) Compute(c <-chan T) <-chan T {
-	result := make(chan T, cap(c))
+func (r *Rma[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	go func() {
-		defer close(result)
-
-		// Initial RMA value is the SMA.
-		sma := NewSma[T]()
-		sma.Period = r.Period
-
-		before := <-sma.Compute(helper.Head(c, r.Period))
-		result <- before
-
-		for n := range c {
-			before = ((before * T(r.Period-1)) + n) / T(r.Period)
-			result <- before
-		}
-	}()
-
-	return result
-}
+// Initial RMA value is the SMA.
 
 // IdlePeriod is the initial period that RMA won't yield any results.
-func (r *Rma[T]) IdlePeriod() int {
-	return r.Period - 1
-}
+func (r *Rma[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

@@ -19,13 +19,10 @@
 package backtest
 
 import (
-	"fmt"
 	"log/slog"
 	"sync"
-	"time"
 
 	"github.com/cinar/indicator/v2/asset"
-	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/strategy"
 )
 
@@ -65,15 +62,8 @@ type Backtest struct {
 
 // NewBacktest function initializes a new backtest instance.
 func NewBacktest(repository asset.Repository, report Report) *Backtest {
-	return &Backtest{
-		repository: repository,
-		report:     report,
-		Names:      []string{},
-		Strategies: []strategy.Strategy{},
-		Workers:    DefaultBacktestWorkers,
-		LastDays:   DefaultLastDays,
-		Logger:     slog.Default(),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Run executes a comprehensive performance evaluation of the designated strategies,
@@ -81,91 +71,33 @@ func NewBacktest(repository asset.Repository, report Report) *Backtest {
 // assets, encompasses all assets within the repository. Likewise, in the absence of
 // explicitly defined strategies, encompasses all the registered strategies.
 func (b *Backtest) Run() error {
+	_ = "STUB: not implemented"
 	// When asset names are absent, considers all assets within the provided repository for evaluation.
-	if len(b.Names) == 0 {
-		assets, err := b.repository.Assets()
-		if err != nil {
-			return err
-		}
-
-		b.Names = assets
-	}
-
-	// When strategies are absent, considers all strategies.
-	if len(b.Strategies) == 0 {
-		b.Strategies = []strategy.Strategy{
-			strategy.NewBuyAndHoldStrategy(),
-		}
-	}
-
-	// Begin report.
-	err := b.report.Begin(b.Names, b.Strategies)
-	if err != nil {
-		return fmt.Errorf("unable to begin report: %w", err)
-	}
-
-	// Run the backtest workers.
-	names := helper.SliceToChan(b.Names)
-	wg := &sync.WaitGroup{}
-
-	for i := 0; i < b.Workers; i++ {
-		wg.Add(1)
-		go b.worker(names, wg)
-	}
-
-	// Wait for all workers to finish.
-	wg.Wait()
-
-	// End report.
-	err = b.report.End()
-	if err != nil {
-		return fmt.Errorf("unable to end report: %w", err)
-	}
-
 	return nil
 }
+
+// When strategies are absent, considers all strategies.
+
+// Begin report.
+
+// Run the backtest workers.
+
+// Wait for all workers to finish.
+
+// End report.
 
 // worker is a backtesting worker that concurrently executes backtests for individual
 // assets. It receives asset names from the provided channel, and performs backtests
 // using the given strategies.
 func (b *Backtest) worker(names <-chan string, wg *sync.WaitGroup) {
-	defer wg.Done()
-
-	since := time.Now().AddDate(0, 0, -b.LastDays)
-
-	for name := range names {
-		b.Logger.Info("Backtesting started.", "asset", name)
-		snapshots, err := b.repository.GetSince(name, since)
-		if err != nil {
-			b.Logger.Error("Unable to retrieve snapshots.", "asset", name, "error", err)
-			continue
-		}
-
-		// We don't expect the snapshots to be a stream during backtesting.
-		snapshotsSlice := helper.ChanToSlice(snapshots)
-
-		// Backtesting asset has begun.
-		err = b.report.AssetBegin(name, b.Strategies)
-		if err != nil {
-			b.Logger.Error("Unable to begin asset.", "asset", name, "error", err)
-			continue
-		}
-
-		// Backtest strategies on the given asset.
-		for _, currentStrategy := range b.Strategies {
-			snapshotsSplice := helper.Duplicate(helper.SliceToChan(snapshotsSlice), 2)
-
-			actions, outcomes := strategy.ComputeWithOutcome(currentStrategy, snapshotsSplice[0])
-			err = b.report.Write(name, currentStrategy, snapshotsSplice[1], actions, outcomes)
-			if err != nil {
-				b.Logger.Error("Unable to write report.", "asset", name, "error", err)
-			}
-		}
-
-		// Backtesting asset had ended
-		err = b.report.AssetEnd(name)
-		if err != nil {
-			b.Logger.Error("Unable to end asset.", "asset", name, "error", err)
-		}
-	}
+	_ = "STUB: not implemented"
+	return
 }
+
+// We don't expect the snapshots to be a stream during backtesting.
+
+// Backtesting asset has begun.
+
+// Backtest strategies on the given asset.
+
+// Backtesting asset had ended

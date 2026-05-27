@@ -23,14 +23,4 @@ import (
 )
 
 // AllStrategies returns a slice containing references to all available volume strategies.
-func AllStrategies() []strategy.Strategy {
-	return []strategy.Strategy{
-		NewChaikinMoneyFlowStrategy(),
-		NewEaseOfMovementStrategy(),
-		NewForceIndexStrategy(),
-		NewMoneyFlowIndexStrategy(),
-		NewNegativeVolumeIndexStrategy(),
-		NewObvStrategy(),
-		NewWeightedAveragePriceStrategy(),
-	}
-}
+func AllStrategies() []strategy.Strategy { _ = "STUB: not implemented"; return nil }

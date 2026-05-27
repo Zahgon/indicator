@@ -5,8 +5,6 @@
 package volume
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/strategy"
@@ -33,64 +31,31 @@ type NegativeVolumeIndexStrategy struct {
 // NewNegativeVolumeIndexStrategy function initializes a new Negative Volume Index strategy instance with the
 // default parameters.
 func NewNegativeVolumeIndexStrategy() *NegativeVolumeIndexStrategy {
-	return NewNegativeVolumeIndexStrategyWith(
-		DefaultNegativeVolumeIndexStrategyEmaPeriod,
-	)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewNegativeVolumeIndexStrategyWith function initializes a new Negative Volume Index strategy instance with the
 // given parameters.
 func NewNegativeVolumeIndexStrategyWith(emaPeriod int) *NegativeVolumeIndexStrategy {
-	return &NegativeVolumeIndexStrategy{
-		NegativeVolumeIndex:    volume.NewNvi[float64](),
-		NegativeVolumeIndexEma: trend.NewEmaWithPeriod[float64](emaPeriod),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
-func (n *NegativeVolumeIndexStrategy) Name() string {
-	return fmt.Sprintf("Negative Volume Index Strategy (%d)", n.NegativeVolumeIndexEma.Period)
-}
+func (n *NegativeVolumeIndexStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (n *NegativeVolumeIndexStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	snapshotsSplice := helper.Duplicate(snapshots, 2)
-
-	closings := asset.SnapshotsAsClosings(snapshotsSplice[0])
-	volumes := asset.SnapshotsAsVolumes(snapshotsSplice[1])
-
-	nvisSplice := helper.Duplicate(
-		n.NegativeVolumeIndex.Compute(closings, volumes),
-		2,
-	)
-
-	nvisSplice[0] = helper.Skip(nvisSplice[0], n.NegativeVolumeIndexEma.IdlePeriod())
-	nviEmas := n.NegativeVolumeIndexEma.Compute(nvisSplice[1])
-
-	actions := helper.Operate(nvisSplice[0], nviEmas, func(nvi, nviEma float64) strategy.Action {
-		if nvi < nviEma {
-			return strategy.Buy
-		}
-
-		if nvi > nviEma {
-			return strategy.Sell
-		}
-
-		return strategy.Hold
-	})
-
-	// Negative Volume Index starts only after a full period.
-	actions = helper.Shift(
-		actions,
-		n.NegativeVolumeIndex.IdlePeriod()+n.NegativeVolumeIndexEma.IdlePeriod(),
-		strategy.Hold,
-	)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Negative Volume Index starts only after a full period.
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (n *NegativeVolumeIndexStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> closings[0] -> closings
@@ -100,45 +65,5 @@ func (n *NegativeVolumeIndexStrategy) Report(c <-chan *asset.Snapshot) *helper.R
 	// snapshots[3] -> actions     -> annotations
 	//              -> outcomes
 	//
-	snapshots := helper.Duplicate(c, 4)
-
-	period := n.NegativeVolumeIndex.IdlePeriod() + n.NegativeVolumeIndexEma.IdlePeriod()
-
-	dates := helper.Skip(asset.SnapshotsAsDates(snapshots[0]), period)
-
-	closingsSplice := helper.Duplicate(
-		asset.SnapshotsAsClosings(snapshots[1]),
-		2,
-	)
-	volumes := asset.SnapshotsAsVolumes(snapshots[2])
-
-	nvisSplice := helper.Duplicate(
-		n.NegativeVolumeIndex.Compute(closingsSplice[0], volumes),
-		2,
-	)
-
-	nvisSplice[0] = helper.Skip(nvisSplice[0], n.NegativeVolumeIndexEma.IdlePeriod())
-	nviEmas := n.NegativeVolumeIndexEma.Compute(nvisSplice[1])
-
-	closingsSplice[1] = helper.Skip(closingsSplice[1], period)
-
-	actions, outcomes := strategy.ComputeWithOutcome(n, snapshots[3])
-	actions = helper.Skip(actions, period)
-	outcomes = helper.Skip(outcomes, period)
-
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	report := helper.NewReport(n.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closingsSplice[1]))
-	report.AddColumn(helper.NewNumericReportColumn("NVI", nvisSplice[0]), 1)
-	report.AddColumn(helper.NewNumericReportColumn("NVI EMA", nviEmas), 1)
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

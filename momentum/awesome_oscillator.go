@@ -40,34 +40,15 @@ type AwesomeOscillator[T helper.Number] struct {
 
 // NewAwesomeOscillator function initializes a new Awesome Oscillator instance.
 func NewAwesomeOscillator[T helper.Number]() *AwesomeOscillator[T] {
-	return &AwesomeOscillator[T]{
-		ShortSma: trend.NewSmaWithPeriod[T](DefaultAwesomeOscillatorShortPeriod),
-		LongSma:  trend.NewSmaWithPeriod[T](DefaultAwesomeOscillatorLongPeriod),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the AwesomeOscillator.
 func (a *AwesomeOscillator[T]) Compute(highs, lows <-chan T) <-chan T {
-	medianSplice := helper.Duplicate(
-		helper.DivideBy(
-			helper.Add(highs, lows),
-			2,
-		),
-		2,
-	)
-
-	shortSma := a.ShortSma.Compute(medianSplice[0])
-	longSma := a.LongSma.Compute(medianSplice[1])
-
-	shortSma = helper.Skip(shortSma, a.LongSma.IdlePeriod()-a.ShortSma.IdlePeriod())
-
-	return helper.Subtract(
-		shortSma,
-		longSma,
-	)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that Awesome Oscillator won't yield any results.
-func (a *AwesomeOscillator[T]) IdlePeriod() int {
-	return a.LongSma.IdlePeriod()
-}
+func (a *AwesomeOscillator[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

@@ -28,22 +28,12 @@ type BollingerBandWidth[T helper.Number] struct {
 
 // NewBollingerBandWidth function initializes a new Bollinger Band Width instance with the default parameters.
 func NewBollingerBandWidth[T helper.Number]() *BollingerBandWidth[T] {
-	return &BollingerBandWidth[T]{
-		BollingerBands: NewBollingerBands[T](),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Bollinger Band Width.
-func (b *BollingerBandWidth[T]) Compute(c <-chan T) <-chan T {
-	upper, middle, lower := b.BollingerBands.Compute(c)
-
-	return helper.Divide(
-		helper.Subtract(upper, lower),
-		middle,
-	)
-}
+func (b *BollingerBandWidth[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that Bollinger Band Width won't yield any results.
-func (b *BollingerBandWidth[T]) IdlePeriod() int {
-	return b.BollingerBands.IdlePeriod()
-}
+func (b *BollingerBandWidth[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

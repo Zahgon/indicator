@@ -32,61 +32,16 @@ type Cci[T helper.Number] struct {
 }
 
 // NewCci function initializes a new CCI instance with the default parameters.
-func NewCci[T helper.Number]() *Cci[T] {
-	return NewCciWithPeriod[T](DefaultCciPeriod)
-}
+func NewCci[T helper.Number]() *Cci[T] { _ = "STUB: not implemented"; return nil }
 
 // NewCciWithPeriod function initializes a new CCI instance with the given period.
-func NewCciWithPeriod[T helper.Number](period int) *Cci[T] {
-	return &Cci[T]{
-		Period: period,
-	}
-}
+func NewCciWithPeriod[T helper.Number](period int) *Cci[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the CCI and the signal line.
 func (c *Cci[T]) Compute(highs, lows, closings <-chan T) <-chan T {
-	typicalPrice := NewTypicalPrice[T]()
-	sma1 := NewSmaWithPeriod[T](c.Period)
-	sma2 := NewSmaWithPeriod[T](c.Period)
-
-	tps := helper.Duplicate[T](
-		typicalPrice.Compute(highs, lows, closings),
-		3,
-	)
-
-	mas := helper.Duplicate[T](
-		sma1.Compute(tps[0]),
-		2,
-	)
-
-	tps[1] = helper.Skip(tps[1], sma1.Period-1)
-	tps[2] = helper.Skip(tps[2], sma1.Period-1)
-
-	md := sma2.Compute(
-		helper.Abs(
-			helper.Subtract(tps[1], mas[0]),
-		),
-	)
-
-	mas[1] = helper.Skip(mas[1], sma2.Period-1)
-	tps[2] = helper.Skip(tps[2], sma2.Period-1)
-
-	multiplier := 0.015
-
-	cci := helper.Divide(
-		helper.Subtract(
-			tps[2], mas[1],
-		),
-		helper.MultiplyBy[T](
-			md,
-			T(multiplier),
-		),
-	)
-
-	return cci
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that CCI won't yield any results.
-func (c *Cci[T]) IdlePeriod() int {
-	return (c.Period * 2) - 2
-}
+func (c *Cci[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

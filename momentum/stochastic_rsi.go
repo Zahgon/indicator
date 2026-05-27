@@ -38,50 +38,19 @@ type StochasticRsi[T helper.Number] struct {
 }
 
 // NewStochasticRsi function initializes a new Storchastic RSI instance with the default parameters.
-func NewStochasticRsi[T helper.Number]() *StochasticRsi[T] {
-	return NewStochasticRsiWithPeriod[T](DefaultStochasticRsiPeriod)
-}
+func NewStochasticRsi[T helper.Number]() *StochasticRsi[T] { _ = "STUB: not implemented"; return nil }
 
 // NewStochasticRsiWithPeriod function initializes a new Stochastic RSI instance with the given period.
 func NewStochasticRsiWithPeriod[T helper.Number](period int) *StochasticRsi[T] {
-	return &StochasticRsi[T]{
-		Rsi: NewRsiWithPeriod[T](period),
-		Min: trend.NewMovingMinWithPeriod[T](period),
-		Max: trend.NewMovingMaxWithPeriod[T](period),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of closings numbers and computes the Stochastic RSI.
 func (s *StochasticRsi[T]) Compute(closings <-chan T) <-chan T {
-	rsisSplice := helper.Duplicate(
-		s.Rsi.Compute(closings),
-		3,
-	)
-
-	rsisSplice[0] = helper.Skip(rsisSplice[0], s.Max.IdlePeriod())
-
-	minRsisSplice := helper.Duplicate(
-		s.Min.Compute(rsisSplice[1]),
-		2,
-	)
-
-	maxRsis := s.Max.Compute(rsisSplice[2])
-
-	result := helper.Divide(
-		helper.Subtract(
-			rsisSplice[0],
-			minRsisSplice[0],
-		),
-		helper.Subtract(
-			maxRsis,
-			minRsisSplice[1],
-		),
-	)
-
-	return result
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that Stochasic RSI won't yield any results.
-func (s *StochasticRsi[T]) IdlePeriod() int {
-	return s.Rsi.IdlePeriod() + s.Min.IdlePeriod()
-}
+func (s *StochasticRsi[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

@@ -37,40 +37,21 @@ type DonchianChannel[T helper.Number] struct {
 
 // NewDonchianChannel function initializes a new Donchian Channel instance with the default parameters.
 func NewDonchianChannel[T helper.Number]() *DonchianChannel[T] {
-	return NewDonchianChannelWithPeriod[T](DefaultDonchianChannelPeriod)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewDonchianChannelWithPeriod function initializes a new Donchian Channel instance with the given period.
 func NewDonchianChannelWithPeriod[T helper.Number](period int) *DonchianChannel[T] {
-	return &DonchianChannel[T]{
-		Max: trend.NewMovingMaxWithPeriod[T](period),
-		Min: trend.NewMovingMinWithPeriod[T](period),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Donchian Channel over the specified period.
 func (d *DonchianChannel[T]) Compute(c <-chan T) (<-chan T, <-chan T, <-chan T) {
-	closings := helper.Duplicate(c, 2)
-
-	uppers := helper.Duplicate(
-		d.Max.Compute(closings[0]),
-		2,
-	)
-
-	lowers := helper.Duplicate(
-		d.Min.Compute(closings[1]),
-		2,
-	)
-
-	middle := helper.DivideBy(
-		helper.Add(uppers[0], lowers[0]),
-		2,
-	)
-
-	return uppers[1], middle, lowers[1]
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
 
 // IdlePeriod is the initial period that Donchian Channel won't yield any results.
-func (d *DonchianChannel[T]) IdlePeriod() int {
-	return d.Max.IdlePeriod()
-}
+func (d *DonchianChannel[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

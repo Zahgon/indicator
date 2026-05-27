@@ -19,59 +19,32 @@ type KamaStrategy struct {
 }
 
 // NewKamaStrategy function initializes a new KAMA strategy instance.
-func NewKamaStrategy() *KamaStrategy {
-	return NewKamaStrategyWith(
-		trend.DefaultKamaErPeriod,
-		trend.DefaultKamaFastScPeriod,
-		trend.DefaultKamaSlowScPeriod,
-	)
-}
+func NewKamaStrategy() *KamaStrategy { _ = "STUB: not implemented"; return nil }
 
 // NewKamaStrategyWith function initializes a new KAMA strategy instance with the given parameters.
 func NewKamaStrategyWith(erPeriod, fastScPeriod, slowScPeriod int) *KamaStrategy {
-	return &KamaStrategy{
-		Kama: trend.NewKamaWith[float64](
-			erPeriod,
-			fastScPeriod,
-			slowScPeriod,
-		),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
-func (k *KamaStrategy) Name() string {
-	return k.Kama.String()
-}
+func (k *KamaStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (k *KamaStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	closingsSplice := helper.Duplicate(asset.SnapshotsAsClosings(snapshots), 2)
-	closingsSplice[1] = helper.Skip(closingsSplice[1], k.Kama.IdlePeriod())
-
-	kamas := k.Kama.Compute(closingsSplice[0])
-
-	actions := helper.Operate(kamas, closingsSplice[1], func(kama, closing float64) strategy.Action {
-		// A closing price crossing above the KAMA suggests a bullish trend.
-		if closing > kama {
-			return strategy.Buy
-		}
-
-		// While crossing below the KAMA indicates a bearish trend.
-		if closing < kama {
-			return strategy.Sell
-		}
-
-		return strategy.Hold
-	})
-
-	// KAMA starts only after a full period.
-	actions = helper.Shift(actions, k.Kama.IdlePeriod(), strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// A closing price crossing above the KAMA suggests a bullish trend.
+
+// While crossing below the KAMA indicates a bearish trend.
+
+// KAMA starts only after a full period.
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (k *KamaStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> closings[0] -> closings
@@ -79,34 +52,5 @@ func (k *KamaStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
 	// snapshots[2] -> actions     -> annotations
 	//              -> outcomes
 	//
-	snapshotsSplice := helper.Duplicate(c, 3)
-
-	dates := helper.Skip(
-		asset.SnapshotsAsDates(snapshotsSplice[0]),
-		k.Kama.IdlePeriod(),
-	)
-
-	closingsSplice := helper.Duplicate(asset.SnapshotsAsClosings(snapshotsSplice[1]), 2)
-	closingsSplice[1] = helper.Skip(closingsSplice[1], k.Kama.IdlePeriod())
-
-	kamas := k.Kama.Compute(closingsSplice[0])
-
-	actions, outcomes := strategy.ComputeWithOutcome(k, snapshotsSplice[2])
-	actions = helper.Skip(actions, k.Kama.IdlePeriod())
-	outcomes = helper.Skip(outcomes, k.Kama.IdlePeriod())
-
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	report := helper.NewReport(k.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closingsSplice[1]))
-	report.AddColumn(helper.NewNumericReportColumn("KAMA", kamas), 1)
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

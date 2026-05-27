@@ -6,7 +6,6 @@ package volatility
 
 import (
 	"github.com/cinar/indicator/v2/helper"
-	"github.com/cinar/indicator/v2/trend"
 )
 
 //goland:noinspection GoUnnecessarilyExportedIdentifiers
@@ -32,58 +31,15 @@ type AccelerationBands[T helper.Number] struct {
 
 // NewAccelerationBands function initializes a new Acceleration Bands instance with the default parameters.
 func NewAccelerationBands[T helper.Number]() *AccelerationBands[T] {
-	return &AccelerationBands[T]{
-		Period: DefaultAccelerationBandsPeriod,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Acceleration Bands over the specified period.
 func (a *AccelerationBands[T]) Compute(high, low, closing <-chan T) (<-chan T, <-chan T, <-chan T) {
-	highs := helper.Duplicate(high, 3)
-	lows := helper.Duplicate(low, 3)
-
-	ks := helper.Duplicate(
-		helper.Divide(
-			helper.Subtract(highs[0], lows[0]),
-			helper.Add(highs[1], lows[1]),
-		),
-		2,
-	)
-
-	sma := trend.NewSmaWithPeriod[T](a.Period)
-
-	upper := sma.Compute(
-		helper.Multiply(
-			highs[2],
-			helper.IncrementBy(
-				helper.MultiplyBy(
-					ks[0],
-					4,
-				),
-				1,
-			),
-		),
-	)
-
-	middle := sma.Compute(closing)
-
-	lower := sma.Compute(
-		helper.Multiply(
-			lows[2],
-			helper.IncrementBy(
-				helper.MultiplyBy(
-					ks[1],
-					-4,
-				),
-				1,
-			),
-		),
-	)
-
-	return upper, middle, lower
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
 
 // IdlePeriod is the initial period that Acceleration Bands won't yield any results.
-func (a *AccelerationBands[T]) IdlePeriod() int {
-	return a.Period - 1
-}
+func (a *AccelerationBands[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

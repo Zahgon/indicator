@@ -17,8 +17,4 @@ package helper
 //	multiplication := helper.Multiply(ac, bc)
 //
 //	fmt.Println(helper.ChanToSlice(multiplication)) // [2, 4, 6, 8, 10]
-func Multiply[T Number](ac, bc <-chan T) <-chan T {
-	return Operate(ac, bc, func(a, b T) T {
-		return a * b
-	})
-}
+func Multiply[T Number](ac, bc <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }

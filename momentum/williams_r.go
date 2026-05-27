@@ -35,34 +35,13 @@ type WilliamsR[T helper.Number] struct {
 }
 
 // NewWilliamsR function initializes a new Williams R instance.
-func NewWilliamsR[T helper.Number]() *WilliamsR[T] {
-	return &WilliamsR[T]{
-		Max: trend.NewMovingMaxWithPeriod[T](DefaultWilliamsRPeriod),
-		Min: trend.NewMovingMinWithPeriod[T](DefaultWilliamsRPeriod),
-	}
-}
+func NewWilliamsR[T helper.Number]() *WilliamsR[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Williams R.
 func (w *WilliamsR[T]) Compute(highs, lows, closings <-chan T) <-chan T {
-	highestSplice := helper.Duplicate(
-		w.Max.Compute(highs),
-		2,
-	)
-
-	lowest := w.Min.Compute(lows)
-
-	closings = helper.Skip(closings, w.Max.IdlePeriod())
-
-	return helper.MultiplyBy(
-		helper.Divide(
-			helper.Subtract(highestSplice[0], closings),
-			helper.Subtract(highestSplice[1], lowest),
-		),
-		-100,
-	)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that Williams R won't yield any results.
-func (w *WilliamsR[T]) IdlePeriod() int {
-	return w.Max.IdlePeriod()
-}
+func (w *WilliamsR[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

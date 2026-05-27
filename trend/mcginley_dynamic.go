@@ -5,9 +5,6 @@
 package trend
 
 import (
-	"fmt"
-	"math"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -33,57 +30,27 @@ type McGinleyDynamic[T helper.Number] struct {
 
 // NewMcGinleyDynamic function initializes a new McGinley Dynamic instance with the default parameters.
 func NewMcGinleyDynamic[T helper.Number]() *McGinleyDynamic[T] {
-	return NewMcGinleyDynamicWithPeriod[T](DefaultMcGinleyDynamicPeriod)
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // NewMcGinleyDynamicWithPeriod function initializes a new McGinley Dynamic instance with the given period.
 func NewMcGinleyDynamicWithPeriod[T helper.Number](period int) *McGinleyDynamic[T] {
-	return &McGinleyDynamic[T]{
-		Period: period,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the McGinley Dynamic over the specified period.
-func (m *McGinleyDynamic[T]) Compute(c <-chan T) <-chan T {
-	result := make(chan T, cap(c))
+func (m *McGinleyDynamic[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	go func() {
-		defer close(result)
-
-		var before float64
-		first := true
-
-		for n := range c {
-			val := float64(n)
-			if first {
-				before = val
-				first = false
-				result <- T(before)
-				continue
-			}
-
-			if before == 0 {
-				before = val
-				result <- T(before)
-				continue
-			}
-
-			// MD_today = MD_yesterday + (Close - MD_yesterday) / (Period * (Close / MD_yesterday)^4)
-			ratio := val / before
-			before = before + (val-before)/(float64(m.Period)*math.Pow(ratio, 4))
-			result <- T(before)
-		}
-	}()
-
-	return result
-}
+// MD_today = MD_yesterday + (Close - MD_yesterday) / (Period * (Close / MD_yesterday)^4)
 
 // IdlePeriod is the initial period that McGinley Dynamic yield any results.
 func (m *McGinleyDynamic[T]) IdlePeriod() int {
+	_ = "STUB: not implemented"
+
+	// String is the string representation of the McGinley Dynamic.
 	return 0
 }
 
-// String is the string representation of the McGinley Dynamic.
-func (m *McGinleyDynamic[T]) String() string {
-	return fmt.Sprintf("MD(%d)", m.Period)
-}
+func (m *McGinleyDynamic[T]) String() string { _ = "STUB: not implemented"; return "" }

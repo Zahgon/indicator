@@ -14,18 +14,4 @@ package helper
 //	even := helper.Filter(c, func(n int) bool {
 //	  return n%2 == 0
 //	})
-func Filter[T any](c <-chan T, p func(T) bool) <-chan T {
-	fc := make(chan T)
-
-	go func() {
-		for n := range c {
-			if p(n) {
-				fc <- n
-			}
-		}
-
-		close(fc)
-	}()
-
-	return fc
-}
+func Filter[T any](c <-chan T, p func(T) bool) <-chan T { _ = "STUB: not implemented"; return nil }

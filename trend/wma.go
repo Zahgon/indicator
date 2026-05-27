@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -20,47 +18,13 @@ type Wma[T helper.Number] struct {
 }
 
 // NewWmaWith function initializes a new WMA instance with the given parameters.
-func NewWmaWith[T helper.Number](period int) *Wma[T] {
-	if period <= 0 {
-		panic("period must be greater than 0")
-	}
-	return &Wma[T]{
-		Period: period,
-	}
-}
+func NewWmaWith[T helper.Number](period int) *Wma[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute computes the WMA over the input stream.
-func (w *Wma[T]) Compute(values <-chan T) <-chan T {
-	window := helper.NewRing[T](w.Period)
-	divisor := T(w.Period) * (T(w.Period) + T(1)) / T(2.0)
-	wmas := helper.Map(values, func(value T) T {
-		window.Put(value)
-
-		if !window.IsFull() {
-			return T(0)
-		}
-
-		var sum T
-
-		for i := 0; i < w.Period; i++ {
-			v := window.At(i)
-			sum += v * T(w.Period-i)
-		}
-
-		return sum / divisor
-	})
-
-	wmas = helper.Skip(wmas, w.IdlePeriod())
-
-	return wmas
-}
+func (w *Wma[T]) Compute(values <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that WMA won't yield any results.
-func (w *Wma[T]) IdlePeriod() int {
-	return w.Period - 1
-}
+func (w *Wma[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the WMA.
-func (w *Wma[T]) String() string {
-	return fmt.Sprintf("WMA(%d)", w.Period)
-}
+func (w *Wma[T]) String() string { _ = "STUB: not implemented"; return "" }

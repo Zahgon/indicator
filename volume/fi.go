@@ -29,28 +29,13 @@ type Fi[T helper.Number] struct {
 }
 
 // NewFi function initializes a new FI instance with the default parameters.
-func NewFi[T helper.Number]() *Fi[T] {
-	return NewFiWithPeriod[T](DefaultFiPeriod)
-}
+func NewFi[T helper.Number]() *Fi[T] { _ = "STUB: not implemented"; return nil }
 
 // NewFiWithPeriod function initializes a new FI instance with the given period.
-func NewFiWithPeriod[T helper.Number](period int) *Fi[T] {
-	return &Fi[T]{
-		Ema: trend.NewEmaWithPeriod[T](period),
-	}
-}
+func NewFiWithPeriod[T helper.Number](period int) *Fi[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the FI.
-func (f *Fi[T]) Compute(closings, volumes <-chan T) <-chan T {
-	return f.Ema.Compute(
-		helper.Multiply(
-			helper.Change(closings, 1),
-			volumes,
-		),
-	)
-}
+func (f *Fi[T]) Compute(closings, volumes <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that FI won't yield any results.
-func (f *Fi[T]) IdlePeriod() int {
-	return f.Ema.IdlePeriod() + 1
-}
+func (f *Fi[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

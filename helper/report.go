@@ -8,9 +8,6 @@ import (
 	// Go embed report template.
 	_ "embed"
 	"io"
-	"os"
-	"path/filepath"
-	"text/template"
 	"time"
 )
 
@@ -57,67 +54,23 @@ type Report struct {
 // NewReport takes a channel of time as the time axis and returns a new
 // instance of the Report struct. This instance can later be used to
 // add data and annotations and subsequently generate a report.
-func NewReport(title string, date <-chan time.Time) *Report {
-	return &Report{
-		Title:   title,
-		Date:    date,
-		Columns: []ReportColumn{},
-		Views: [][]int{
-			{},
-		},
-		DateFormat:  DefaultReportDateFormat,
-		GeneratedOn: time.Now().String(),
-	}
-}
+func NewReport(title string, date <-chan time.Time) *Report { _ = "STUB: not implemented"; return nil }
 
 // AddChart adds a new chart to the report and returns its unique
 // identifier. This identifier can be used later to refer to the
 // chart and add columns to it.
-func (r *Report) AddChart() int {
-	r.Views = append(r.Views, []int{})
-	return len(r.Views) - 1
-}
+func (r *Report) AddChart() int { _ = "STUB: not implemented"; return 0 }
 
 // AddColumn adds a new data column to the specified charts. If no
 // chart is specified, it will be added to the main chart.
-func (r *Report) AddColumn(column ReportColumn, charts ...int) {
-	r.Columns = append(r.Columns, column)
-	columnID := len(r.Columns)
-
-	if len(charts) == 0 {
-		charts = append(charts, 0)
-	}
-
-	for _, chartID := range charts {
-		r.Views[chartID] = append(r.Views[chartID], columnID)
-	}
-}
+func (r *Report) AddColumn(column ReportColumn, charts ...int) { _ = "STUB: not implemented"; return }
 
 // WriteToWriter writes the report content to the provided io.Writer.
 // This allows the report to be sent to various destinations, such
 // as a file, a network socket, or even the standard output.
-func (r *Report) WriteToWriter(writer io.Writer) error {
-	tmpl, err := template.New("report").Parse(reportTmpl)
-	if err != nil {
-		return err
-	}
-
-	return tmpl.Execute(writer, r)
-}
+func (r *Report) WriteToWriter(writer io.Writer) error { _ = "STUB: not implemented"; return nil }
 
 // WriteToFile writes the generated report content to a file with
 // the specified name. This allows users to conveniently save the
 // report for later viewing or analysis.
-func (r *Report) WriteToFile(fileName string) error {
-	file, err := os.Create(filepath.Clean(fileName))
-	if err != nil {
-		return err
-	}
-
-	err = r.WriteToWriter(file)
-	if err != nil {
-		return err
-	}
-
-	return file.Close()
-}
+func (r *Report) WriteToFile(fileName string) error { _ = "STUB: not implemented"; return nil }

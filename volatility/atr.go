@@ -33,33 +33,23 @@ type Atr[T helper.Number] struct {
 }
 
 // NewAtr function initializes a new ATR instance with the default parameters.
-func NewAtr[T helper.Number]() *Atr[T] {
-	return NewAtrWithPeriod[T](DefaultAtrPeriod)
-}
+func NewAtr[T helper.Number]() *Atr[T] { _ = "STUB: not implemented"; return nil }
 
 // NewAtrWithPeriod function initializes a new ATR instance with the given period.
-func NewAtrWithPeriod[T helper.Number](period int) *Atr[T] {
-	return NewAtrWithMa(trend.NewSmaWithPeriod[T](period))
-}
+func NewAtrWithPeriod[T helper.Number](period int) *Atr[T] { _ = "STUB: not implemented"; return nil }
 
 // NewAtrWithMa function initializes a new ATR instance with the given moving average instance.
-func NewAtrWithMa[T helper.Number](ma trend.Ma[T]) *Atr[T] {
-	return &Atr[T]{
-		Ma: ma,
-	}
-}
+func NewAtrWithMa[T helper.Number](ma trend.Ma[T]) *Atr[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the ATR over the specified period.
 func (a *Atr[T]) Compute(highs, lows, closings <-chan T) <-chan T {
-	tr := NewTrueRange[T]().Compute(highs, lows, closings)
-
-	atr := a.Ma.Compute(tr)
-
-	return atr
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that Acceleration Bands won't yield any results.
 func (a *Atr[T]) IdlePeriod() int {
+	_ = "STUB: not implemented"
 	// Ma idle period and for using the previous closing.
-	return a.Ma.IdlePeriod() + 1
+	return 0
 }

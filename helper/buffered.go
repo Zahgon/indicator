@@ -9,10 +9,4 @@ package helper
 // data even if the receiving end is temporarily unavailable.
 //
 // Example:
-func Buffered[T any](c <-chan T, size int) <-chan T {
-	result := make(chan T, size)
-
-	go Pipe(c, result)
-
-	return result
-}
+func Buffered[T any](c <-chan T, size int) <-chan T { _ = "STUB: not implemented"; return nil }

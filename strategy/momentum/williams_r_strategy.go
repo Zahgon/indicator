@@ -5,8 +5,6 @@
 package momentum
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/momentum"
@@ -34,57 +32,28 @@ type WilliamsRStrategy struct {
 }
 
 // NewWilliamsRStrategy function initializes a new Williams R strategy instance with the default parameters.
-func NewWilliamsRStrategy() *WilliamsRStrategy {
-	return NewWilliamsRStrategyWith(
-		DefaultWilliamsRStrategyBuyAt,
-		DefaultWilliamsRStrategySellAt,
-	)
-}
+func NewWilliamsRStrategy() *WilliamsRStrategy { _ = "STUB: not implemented"; return nil }
 
 // NewWilliamsRStrategyWith function initializes a new Williams R strategy instance with the given parameters.
 func NewWilliamsRStrategyWith(buyAt, sellAt float64) *WilliamsRStrategy {
-	return &WilliamsRStrategy{
-		WilliamsR: momentum.NewWilliamsR[float64](),
-		BuyAt:     buyAt,
-		SellAt:    sellAt,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
-func (r *WilliamsRStrategy) Name() string {
-	return fmt.Sprintf("Williams R Strategy (%.0f,%.0f)", r.BuyAt, r.SellAt)
-}
+func (r *WilliamsRStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (r *WilliamsRStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	snapshotsSplice := helper.Duplicate(snapshots, 3)
-
-	highs := asset.SnapshotsAsHighs(snapshotsSplice[0])
-	lows := asset.SnapshotsAsLows(snapshotsSplice[1])
-	closings := asset.SnapshotsAsClosings(snapshotsSplice[2])
-
-	wr := r.WilliamsR.Compute(highs, lows, closings)
-
-	actions := helper.Map(wr, func(value float64) strategy.Action {
-		if value <= r.BuyAt {
-			return strategy.Buy
-		}
-
-		if value >= r.SellAt {
-			return strategy.Sell
-		}
-
-		return strategy.Hold
-	})
-
-	// Williams R starts only after the idle period.
-	actions = helper.Shift(actions, r.WilliamsR.IdlePeriod(), strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Williams R starts only after the idle period.
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (r *WilliamsRStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> Compute          -> actions -> annotations
@@ -93,29 +62,5 @@ func (r *WilliamsRStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
 	// snapshots[4] -> lows    -+-> WilliamsR.Compute -> wr
 	// snapshots[5] -> closings-|
 	//
-	snapshots := helper.Duplicate(c, 6)
-
-	dates := asset.SnapshotsAsDates(snapshots[0])
-	closings := asset.SnapshotsAsClosings(snapshots[2])
-	highs := asset.SnapshotsAsHighs(snapshots[3])
-	lows := asset.SnapshotsAsLows(snapshots[4])
-	closingsForWR := asset.SnapshotsAsClosings(snapshots[5])
-
-	wr := helper.Shift(r.WilliamsR.Compute(highs, lows, closingsForWR), r.WilliamsR.IdlePeriod(), 0)
-
-	actions, outcomes := strategy.ComputeWithOutcome(r, snapshots[1])
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	report := helper.NewReport(r.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closings))
-	report.AddColumn(helper.NewNumericReportColumn("Williams R", wr), 1)
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

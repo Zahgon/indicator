@@ -4,16 +4,10 @@
 
 package helper
 
-import "math"
-
 // Abs calculates the absolute value of each value in a channel of type T.
 //
 // Example:
 //
 //	abs := helper.Abs(helper.SliceToChan([]int{-10, 20, -4, -5}))
 //	fmt.Println(helper.ChanToSlice(abs)) // [10, 20, 4, 5]
-func Abs[T Number](c <-chan T) <-chan T {
-	return Apply(c, func(n T) T {
-		return T(math.Abs(float64(n)))
-	})
-}
+func Abs[T Number](c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }

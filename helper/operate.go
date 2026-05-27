@@ -13,27 +13,6 @@ package helper
 //	  return a + b
 //	})
 func Operate[A any, B any, R any](ac <-chan A, bc <-chan B, o func(A, B) R) <-chan R {
-	oc := make(chan R)
-
-	go func() {
-		defer close(oc)
-
-		for {
-			an, ok := <-ac
-			if !ok {
-				Drain(bc)
-				break
-			}
-
-			bn, ok := <-bc
-			if !ok {
-				Drain(ac)
-				break
-			}
-
-			oc <- o(an, bn)
-		}
-	}()
-
-	return oc
+	_ = "STUB: not implemented"
+	return nil
 }

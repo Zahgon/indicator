@@ -35,25 +35,13 @@ type Qstick[T helper.Number] struct {
 }
 
 // NewQstick function initializes a new QStick instance.
-func NewQstick[T helper.Number]() *Qstick[T] {
-	qstick := &Qstick[T]{
-		Sma: trend.NewSma[T](),
-	}
-
-	qstick.Sma.Period = DefaultQstickPeriod
-
-	return qstick
-}
+func NewQstick[T helper.Number]() *Qstick[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Qstick.
 func (q *Qstick[T]) Compute(openings, closings <-chan T) <-chan T {
-	qstick := helper.Subtract(closings, openings)
-	qstick = q.Sma.Compute(qstick)
-
-	return qstick
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that Qstick won't yield any results.
-func (q *Qstick[T]) IdlePeriod() int {
-	return q.Sma.IdlePeriod()
-}
+func (q *Qstick[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

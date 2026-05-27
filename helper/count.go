@@ -22,21 +22,4 @@ package helper
 //	fmt.Println(<- s) // 2
 //	fmt.Println(<- s) // 3
 //	fmt.Println(<- s) // 4
-func Count[T Number, O any](from T, other <-chan O) <-chan T {
-	c := make(chan T)
-
-	go func() {
-		defer close(c)
-
-		for i := from; ; i++ {
-			_, ok := <-other
-			if !ok {
-				break
-			}
-
-			c <- i
-		}
-	}()
-
-	return c
-}
+func Count[T Number, O any](from T, other <-chan O) <-chan T { _ = "STUB: not implemented"; return nil }

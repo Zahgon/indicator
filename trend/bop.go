@@ -18,11 +18,14 @@ type Bop[T helper.Number] struct{}
 // NewBop function initializes a new BOP instance
 // with the default parameters.
 func NewBop[T helper.Number]() *Bop[T] {
-	return &Bop[T]{}
+	_ = "STUB: not implemented"
+
+	// Compute processes a channel of open, high, low, and close values,
+	// computing the BOP for each entry.
+	return nil
 }
 
-// Compute processes a channel of open, high, low, and close values,
-// computing the BOP for each entry.
 func (*Bop[T]) Compute(opening, high, low, closing <-chan T) <-chan T {
-	return helper.Divide(helper.Subtract(closing, opening), helper.Subtract(high, low))
+	_ = "STUB: not implemented"
+	return nil
 }

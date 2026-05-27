@@ -23,67 +23,29 @@ type Ring[T any] struct {
 }
 
 // NewRing creates a new ring instance with the given size.
-func NewRing[T any](size int) *Ring[T] {
-	return &Ring[T]{
-		buffer: make([]T, size),
-		begin:  0,
-		end:    0,
-		empty:  true,
-	}
-}
+func NewRing[T any](size int) *Ring[T] { _ = "STUB: not implemented"; return nil }
 
 // Put inserts the specified value into the ring and returns the
 // value that was previously stored at that index.
-func (r *Ring[T]) Put(t T) T {
-	if r.IsFull() {
-		r.begin = r.nextIndex(r.begin)
-	}
-
-	o := r.buffer[r.end]
-	r.buffer[r.end] = t
-
-	r.end = r.nextIndex(r.end)
-	r.empty = false
-
-	return o
-}
+func (r *Ring[T]) Put(t T) T { _ = "STUB: not implemented"; return *new(T) }
 
 // Get retrieves the available value from the ring buffer. If empty,
 // it returns the default value (T) and false.
-func (r *Ring[T]) Get() (T, bool) {
-	var t T
-
-	if r.empty {
-		return t, false
-	}
-
-	t = r.buffer[r.begin]
-	r.begin = r.nextIndex(r.begin)
-
-	if r.begin == r.end {
-		r.empty = true
-	}
-
-	return t, true
-}
+func (r *Ring[T]) Get() (T, bool) { _ = "STUB: not implemented"; return *new(T), false }
 
 // At returns the value at the given index.
-func (r *Ring[T]) At(index int) T {
-	return r.buffer[(r.begin+index)%len(r.buffer)]
-}
+func (r *Ring[T]) At(index int) T { _ = "STUB: not implemented"; return *new(T) }
 
 // IsEmpty checks if the current ring buffer is empty.
 func (r *Ring[T]) IsEmpty() bool {
-	return r.empty
+	_ = "STUB: not implemented"
+
+	// IsFull checks if the current ring buffer is full.
+	return false
 }
 
-// IsFull checks if the current ring buffer is full.
-func (r *Ring[T]) IsFull() bool {
-	return !r.empty && (r.end == r.begin)
-}
+func (r *Ring[T]) IsFull() bool { _ = "STUB: not implemented"; return false }
 
 // nextIndex returns the next index in a ring buffer, wrapping
 // around if it reaches the capacity.
-func (r *Ring[T]) nextIndex(i int) int {
-	return (i + 1) % len(r.buffer)
-}
+func (r *Ring[T]) nextIndex(i int) int { _ = "STUB: not implemented"; return 0 }

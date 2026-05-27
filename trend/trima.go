@@ -30,46 +30,15 @@ type Trima[T helper.Number] struct {
 
 // NewTrima function initializes a new TRIMA instance
 // with the default parameters.
-func NewTrima[T helper.Number]() *Trima[T] {
-	return &Trima[T]{
-		Period: DefaultTrimaPeriod,
-	}
-}
+func NewTrima[T helper.Number]() *Trima[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the TRIMA
 // and the signal line.
-func (t *Trima[T]) Compute(c <-chan T) <-chan T {
-	period1, period2 := t.calculatePeriods()
-
-	sma1 := NewSma[T]()
-	sma1.Period = period1
-
-	sma2 := NewSma[T]()
-	sma2.Period = period2
-
-	trima := sma1.Compute(sma2.Compute(c))
-
-	return trima
-}
+func (t *Trima[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that TRIMA won't yield any results.
-func (t *Trima[T]) IdlePeriod() int {
-	period1, period2 := t.calculatePeriods()
-	return period1 + period2 - 2
-}
+func (t *Trima[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // calculatePeriods calculates the individual periods to use based on the
 // TRIMA period.
-func (t *Trima[T]) calculatePeriods() (int, int) {
-	var period1, period2 int
-
-	if t.Period%2 == 0 {
-		period1 = t.Period / 2
-		period2 = period1 + 1
-	} else {
-		period1 = (t.Period + 1) / 2
-		period2 = period1
-	}
-
-	return period1, period2
-}
+func (t *Trima[T]) calculatePeriods() (int, int) { _ = "STUB: not implemented"; return 0, 0 }

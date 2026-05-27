@@ -21,9 +21,4 @@ package compound
 import "github.com/cinar/indicator/v2/strategy"
 
 // AllStrategies returns a slice containing references to all available compound strategies.
-func AllStrategies() []strategy.Strategy {
-	return []strategy.Strategy{
-		NewMacdRsiStrategy(),
-		NewMacdRsiStrategyWith(20, 80),
-	}
-}
+func AllStrategies() []strategy.Strategy { _ = "STUB: not implemented"; return nil }

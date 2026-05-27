@@ -4,8 +4,6 @@
 
 package helper
 
-import "math"
-
 // Sqrt calculates the square root of each value in a channel of type T.
 //
 // Example:
@@ -13,8 +11,4 @@ import "math"
 //	c := helper.SliceToChan([]int{9, 81, 16, 100})
 //	sqrt := helper.Sqrt(c)
 //	fmt.Println(helper.ChanToSlice(sqrt)) // [3, 9, 4, 10]
-func Sqrt[T Number](c <-chan T) <-chan T {
-	return Apply(c, func(n T) T {
-		return T(math.Sqrt(float64(n)))
-	})
-}
+func Sqrt[T Number](c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }

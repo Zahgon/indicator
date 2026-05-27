@@ -23,25 +23,17 @@ type Ad[T helper.Number] struct {
 }
 
 // NewAd function initializes a new A/D instance with the default parameters.
-func NewAd[T helper.Number]() *Ad[T] {
-	return &Ad[T]{
-		Mfv: NewMfv[T](),
-	}
-}
+func NewAd[T helper.Number]() *Ad[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the A/D.
 func (a *Ad[T]) Compute(highs, lows, closings, volumes <-chan T) <-chan T {
+	_ = "STUB: not implemented"
 	//	MFM = ((Closing - Low) - (High - Closing)) / (High - Low)
 	//	MFV = MFM * Period Volume
-	mfvs := a.Mfv.Compute(highs, lows, closings, volumes)
-
-	//	AD = Previous AD + CMFV
-	return helper.MapWithPrevious(mfvs, func(previous, current T) T {
-		return previous + current
-	}, 0)
+	return nil
 }
+
+//	AD = Previous AD + CMFV
 
 // IdlePeriod is the initial period that A/D won't yield any results.
-func (*Ad[T]) IdlePeriod() int {
-	return 0
-}
+func (*Ad[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

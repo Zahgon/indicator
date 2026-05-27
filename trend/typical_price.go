@@ -16,17 +16,10 @@ import (
 type TypicalPrice[T helper.Number] struct{}
 
 // NewTypicalPrice function initializes a new Typical Price instance with the default parameters.
-func NewTypicalPrice[T helper.Number]() *TypicalPrice[T] {
-	return &TypicalPrice[T]{}
-}
+func NewTypicalPrice[T helper.Number]() *TypicalPrice[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Typical Price and the signal line.
 func (*TypicalPrice[T]) Compute(high, low, closing <-chan T) <-chan T {
-	return helper.DivideBy(
-		helper.Add(
-			helper.Add(high, low),
-			closing,
-		),
-		3,
-	)
+	_ = "STUB: not implemented"
+	return nil
 }

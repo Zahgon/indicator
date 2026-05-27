@@ -5,26 +5,11 @@
 package helper
 
 import (
-	"os"
 	"testing"
 )
 
 // Remove removes the file with the given name.
-func Remove(t *testing.T, name string) {
-	t.Helper()
-
-	err := os.Remove(name)
-	if err != nil {
-		t.Errorf("Error removing file: %v", err)
-	}
-}
+func Remove(t *testing.T, name string) { _ = "STUB: not implemented"; return }
 
 // RemoveAll removes the files with the given path.
-func RemoveAll(t *testing.T, path string) {
-	t.Helper()
-
-	err := os.RemoveAll(path)
-	if err != nil {
-		t.Errorf("Error removing files: %v", err)
-	}
-}
+func RemoveAll(t *testing.T, path string) { _ = "STUB: not implemented"; return }

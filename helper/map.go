@@ -14,16 +14,4 @@ package helper
 //	timesTwo := helper.Map(c, func(n int) int {
 //		return n * 2
 //	})
-func Map[F, T any](c <-chan F, f func(F) T) <-chan T {
-	mc := make(chan T)
-
-	go func() {
-		defer close(mc)
-
-		for n := range c {
-			mc <- f(n)
-		}
-	}()
-
-	return mc
-}
+func Map[F, T any](c <-chan F, f func(F) T) <-chan T { _ = "STUB: not implemented"; return nil }

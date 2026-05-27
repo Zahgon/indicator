@@ -17,8 +17,4 @@ package helper
 //	division := helper.Divide(ac, bc)
 //
 //	fmt.Println(helper.ChanToSlice(division)) // [1, 4, 2, 4, 2]
-func Divide[T Number](ac, bc <-chan T) <-chan T {
-	return Operate(ac, bc, func(a, b T) T {
-		return a / b
-	})
-}
+func Divide[T Number](ac, bc <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }

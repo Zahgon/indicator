@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -32,45 +30,18 @@ type Smma[T helper.Number] struct {
 }
 
 // NewSmma function initializes a new SMMA instance with the default parameters.
-func NewSmma[T helper.Number]() *Smma[T] {
-	return NewSmmaWithPeriod[T](DefaultSmmaPeriod)
-}
+func NewSmma[T helper.Number]() *Smma[T] { _ = "STUB: not implemented"; return nil }
 
 // NewSmmaWithPeriod function initializes a new SMMA instance with the given period.
-func NewSmmaWithPeriod[T helper.Number](period int) *Smma[T] {
-	return &Smma[T]{
-		Period: period,
-	}
-}
+func NewSmmaWithPeriod[T helper.Number](period int) *Smma[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the SMMA over the specified period.
-func (s *Smma[T]) Compute(c <-chan T) <-chan T {
-	result := make(chan T, cap(c))
+func (s *Smma[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	go func() {
-		defer close(result)
-
-		// Initial SMMA value is the SMA.
-		sma := NewSmaWithPeriod[T](s.Period)
-
-		before := <-sma.Compute(helper.Head(c, s.Period))
-		result <- before
-
-		for n := range c {
-			before = ((before * (T(s.Period) - 1)) + n) / T(s.Period)
-			result <- before
-		}
-	}()
-
-	return result
-}
+// Initial SMMA value is the SMA.
 
 // IdlePeriod is the initial period that SMMA yield any results.
-func (s *Smma[T]) IdlePeriod() int {
-	return s.Period - 1
-}
+func (s *Smma[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the SMMA.
-func (s *Smma[T]) String() string {
-	return fmt.Sprintf("SMMA(%d)", s.Period)
-}
+func (s *Smma[T]) String() string { _ = "STUB: not implemented"; return "" }

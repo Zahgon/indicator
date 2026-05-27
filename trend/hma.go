@@ -5,9 +5,6 @@
 package trend
 
 import (
-	"fmt"
-	"math"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -30,47 +27,21 @@ type Hma[T helper.Number] struct {
 }
 
 // NewHmaWithPeriod function initializes a new HMA instance with the given parameters.
-func NewHmaWithPeriod[T helper.Number](period int) *Hma[T] {
-	return &Hma[T]{
-		wma1: NewWmaWith[T](int(math.Round(float64(period) / 2))),
-		wma2: NewWmaWith[T](period),
-		wma3: NewWmaWith[T](int(math.Round(math.Sqrt(float64(period))))),
-	}
-}
+func NewHmaWithPeriod[T helper.Number](period int) *Hma[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the HMA and the signal line.
-func (h *Hma[T]) Compute(values <-chan T) <-chan T {
-	valuesSplice := helper.Duplicate(values, 2)
+func (h *Hma[T]) Compute(values <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	//	WMA1 = WMA(period/2 , values)
-	wmas1 := h.wma1.Compute(valuesSplice[0])
+//	WMA1 = WMA(period/2 , values)
 
-	//	WMA2 = WMA(period, values)
-	wmas2 := h.wma2.Compute(valuesSplice[1])
+//	WMA2 = WMA(period, values)
 
-	wmas1 = helper.Skip(wmas1, h.wma2.IdlePeriod()-h.wma1.IdlePeriod())
+// WMA3 = WMA(sqrt(period), (2 * WMA1) - WMA2)
 
-	// WMA3 = WMA(sqrt(period), (2 * WMA1) - WMA2)
-	wmas3 := h.wma3.Compute(
-		helper.Subtract(
-			helper.MultiplyBy(
-				wmas1,
-				2,
-			),
-			wmas2,
-		),
-	)
-
-	// HMA = WMA3
-	return wmas3
-}
+// HMA = WMA3
 
 // IdlePeriod is the initial period that HMA won't yield any results.
-func (h *Hma[T]) IdlePeriod() int {
-	return h.wma2.IdlePeriod() + h.wma3.IdlePeriod()
-}
+func (h *Hma[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the HMA.
-func (h *Hma[T]) String() string {
-	return fmt.Sprintf("HMA(%d)", h.wma2.Period)
-}
+func (h *Hma[T]) String() string { _ = "STUB: not implemented"; return "" }

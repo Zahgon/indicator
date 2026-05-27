@@ -13,8 +13,4 @@ package helper
 //	input := []int{1, 2, 3, 4}
 //	actual := helper.IncrementBy(helper.SliceToChan(input), 1)
 //	fmt.Println(helper.ChanToSlice(actual)) // [2, 3, 4, 5]
-func IncrementBy[T Number](c <-chan T, i T) <-chan T {
-	return Apply(c, func(n T) T {
-		return n + i
-	})
-}
+func IncrementBy[T Number](c <-chan T, i T) <-chan T { _ = "STUB: not implemented"; return nil }

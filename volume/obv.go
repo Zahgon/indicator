@@ -22,30 +22,13 @@ type Obv[T helper.Number] struct{}
 
 // NewObv function initializes a new OBV instance with the default parameters.
 func NewObv[T helper.Number]() *Obv[T] {
-	return &Obv[T]{}
+	_ = "STUB: not implemented"
+
+	// Compute function takes a channel of numbers and computes the OBV.
+	return nil
 }
 
-// Compute function takes a channel of numbers and computes the OBV.
-func (*Obv[T]) Compute(closings, volumes <-chan T) <-chan T {
-	var previousClosing T
-	var previousObv T
-
-	return helper.Operate(closings, volumes, func(closing, volume T) T {
-		currentObv := previousObv
-
-		if closing > previousClosing {
-			currentObv += volume
-		} else if closing < previousClosing {
-			currentObv -= volume
-		}
-
-		previousClosing = closing
-		previousObv = currentObv
-		return currentObv
-	})
-}
+func (*Obv[T]) Compute(closings, volumes <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that OBV won't yield any results.
-func (*Obv[T]) IdlePeriod() int {
-	return 0
-}
+func (*Obv[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

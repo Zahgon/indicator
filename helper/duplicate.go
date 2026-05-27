@@ -15,26 +15,7 @@ package helper
 //	fmt.Println(helper.ChanToSlice(outputs[0])) // [-10, 20, -4, -5]
 //	fmt.Println(helper.ChanToSlice(outputs[1])) // [-10, 20, -4, -5]
 func Duplicate[T any](input <-chan T, count int) []<-chan T {
+	_ = "STUB: not implemented"
 	// TODO(cinar): Find a way to cast as a directional channel array.
-	outputs := make([]chan T, count)
-	result := make([]<-chan T, count)
-
-	for i := range outputs {
-		outputs[i] = make(chan T, cap(input))
-		result[i] = outputs[i]
-	}
-
-	go func() {
-		for _, output := range outputs {
-			defer close(output)
-		}
-
-		for n := range input {
-			for _, output := range outputs {
-				output <- n
-			}
-		}
-	}()
-
-	return result
+	return nil
 }

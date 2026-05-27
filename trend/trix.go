@@ -32,30 +32,10 @@ type Trix[T helper.Number] struct {
 }
 
 // NewTrix function initializes a new TRIX instance with the default parameters.
-func NewTrix[T helper.Number]() *Trix[T] {
-	return &Trix[T]{
-		Period: DefaultTrixPeriod,
-	}
-}
+func NewTrix[T helper.Number]() *Trix[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the TRIX and the signal line.
-func (t *Trix[T]) Compute(c <-chan T) <-chan T {
-	ema1 := NewEmaWithPeriod[T](t.Period)
-	ema2 := NewEmaWithPeriod[T](t.Period)
-	ema3 := NewEmaWithPeriod[T](t.Period)
-
-	emas := ema3.Compute(
-		ema2.Compute(
-			ema1.Compute(c),
-		),
-	)
-
-	trix := helper.ChangeRatio[T](emas, 1)
-
-	return trix
-}
+func (t *Trix[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that TRIX won't yield any results.
-func (t *Trix[T]) IdlePeriod() int {
-	return (t.Period * 3) - 3 + 1
-}
+func (t *Trix[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

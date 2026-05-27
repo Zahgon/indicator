@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -31,50 +29,23 @@ type Dpo[T helper.Float] struct {
 }
 
 // NewDpo creates a new DPO instance with default parameters.
-func NewDpo[T helper.Float]() *Dpo[T] {
-	return &Dpo[T]{
-		period: DefaultDpoPeriod,
-	}
-}
+func NewDpo[T helper.Float]() *Dpo[T] { _ = "STUB: not implemented"; return nil }
 
 // NewDpoWithPeriod initializes a new DPO instance with the given period.
 // Periods <= 1 are clamped to DefaultDpoPeriod.
-func NewDpoWithPeriod[T helper.Float](period int) *Dpo[T] {
-	if period <= 1 {
-		period = DefaultDpoPeriod
-	}
-
-	return &Dpo[T]{
-		period: period,
-	}
-}
+func NewDpoWithPeriod[T helper.Float](period int) *Dpo[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute calculates the DPO indicator over the input price channel.
-func (d *Dpo[T]) Compute(closing <-chan T) <-chan T {
-	k := d.period/2 + 1
-	dup := helper.Duplicate(closing, 2)
+func (d *Dpo[T]) Compute(closing <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	// compute SMA on the first duplicated stream
-	sma := NewSma[T]()
-	sma.Period = d.period
-	smaOut := sma.Compute(dup[0])
+// compute SMA on the first duplicated stream
 
-	// align the original price stream and the SMA stream according to DPO formula
-	skippedClosing := helper.Skip(dup[1], d.IdlePeriod())
-	smaDelayed := helper.SkipLast(smaOut, k)
+// align the original price stream and the SMA stream according to DPO formula
 
-	// DPO = Price - shifted SMA
-	return helper.Operate(skippedClosing, smaDelayed, func(price, shiftedSma T) T {
-		return price - shiftedSma
-	})
-}
+// DPO = Price - shifted SMA
 
 // IdlePeriod returns the number of leading samples to discard before the first DPO value is available.
-func (d *Dpo[T]) IdlePeriod() int {
-	return (d.period - 1) + (d.period/2 + 1)
-}
+func (d *Dpo[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the DPO.
-func (d *Dpo[T]) String() string {
-	return fmt.Sprintf("DPO(%d)", d.period)
-}
+func (d *Dpo[T]) String() string { _ = "STUB: not implemented"; return "" }

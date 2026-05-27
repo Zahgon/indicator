@@ -5,8 +5,6 @@
 package momentum
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/momentum"
@@ -68,104 +66,47 @@ type TripleRsiStrategy struct {
 }
 
 // NewTripleRsiStrategy function initializes a new Triple RSI strategy instance with the default parameters.
-func NewTripleRsiStrategy() *TripleRsiStrategy {
-	return NewTripleRsiStrategyWith(
-		DefaultTripleRsiStrategyPeriod,
-		DefaultTripleRsiStrategyMovingAveragePeriod,
-		DefaultTripleRsiStrategyDownDays,
-		DefaultTripleRsiStrategyBuySignalAt,
-		DefaultTripleRsiStrategyBuyAt,
-		DefaultTripleRsiStrategySellAt,
-	)
-}
+func NewTripleRsiStrategy() *TripleRsiStrategy { _ = "STUB: not implemented"; return nil }
 
 // NewTripleRsiStrategyWith function initializes a new RSI strategy instance with the given parameters.
 func NewTripleRsiStrategyWith(period, smaPeriod, downDays int, buySignalAt, buyAt, sellAt float64) *TripleRsiStrategy {
-	return &TripleRsiStrategy{
-		Rsi:         momentum.NewRsiWithPeriod[float64](period),
-		Sma:         trend.NewSmaWithPeriod[float64](smaPeriod),
-		DownDays:    downDays,
-		BuySignalAt: buySignalAt,
-		BuyAt:       buyAt,
-		SellAt:      sellAt,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
-func (t *TripleRsiStrategy) Name() string {
-	return fmt.Sprintf("Triple RSI Strategy (%d,%d,%d,%.0f,%.0f,%.0f)", t.Rsi.Rma.Period, t.Sma.Period, t.DownDays,
-		t.BuySignalAt, t.BuyAt, t.SellAt)
-}
+func (t *TripleRsiStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // IdlePeriod is the initial period that the Triple RSI strategy won't yield any results.
-func (t *TripleRsiStrategy) IdlePeriod() int {
-	return t.Sma.IdlePeriod()
-}
+func (t *TripleRsiStrategy) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (t *TripleRsiStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	closingsSplice := helper.Duplicate(
-		asset.SnapshotsAsClosings(snapshots),
-		3,
-	)
-
-	rsis := t.Rsi.Compute(closingsSplice[0])
-	smas := t.Sma.Compute(closingsSplice[1])
-	memory := helper.NewRing[float64](t.DownDays)
-
-	// Skip RSI results until SMA is ready.
-	rsis = helper.Skip(rsis, t.Sma.IdlePeriod()-t.Rsi.IdlePeriod())
-
-	// Skip closing values until SMA is ready.
-	closingsSplice[2] = helper.Skip(closingsSplice[2], t.Sma.IdlePeriod())
-
-	actions := helper.Operate3(rsis, smas, closingsSplice[2], func(rsi, sma, closing float64) strategy.Action {
-		memory.Put(rsi)
-
-		if !memory.IsFull() {
-			return strategy.Hold
-		}
-
-		// Recommend Sell:
-		// - Sell at the close when the 5-period RSI crosses above 50.
-		if rsi > t.SellAt {
-			return strategy.Sell
-		}
-
-		// Recommend Buy:
-		// - The 5-period RSI is below 30.
-		if rsi >= t.BuyAt {
-			return strategy.Hold
-		}
-
-		// - The 5-period RSI reading is down for the 3rd period in a row.
-		for i := 1; i < t.DownDays; i++ {
-			if memory.At(i-1) > memory.At(i) {
-				return strategy.Hold
-			}
-		}
-
-		// - The 5-period RSI reading was below 60 three trading periods ago.
-		if memory.At(0) >= t.BuySignalAt {
-			return strategy.Hold
-		}
-
-		// - The close is higher than the 200-period moving average.
-		if closing <= sma {
-			return strategy.Hold
-		}
-
-		return strategy.Buy
-	})
-
-	// Shift actions until strategy is ready.
-	actions = helper.Shift(actions, t.Sma.IdlePeriod(), strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Skip RSI results until SMA is ready.
+
+// Skip closing values until SMA is ready.
+
+// Recommend Sell:
+// - Sell at the close when the 5-period RSI crosses above 50.
+
+// Recommend Buy:
+// - The 5-period RSI is below 30.
+
+// - The 5-period RSI reading is down for the 3rd period in a row.
+
+// - The 5-period RSI reading was below 60 three trading periods ago.
+
+// - The close is higher than the 200-period moving average.
+
+// Shift actions until strategy is ready.
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (t *TripleRsiStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> Compute     -> actions -> annotations
@@ -173,33 +114,5 @@ func (t *TripleRsiStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
 	//              -> closings[1] -> Rsi.Compute -> rsi
 	//              -> closings[2] -> Sma.Compute -> sma
 	//
-	snapshots := helper.Duplicate(c, 3)
-
-	dates := asset.SnapshotsAsDates(snapshots[0])
-	closings := helper.Duplicate(asset.SnapshotsAsClosings(snapshots[2]), 3)
-
-	rsis := t.Rsi.Compute(closings[1])
-	smas := t.Sma.Compute(closings[2])
-
-	actions, outcomes := strategy.ComputeWithOutcome(t, snapshots[1])
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	dates = helper.Skip(dates, t.IdlePeriod())
-	closings[0] = helper.Skip(closings[0], t.IdlePeriod())
-	rsis = helper.Skip(rsis, t.IdlePeriod()-t.Rsi.IdlePeriod())
-	annotations = helper.Skip(annotations, t.IdlePeriod())
-	outcomes = helper.Skip(outcomes, t.IdlePeriod())
-
-	report := helper.NewReport(t.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closings[0]))
-	report.AddColumn(helper.NewNumericReportColumn(fmt.Sprintf("RSI(%d)", t.Rsi.Rma.Period), rsis), 1)
-	report.AddColumn(helper.NewNumericReportColumn(fmt.Sprintf("SMA(%d)", t.Sma.Period), smas))
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

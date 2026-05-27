@@ -5,8 +5,6 @@
 package momentum
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/momentum"
@@ -34,81 +32,33 @@ type StochasticRsiStrategy struct {
 }
 
 // NewStochasticRsiStrategy function initializes a new Stochastic RSI strategy instance with the default parameters.
-func NewStochasticRsiStrategy() *StochasticRsiStrategy {
-	return NewStochasticRsiStrategyWith(
-		DefaultStochasticRsiStrategyBuyAt,
-		DefaultStochasticRsiStrategySellAt,
-	)
-}
+func NewStochasticRsiStrategy() *StochasticRsiStrategy { _ = "STUB: not implemented"; return nil }
 
 // NewStochasticRsiStrategyWith function initializes a new Stochastic RSI strategy instance with the given parameters.
 func NewStochasticRsiStrategyWith(buyAt, sellAt float64) *StochasticRsiStrategy {
-	return &StochasticRsiStrategy{
-		StochasticRsi: momentum.NewStochasticRsi[float64](),
-		BuyAt:         buyAt,
-		SellAt:        sellAt,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
-func (s *StochasticRsiStrategy) Name() string {
-	return fmt.Sprintf("Stochastic RSI Strategy (%.1f,%.1f)", s.BuyAt, s.SellAt)
-}
+func (s *StochasticRsiStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (s *StochasticRsiStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	closings := asset.SnapshotsAsClosings(snapshots)
-
-	stochasticRsi := s.StochasticRsi.Compute(closings)
-
-	actions := helper.Map(stochasticRsi, func(value float64) strategy.Action {
-		if value <= s.BuyAt {
-			return strategy.Buy
-		}
-
-		if value >= s.SellAt {
-			return strategy.Sell
-		}
-
-		return strategy.Hold
-	})
-
-	// Stochastic RSI starts only after the idle period.
-	actions = helper.Shift(actions, s.StochasticRsi.IdlePeriod(), strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Stochastic RSI starts only after the idle period.
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (s *StochasticRsiStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> Compute     -> actions -> annotations
 	// snapshots[2] -> closings[0] -> close
 	//              -> closings[1] -> StochasticRsi.Compute -> stochasticRsi
 	//
-	snapshots := helper.Duplicate(c, 3)
-
-	dates := helper.Skip(asset.SnapshotsAsDates(snapshots[0]), s.StochasticRsi.IdlePeriod())
-
-	closings := helper.Duplicate(asset.SnapshotsAsClosings(snapshots[2]), 2)
-	closings[0] = helper.Skip(closings[0], s.StochasticRsi.IdlePeriod())
-
-	stochasticRsi := s.StochasticRsi.Compute(closings[1])
-
-	actions, outcomes := strategy.ComputeWithOutcome(s, snapshots[1])
-	annotations := helper.Skip(strategy.ActionsToAnnotations(actions), s.StochasticRsi.IdlePeriod())
-	outcomes = helper.Skip(helper.MultiplyBy(outcomes, 100), s.StochasticRsi.IdlePeriod())
-
-	report := helper.NewReport(s.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closings[0]))
-	report.AddColumn(helper.NewNumericReportColumn("Stochastic RSI", stochasticRsi), 1)
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

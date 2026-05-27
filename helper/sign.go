@@ -12,14 +12,4 @@ package helper
 //	c := helper.SliceToChan([]int{-10, 20, -4, 0})
 //	sign := helper.Sign(c)
 //	fmt.Println(helper.ChanToSlice(sign)) // [-1, 1, -1, 0]
-func Sign[T Number](c <-chan T) <-chan T {
-	return Apply(c, func(n T) T {
-		if n > 0 {
-			return 1
-		} else if n < 0 {
-			return -1
-		}
-
-		return 0
-	})
-}
+func Sign[T Number](c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }

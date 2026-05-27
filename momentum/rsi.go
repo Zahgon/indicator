@@ -30,63 +30,23 @@ type Rsi[T helper.Number] struct {
 }
 
 // NewRsi function initializes a new Relative Strength Index instance with the default parameters.
-func NewRsi[T helper.Number]() *Rsi[T] {
-	return NewRsiWithPeriod[T](DefaultRsiPeriod)
-}
+func NewRsi[T helper.Number]() *Rsi[T] { _ = "STUB: not implemented"; return nil }
 
 // NewRsiWithPeriod function initializes a new Relative Strength Index instance with the given period.
-func NewRsiWithPeriod[T helper.Number](period int) *Rsi[T] {
-	return &Rsi[T]{
-		Rma: trend.NewRmaWithPeriod[T](period),
-	}
-}
+func NewRsiWithPeriod[T helper.Number](period int) *Rsi[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of closings numbers and computes the Relative Strength Index.
-func (r *Rsi[T]) Compute(closings <-chan T) <-chan T {
-	changesSplice := helper.Duplicate(
-		helper.Change(closings, 1),
-		2,
-	)
+func (r *Rsi[T]) Compute(closings <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	averageGains := r.Rma.Compute(
-		helper.KeepPositives(changesSplice[0]),
-	)
+// RSI = 100 - (100 / (1 + RS))
 
-	averageLosses := helper.MultiplyBy(
-		r.Rma.Compute(
-			helper.KeepNegatives(changesSplice[1]),
-		),
-		-1,
-	)
+// - (100 / (1 + RS))
 
-	rs := helper.Divide(
-		averageGains,
-		averageLosses,
-	)
+// 100 / (1 + RS)
 
-	// RSI = 100 - (100 / (1 + RS))
-	rsi := helper.IncrementBy(
-		// - (100 / (1 + RS))
-		helper.MultiplyBy(
-			// 100 / (1 + RS)
-			helper.MultiplyBy(
-				// 1 / (1 + RS)
-				helper.Pow(
-					// 1 + RS
-					helper.IncrementBy(rs, 1),
-					-1,
-				),
-				100,
-			),
-			-1,
-		),
-		100,
-	)
+// 1 / (1 + RS)
 
-	return rsi
-}
+// 1 + RS
 
 // IdlePeriod is the initial period that Relative Strength Index won't yield any results.
-func (r *Rsi[T]) IdlePeriod() int {
-	return r.Rma.IdlePeriod() + 1
-}
+func (r *Rsi[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

@@ -53,63 +53,14 @@ type Kdj[T helper.Number] struct {
 }
 
 // NewKdj function initializes a new Kdj instance with the default parameters
-func NewKdj[T helper.Number]() *Kdj[T] {
-	kdj := &Kdj[T]{
-		MovingMax: NewMovingMax[T](),
-		MovingMin: NewMovingMin[T](),
-		Sma1:      NewSma[T](),
-		Sma2:      NewSma[T](),
-	}
-
-	kdj.MovingMax.Period = DefaultKdjMinMaxPeriod
-	kdj.MovingMin.Period = DefaultKdjMinMaxPeriod
-	kdj.Sma1.Period = DefaultKdjSma1Period
-	kdj.Sma2.Period = DefaultKdjSma2Period
-
-	return kdj
-}
+func NewKdj[T helper.Number]() *Kdj[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the KDJ
 // over the specified period. Returns K, D, J.
 func (kdj *Kdj[T]) Compute(high, low, closing <-chan T) (<-chan T, <-chan T, <-chan T) {
-	highest := kdj.MovingMax.Compute(high)
-	lowests := helper.Duplicate(
-		kdj.MovingMin.Compute(low),
-		2,
-	)
-
-	closing = helper.Skip(closing, kdj.MovingMax.Period-1)
-
-	rsv := helper.MultiplyBy(
-		helper.Divide(
-			helper.Subtract(closing, lowests[0]),
-			helper.Subtract(highest, lowests[1]),
-		),
-		100,
-	)
-
-	ks := helper.Duplicate(
-		kdj.Sma1.Compute(rsv),
-		3,
-	)
-
-	ds := helper.Duplicate(
-		kdj.Sma2.Compute(ks[0]),
-		2,
-	)
-
-	ks[1] = helper.Skip(ks[1], kdj.Sma2.Period-1)
-	ks[2] = helper.Skip(ks[2], kdj.Sma2.Period-1)
-
-	j := helper.Subtract(
-		helper.MultiplyBy(ks[1], 3),
-		helper.MultiplyBy(ds[0], 2),
-	)
-
-	return ks[2], ds[1], j
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
 
 // IdlePeriod is the initial period that KDJ won't yield any results.
-func (kdj *Kdj[T]) IdlePeriod() int {
-	return kdj.MovingMax.Period + kdj.Sma1.Period + kdj.Sma2.Period - 3
-}
+func (kdj *Kdj[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

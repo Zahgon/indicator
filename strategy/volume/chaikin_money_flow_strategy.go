@@ -5,8 +5,6 @@
 package volume
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/asset"
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/strategy"
@@ -22,56 +20,29 @@ type ChaikinMoneyFlowStrategy struct {
 
 // NewChaikinMoneyFlowStrategy function initializes a new Chaikin Money Flow strategy instance with the
 // default parameters.
-func NewChaikinMoneyFlowStrategy() *ChaikinMoneyFlowStrategy {
-	return NewChaikinMoneyFlowStrategyWith(
-		volume.DefaultCmfPeriod,
-	)
-}
+func NewChaikinMoneyFlowStrategy() *ChaikinMoneyFlowStrategy { _ = "STUB: not implemented"; return nil }
 
 // NewChaikinMoneyFlowStrategyWith function initializes a new Chaikin Money Flow strategy instance with the
 // given parameters.
 func NewChaikinMoneyFlowStrategyWith(period int) *ChaikinMoneyFlowStrategy {
-	return &ChaikinMoneyFlowStrategy{
-		ChaikinMoneyFlow: volume.NewCmfWithPeriod[float64](period),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name function returns the name of the strategy.
-func (c *ChaikinMoneyFlowStrategy) Name() string {
-	return fmt.Sprintf("Chaikin Money Flow Strategy (%d)", c.ChaikinMoneyFlow.IdlePeriod()+1)
-}
+func (c *ChaikinMoneyFlowStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute function processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (c *ChaikinMoneyFlowStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	snapshotsSplice := helper.Duplicate(snapshots, 4)
-
-	highs := asset.SnapshotsAsHighs(snapshotsSplice[0])
-	lows := asset.SnapshotsAsLows(snapshotsSplice[1])
-	closings := asset.SnapshotsAsClosings(snapshotsSplice[2])
-	volumes := asset.SnapshotsAsVolumes(snapshotsSplice[3])
-
-	cmfs := c.ChaikinMoneyFlow.Compute(highs, lows, closings, volumes)
-
-	actions := helper.Map(cmfs, func(cmf float64) strategy.Action {
-		if cmf > 0 {
-			return strategy.Buy
-		}
-
-		if cmf < 0 {
-			return strategy.Sell
-		}
-
-		return strategy.Hold
-	})
-
-	// Chaikin Money Flow starts only after a full period.
-	actions = helper.Shift(actions, c.ChaikinMoneyFlow.IdlePeriod(), strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Chaikin Money Flow starts only after a full period.
 
 // Report function processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (c *ChaikinMoneyFlowStrategy) Report(snapshots <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> highs       |
@@ -82,40 +53,5 @@ func (c *ChaikinMoneyFlowStrategy) Report(snapshots <-chan *asset.Snapshot) *hel
 	// snapshots[5] -> actions     -> annotations
 	//              -> outcomes
 	//
-	snapshotsSplice := helper.Duplicate(snapshots, 6)
-
-	dates := helper.Skip(
-		asset.SnapshotsAsDates(snapshotsSplice[0]),
-		c.ChaikinMoneyFlow.IdlePeriod(),
-	)
-
-	highs := asset.SnapshotsAsHighs(snapshotsSplice[1])
-	lows := asset.SnapshotsAsLows(snapshotsSplice[2])
-	closingsSplice := helper.Duplicate(
-		asset.SnapshotsAsClosings(snapshotsSplice[3]),
-		2,
-	)
-	volumes := asset.SnapshotsAsVolumes(snapshotsSplice[4])
-
-	cmfs := c.ChaikinMoneyFlow.Compute(highs, lows, closingsSplice[0], volumes)
-	closingsSplice[1] = helper.Skip(closingsSplice[1], c.ChaikinMoneyFlow.IdlePeriod())
-
-	actions, outcomes := strategy.ComputeWithOutcome(c, snapshotsSplice[5])
-	actions = helper.Skip(actions, c.ChaikinMoneyFlow.IdlePeriod())
-	outcomes = helper.Skip(outcomes, c.ChaikinMoneyFlow.IdlePeriod())
-
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	report := helper.NewReport(c.Name(), dates)
-	report.AddChart()
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closingsSplice[1]))
-	report.AddColumn(helper.NewNumericReportColumn("Chaikin Money Flow", cmfs), 1)
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations), 0, 1)
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 2)
-
-	return report
+	return nil
 }

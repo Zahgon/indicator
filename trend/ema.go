@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -35,52 +33,18 @@ type Ema[T helper.Number] struct {
 }
 
 // NewEma function initializes a new EMA instance with the default parameters.
-func NewEma[T helper.Number]() *Ema[T] {
-	return &Ema[T]{
-		Period:    DefaultEmaPeriod,
-		Smoothing: DefaultEmaSmoothing,
-	}
-}
+func NewEma[T helper.Number]() *Ema[T] { _ = "STUB: not implemented"; return nil }
 
 // NewEmaWithPeriod function initializes a new EMA instance with the given period.
-func NewEmaWithPeriod[T helper.Number](period int) *Ema[T] {
-	ema := NewEma[T]()
-	ema.Period = period
-
-	return ema
-}
+func NewEmaWithPeriod[T helper.Number](period int) *Ema[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the EMA over the specified period.
-func (e *Ema[T]) Compute(c <-chan T) <-chan T {
-	result := make(chan T, cap(c))
+func (e *Ema[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	go func() {
-		defer close(result)
-
-		// Initial EMA value is the SMA.
-		sma := NewSma[T]()
-		sma.Period = e.Period
-
-		before := <-sma.Compute(helper.Head(c, e.Period))
-		result <- before
-
-		multiplier := e.Smoothing / T(e.Period+1)
-
-		for n := range c {
-			before = (n-before)*multiplier + before
-			result <- before
-		}
-	}()
-
-	return result
-}
+// Initial EMA value is the SMA.
 
 // IdlePeriod is the initial period that EMA yield any results.
-func (e *Ema[T]) IdlePeriod() int {
-	return e.Period - 1
-}
+func (e *Ema[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the EMA.
-func (e *Ema[T]) String() string {
-	return fmt.Sprintf("EMA(%d)", e.Period)
-}
+func (e *Ema[T]) String() string { _ = "STUB: not implemented"; return "" }

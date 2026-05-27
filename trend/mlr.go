@@ -22,32 +22,10 @@ type Mlr[T helper.Number] struct {
 }
 
 // NewMlrWithPeriod function initializes a new MLR instance with the given period.
-func NewMlrWithPeriod[T helper.Number](period int) *Mlr[T] {
-	return &Mlr[T]{
-		Mls: NewMlsWithPeriod[T](period),
-	}
-}
+func NewMlrWithPeriod[T helper.Number](period int) *Mlr[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the MLR r.
-func (m *Mlr[T]) Compute(x, y <-chan T) <-chan T {
-	xSplice := helper.Duplicate(x, 2)
-
-	ms, bs := m.Mls.Compute(xSplice[0], y)
-
-	xSplice[1] = helper.Skip(xSplice[1], m.Mls.IdlePeriod())
-
-	r := helper.Add(
-		helper.Multiply(
-			ms,
-			xSplice[1],
-		),
-		bs,
-	)
-
-	return r
-}
+func (m *Mlr[T]) Compute(x, y <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that MLR won't yield any results.
-func (m *Mlr[T]) IdlePeriod() int {
-	return m.Mls.IdlePeriod()
-}
+func (m *Mlr[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

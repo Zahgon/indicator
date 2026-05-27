@@ -21,26 +21,4 @@ package trend
 import "github.com/cinar/indicator/v2/strategy"
 
 // AllStrategies returns a slice containing references to all available trend strategies.
-func AllStrategies() []strategy.Strategy {
-	return []strategy.Strategy{
-		NewAlligatorStrategy(),
-		NewApoStrategy(),
-		NewAroonStrategy(),
-		NewBopStrategy(),
-		NewCciStrategy(),
-		NewCfoStrategy(),
-		NewDemaStrategy(),
-		NewGoldenCrossStrategy(),
-		NewHmaStrategy(),
-		NewKamaStrategy(),
-		NewKdjStrategy(),
-		NewMacdStrategy(),
-		NewQstickStrategy(),
-		NewSmmaStrategy(),
-		NewTrimaStrategy(),
-		NewTripleMovingAverageCrossoverStrategy(),
-		NewTsiStrategy(),
-		NewVwmaStrategy(),
-		NewWeightedCloseStrategy(),
-	}
-}
+func AllStrategies() []strategy.Strategy { _ = "STUB: not implemented"; return nil }

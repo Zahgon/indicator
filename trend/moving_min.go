@@ -16,35 +16,17 @@ type MovingMin[T helper.Number] struct {
 }
 
 // NewMovingMin function initializes a new Moving Min instance with the default parameters.
-func NewMovingMin[T helper.Number]() *MovingMin[T] {
-	return &MovingMin[T]{}
-}
+func NewMovingMin[T helper.Number]() *MovingMin[T] { _ = "STUB: not implemented"; return nil }
 
 // NewMovingMinWithPeriod function initializes a new Moving Min instance with the given period.
 func NewMovingMinWithPeriod[T helper.Number](period int) *MovingMin[T] {
-	return &MovingMin[T]{
-		Period: period,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the
 // Moving Min over the specified period.
-func (m *MovingMin[T]) Compute(c <-chan T) <-chan T {
-	cs := helper.Duplicate(c, 2)
-	cs[1] = helper.Shift(cs[1], m.Period, 0)
-
-	bst := helper.NewBst[T]()
-
-	mins := helper.Operate(cs[0], cs[1], func(c, b T) T {
-		bst.Insert(c)
-		bst.Remove(b)
-		return bst.Min()
-	})
-
-	return helper.Skip(mins, m.Period-1)
-}
+func (m *MovingMin[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that Mocing Min won't yield any results.
-func (m *MovingMin[T]) IdlePeriod() int {
-	return m.Period - 1
-}
+func (m *MovingMin[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

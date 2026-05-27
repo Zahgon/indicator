@@ -36,54 +36,20 @@ type Stochastic[T helper.Number] struct {
 }
 
 // NewStochastic function initializes a new Stochastic instance with the default parameters.
-func NewStochastic[T helper.Number]() *Stochastic[T] {
-	return NewStochasticWithPeriod[T](DefaultStochasticPeriod)
-}
+func NewStochastic[T helper.Number]() *Stochastic[T] { _ = "STUB: not implemented"; return nil }
 
 // NewStochasticWithPeriod function initializes a new Stochastic instance with the given period.
 func NewStochasticWithPeriod[T helper.Number](period int) *Stochastic[T] {
-	return &Stochastic[T]{
-		Period: period,
-		Sma:    NewSmaWithPeriod[T](DefaultStochasticSmaPeriod),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Stochastic indicator.
 // Returns %K and %D.
 func (s *Stochastic[T]) Compute(values <-chan T) (<-chan T, <-chan T) {
-	movingMin := NewMovingMinWithPeriod[T](s.Period)
-	movingMax := NewMovingMaxWithPeriod[T](s.Period)
-
-	values = helper.Buffered(values, s.Period)
-	inputs := helper.Duplicate(values, 3)
-
-	lowestSplice := helper.Duplicate(
-		movingMin.Compute(inputs[0]),
-		2,
-	)
-
-	highest := movingMax.Compute(inputs[1])
-
-	skipped := helper.Skip(inputs[2], movingMin.IdlePeriod())
-
-	kSplice := helper.Duplicate(
-		helper.MultiplyBy(
-			helper.Divide(
-				helper.Subtract(skipped, lowestSplice[0]),
-				helper.Subtract(highest, lowestSplice[1]),
-			),
-			100,
-		),
-		2,
-	)
-
-	d := s.Sma.Compute(kSplice[0])
-	kSplice[1] = helper.Skip(kSplice[1], s.Sma.IdlePeriod())
-
-	return kSplice[1], d
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // IdlePeriod is the initial period that Stochastic won't yield any results.
-func (s *Stochastic[T]) IdlePeriod() int {
-	return s.Period + s.Sma.Period - 2
-}
+func (s *Stochastic[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

@@ -14,16 +14,4 @@ package helper
 //	timesTwo := helper.Apply(c, func(n int) int {
 //		return n * 2
 //	})
-func Apply[T Number](c <-chan T, f func(T) T) <-chan T {
-	ac := make(chan T)
-
-	go func() {
-		defer close(ac)
-
-		for n := range c {
-			ac <- f(n)
-		}
-	}()
-
-	return ac
-}
+func Apply[T Number](c <-chan T, f func(T) T) <-chan T { _ = "STUB: not implemented"; return nil }

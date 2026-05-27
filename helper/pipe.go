@@ -13,9 +13,4 @@ package helper
 //	output := make(chan int)
 //	helper.Pipe(input, output)
 //	fmt.println(helper.ChanToSlice(output)) // [2, 4, 6, 8]
-func Pipe[T any](f <-chan T, t chan<- T) {
-	defer close(t)
-	for n := range f {
-		t <- n
-	}
-}
+func Pipe[T any](f <-chan T, t chan<- T) { _ = "STUB: not implemented"; return }

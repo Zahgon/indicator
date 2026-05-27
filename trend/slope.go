@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -27,33 +25,23 @@ type Slope[T helper.Number] struct {
 }
 
 // NewSlope function initializes a new Slope instance with the default parameters.
-func NewSlope[T helper.Number]() *Slope[T] {
-	return NewSlopeWithPeriod[T](DefaultSlopePeriod)
-}
+func NewSlope[T helper.Number]() *Slope[T] { _ = "STUB: not implemented"; return nil }
 
 // NewSlopeWithPeriod function initializes a new Slope instance with the given parameters.
 func NewSlopeWithPeriod[T helper.Number](period int) *Slope[T] {
-	if period <= 0 {
-		period = DefaultSlopePeriod
-	}
-
-	return &Slope[T]{
-		Period: period,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Slope.
-func (s *Slope[T]) Compute(values <-chan T) <-chan T {
-	return helper.DivideBy(helper.Change(values, s.Period), T(s.Period))
-}
+func (s *Slope[T]) Compute(values <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that Slope won't yield any results.
 func (s *Slope[T]) IdlePeriod() int {
-	return s.Period
+	_ = "STUB: not implemented"
+
+	// String is the string representation of the Slope.
+	return 0
 }
 
-// String is the string representation of the Slope.
-func (s *Slope[T]) String() string {
-	return fmt.Sprintf("SLOPE(%d)", s.Period)
-}
-
+func (s *Slope[T]) String() string { _ = "STUB: not implemented"; return "" }

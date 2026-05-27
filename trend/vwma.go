@@ -24,28 +24,10 @@ type Vwma[T helper.Number] struct {
 }
 
 // NewVwma function initializes a new VWMA instance with the default parameters.
-func NewVwma[T helper.Number]() *Vwma[T] {
-	return &Vwma[T]{
-		Period: DefaultVwmaPeriod,
-	}
-}
+func NewVwma[T helper.Number]() *Vwma[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the VWMA and the signal line.
-func (v *Vwma[T]) Compute(closing, volume <-chan T) <-chan T {
-	volumes := helper.Duplicate(volume, 2)
-
-	sum := NewMovingSum[T]()
-	sum.Period = v.Period
-
-	return helper.Divide(
-		sum.Compute(
-			helper.Multiply(closing, volumes[0]),
-		),
-		sum.Compute(volumes[1]),
-	)
-}
+func (v *Vwma[T]) Compute(closing, volume <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that VWMA won't yield any results.
-func (v *Vwma[T]) IdlePeriod() int {
-	return v.Period - 1
-}
+func (v *Vwma[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

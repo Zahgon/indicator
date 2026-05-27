@@ -19,50 +19,22 @@ type KeltnerChannelStrategy struct {
 }
 
 // NewKeltnerChannelStrategy function initializes a new Keltner Channel strategy instance.
-func NewKeltnerChannelStrategy() *KeltnerChannelStrategy {
-	return &KeltnerChannelStrategy{
-		KeltnerChannel: volatility.NewKeltnerChannel[float64](),
-	}
-}
+func NewKeltnerChannelStrategy() *KeltnerChannelStrategy { _ = "STUB: not implemented"; return nil }
 
 // Name returns the name of the strategy.
-func (*KeltnerChannelStrategy) Name() string {
-	return "Keltner Channel Strategy"
-}
+func (*KeltnerChannelStrategy) Name() string { _ = "STUB: not implemented"; return "" }
 
 // Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (k *KeltnerChannelStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan strategy.Action {
-	snapshotsSplice := helper.Duplicate(snapshots, 4)
-
-	highs := asset.SnapshotsAsHighs(snapshotsSplice[0])
-	lows := asset.SnapshotsAsLows(snapshotsSplice[1])
-	closings := asset.SnapshotsAsClosings(snapshotsSplice[2])
-
-	uppers, middles, lowers := k.KeltnerChannel.Compute(highs, lows, closings)
-	go helper.Drain(middles)
-
-	closings2 := helper.Skip(asset.SnapshotsAsClosings(snapshotsSplice[3]), k.KeltnerChannel.IdlePeriod())
-
-	actions := helper.Operate3(uppers, lowers, closings2, func(upper, lower, closing float64) strategy.Action {
-		if closing > upper {
-			return strategy.Sell
-		}
-
-		if closing < lower {
-			return strategy.Buy
-		}
-
-		return strategy.Hold
-	})
-
-	// Keltner Channel starts only after a full period.
-	actions = helper.Shift(actions, k.KeltnerChannel.IdlePeriod(), strategy.Hold)
-
-	return actions
+	_ = "STUB: not implemented"
+	return nil
 }
+
+// Keltner Channel starts only after a full period.
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (k *KeltnerChannelStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
+	_ = "STUB: not implemented"
 	//
 	// snapshots[0] -> dates
 	// snapshots[1] -> highs   -|
@@ -72,32 +44,5 @@ func (k *KeltnerChannelStrategy) Report(c <-chan *asset.Snapshot) *helper.Report
 	// snapshots[4] -> actions  -> annotations
 	//              -> outcomes
 	//
-	snapshots := helper.Duplicate(c, 5)
-
-	dates := asset.SnapshotsAsDates(snapshots[0])
-	highs := asset.SnapshotsAsHighs(snapshots[1])
-	lows := asset.SnapshotsAsLows(snapshots[2])
-	closings := helper.Duplicate(asset.SnapshotsAsClosings(snapshots[3]), 2)
-
-	uppers, middles, lowers := k.KeltnerChannel.Compute(highs, lows, closings[0])
-	uppers = helper.Shift(uppers, k.KeltnerChannel.IdlePeriod(), 0)
-	middles = helper.Shift(middles, k.KeltnerChannel.IdlePeriod(), 0)
-	lowers = helper.Shift(lowers, k.KeltnerChannel.IdlePeriod(), 0)
-
-	actions, outcomes := strategy.ComputeWithOutcome(k, snapshots[4])
-	annotations := strategy.ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	report := helper.NewReport(k.Name(), dates)
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closings[1]))
-	report.AddColumn(helper.NewNumericReportColumn("Upper", uppers))
-	report.AddColumn(helper.NewNumericReportColumn("Middle", middles))
-	report.AddColumn(helper.NewNumericReportColumn("Lower", lowers))
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations))
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 1)
-
-	return report
+	return nil
 }

@@ -5,11 +5,8 @@
 package helper
 
 import (
-	"math"
 	"time"
 )
 
 // DaysBetween calculates the days between the given two times.
-func DaysBetween(from, to time.Time) int {
-	return int(math.Floor(to.Sub(from).Hours() / 24))
-}
+func DaysBetween(from, to time.Time) int { _ = "STUB: not implemented"; return 0 }

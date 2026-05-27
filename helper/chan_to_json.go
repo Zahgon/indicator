@@ -5,7 +5,6 @@
 package helper
 
 import (
-	"encoding/json"
 	"io"
 )
 
@@ -20,36 +19,4 @@ import (
 //
 //	fmt.Println(buffer.String())
 //	// Output: [2,4,6,8,9]
-func ChanToJSON[T any](c <-chan T, w io.Writer) error {
-	first := true
-
-	_, err := w.Write([]byte{'['})
-	if err != nil {
-		return err
-	}
-
-	for n := range c {
-		if !first {
-			_, err = w.Write([]byte{','})
-			if err != nil {
-				return err
-			}
-		} else {
-			first = false
-		}
-
-		encoded, err := json.Marshal(n)
-		if err != nil {
-			return err
-		}
-
-		_, err = w.Write(encoded)
-		if err != nil {
-			return err
-		}
-	}
-
-	_, err = w.Write([]byte{']'})
-
-	return err
-}
+func ChanToJSON[T any](c <-chan T, w io.Writer) error { _ = "STUB: not implemented"; return nil }

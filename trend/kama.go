@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -47,99 +45,33 @@ type Kama[T helper.Number] struct {
 }
 
 // NewKama function initializes a new KAMA instance with the default parameters.
-func NewKama[T helper.Number]() *Kama[T] {
-	return NewKamaWith[T](
-		DefaultKamaErPeriod,
-		DefaultKamaFastScPeriod,
-		DefaultKamaSlowScPeriod,
-	)
-}
+func NewKama[T helper.Number]() *Kama[T] { _ = "STUB: not implemented"; return nil }
 
 // NewKamaWith function initializes a new KAMA instance with the given parameters.
 func NewKamaWith[T helper.Number](erPeriod, fastScPeriod, slowScPeriod int) *Kama[T] {
-	return &Kama[T]{
-		ErPeriod:     erPeriod,
-		FastScPeriod: fastScPeriod,
-		SlowScPeriod: slowScPeriod,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the KAMA over the specified period.
-func (k *Kama[T]) Compute(closings <-chan T) <-chan T {
-	closingsSplice := helper.Duplicate(closings, 3)
+func (k *Kama[T]) Compute(closings <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	//	Direction = Abs(Close - Previous Close Period Ago)
-	directions := helper.Abs(
-		helper.Change(closingsSplice[0], k.ErPeriod),
-	)
+//	Direction = Abs(Close - Previous Close Period Ago)
 
-	//	Volatility = MovingSum(Period, Abs(Close - Previous Close))
-	movingSum := NewMovingSumWithPeriod[T](k.ErPeriod)
-	volatilitys := movingSum.Compute(
-		helper.Abs(
-			helper.Change(closingsSplice[1], 1),
-		),
-	)
+//	Volatility = MovingSum(Period, Abs(Close - Previous Close))
 
-	//	Efficiency Ratio (ER) = Direction / Volatility
-	ers := helper.Divide(directions, volatilitys)
+//	Efficiency Ratio (ER) = Direction / Volatility
 
-	//	Smoothing Constant (SC) = (ER * (2/(Slow + 1) - 2/(Fast + 1)) + (2/(Slow + 1)))^2
-	fastSc := T(2.0) / T(k.FastScPeriod+1)
-	slowSc := T(2.0) / T(k.SlowScPeriod+1)
+//	Smoothing Constant (SC) = (ER * (2/(Slow + 1) - 2/(Fast + 1)) + (2/(Slow + 1)))^2
 
-	scs := helper.Pow(
-		helper.IncrementBy(
-			helper.MultiplyBy(
-				ers,
-				fastSc-slowSc,
-			),
-			slowSc,
-		),
-		2,
-	)
-
-	//	KAMA = Previous KAMA + SC * (Price - Previous KAMA)
-	closingsSplice[2] = helper.Skip(closingsSplice[2], k.ErPeriod-1)
-
-	kama := make(chan T)
-
-	go func() {
-		defer close(kama)
-		defer helper.Drain(scs)
-		defer helper.Drain(closingsSplice[2])
-
-		prevKama, ok := <-closingsSplice[2]
-		if !ok {
-			return
-		}
-
-		for {
-			closing, ok := <-closingsSplice[2]
-			if !ok {
-				break
-			}
-
-			sc := <-scs
-
-			prevKama = prevKama + sc*(closing-prevKama)
-			kama <- prevKama
-		}
-	}()
-
-	return kama
-}
+//	KAMA = Previous KAMA + SC * (Price - Previous KAMA)
 
 // IdlePeriod is the initial period that KAMA yield any results.
 func (k *Kama[T]) IdlePeriod() int {
-	return k.ErPeriod
+	_ = "STUB: not implemented"
+
+	// String is the string representation of the KAMA.
+	return 0
 }
 
-// String is the string representation of the KAMA.
-func (k *Kama[T]) String() string {
-	return fmt.Sprintf("KAMA(%d,%d,%d)",
-		k.ErPeriod,
-		k.FastScPeriod,
-		k.SlowScPeriod,
-	)
-}
+func (k *Kama[T]) String() string { _ = "STUB: not implemented"; return "" }

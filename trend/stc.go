@@ -61,80 +61,16 @@ type Stc[T helper.Number] struct {
 }
 
 // NewStc function initializes a new STC instance with the default parameters.
-func NewStc[T helper.Number]() *Stc[T] {
-	return NewStcWithPeriod[T](
-		DefaultStcFastPeriod,
-		DefaultStcSlowPeriod,
-		DefaultStcKPeriod,
-		DefaultStcDPeriod,
-	)
-}
+func NewStc[T helper.Number]() *Stc[T] { _ = "STUB: not implemented"; return nil }
 
 // NewStcWithPeriod function initializes a new STC instance with the given periods.
 func NewStcWithPeriod[T helper.Number](fastPeriod, slowPeriod, kPeriod, dPeriod int) *Stc[T] {
-	apo := NewApo[T]()
-	apo.FastPeriod = fastPeriod
-	apo.SlowPeriod = slowPeriod
-
-	stochastic := NewStochasticWithPeriod[T](kPeriod)
-	stochastic.Sma.Period = dPeriod
-
-	return &Stc[T]{
-		FastPeriod: fastPeriod,
-		SlowPeriod: slowPeriod,
-		KPeriod:    kPeriod,
-		DPeriod:    dPeriod,
-		Apo:        apo,
-		Stochastic: stochastic,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the STC indicator.
-func (s *Stc[T]) Compute(c <-chan T) <-chan T {
-	c = helper.Buffered(c, s.SlowPeriod)
-	macd := s.Apo.Compute(c)
-
-	macd = helper.Buffered(macd, s.Stochastic.Period)
-	inputs := helper.Duplicate(macd, 4)
-
-	movingMin := NewMovingMinWithPeriod[T](s.Stochastic.Period)
-	movingMax := NewMovingMaxWithPeriod[T](s.Stochastic.Period)
-
-	lowestSplice := helper.Duplicate(
-		movingMin.Compute(inputs[0]),
-		2,
-	)
-
-	highest := movingMax.Compute(inputs[1])
-
-	skipped := helper.Skip(inputs[2], movingMin.IdlePeriod())
-
-	kValues := helper.MultiplyBy(
-		helper.Divide(
-			helper.Subtract(skipped, lowestSplice[0]),
-			helper.Subtract(highest, lowestSplice[1]),
-		),
-		100,
-	)
-
-	kDuplicate := helper.Duplicate(kValues, 2)
-
-	d := s.Stochastic.Sma.Compute(kDuplicate[0])
-
-	kValues = helper.Skip(kDuplicate[1], s.Stochastic.Sma.IdlePeriod())
-
-	macdForStc := helper.Skip(inputs[3], s.Stochastic.IdlePeriod())
-
-	return helper.MultiplyBy(
-		helper.Divide(
-			helper.Subtract(macdForStc, kValues),
-			helper.Subtract(d, kValues),
-		),
-		100,
-	)
-}
+func (s *Stc[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that STC won't yield any results.
-func (s *Stc[T]) IdlePeriod() int {
-	return s.Apo.IdlePeriod() + s.Stochastic.IdlePeriod()
-}
+func (s *Stc[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

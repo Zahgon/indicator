@@ -5,8 +5,6 @@
 package volatility
 
 import (
-	"math"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -23,26 +21,20 @@ import (
 type TrueRange[T helper.Number] struct{}
 
 // NewTrueRange function initializes a new TrueRange instance.
-func NewTrueRange[T helper.Number]() *TrueRange[T] {
-	return &TrueRange[T]{}
-}
+func NewTrueRange[T helper.Number]() *TrueRange[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes channels of highs, lows, and closings and computes the True Range.
 func (tr *TrueRange[T]) Compute(highs, lows, closings <-chan T) <-chan T {
-	highs = helper.Skip(highs, 1)
-	lows = helper.Skip(lows, 1)
-
-	return helper.Operate3(highs, lows, closings, func(high, low, closing T) T {
-		return T(math.Max(float64(high-low), math.Max(float64(high-closing), float64(closing-low))))
-	})
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that TrueRange won't yield any results.
 func (tr *TrueRange[T]) IdlePeriod() int {
-	return 1
+	_ = "STUB: not implemented"
+
+	// String is the string representation of the TrueRange.
+	return 0
 }
 
-// String is the string representation of the TrueRange.
-func (tr *TrueRange[T]) String() string {
-	return "TR"
-}
+func (tr *TrueRange[T]) String() string { _ = "STUB: not implemented"; return "" }

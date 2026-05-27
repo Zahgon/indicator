@@ -13,21 +13,4 @@ package helper
 //	c := helper.SliceToChan([]int{2, 4, 6, 8})
 //	actual := helper.Head(c, 2)
 //	fmt.Println(helper.ChanToSlice(actual)) // [2, 4]
-func Head[T Number](c <-chan T, count int) <-chan T {
-	result := make(chan T, cap(c))
-
-	go func() {
-		defer close(result)
-
-		for i := 0; i < count; i++ {
-			n, ok := <-c
-			if !ok {
-				break
-			}
-
-			result <- n
-		}
-	}()
-
-	return result
-}
+func Head[T Number](c <-chan T, count int) <-chan T { _ = "STUB: not implemented"; return nil }

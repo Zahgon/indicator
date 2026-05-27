@@ -55,34 +55,11 @@ type Apo[T helper.Number] struct {
 
 // NewApo function initializes a new APO instance
 // with the default parameters.
-func NewApo[T helper.Number]() *Apo[T] {
-	return &Apo[T]{
-		FastPeriod:    DefaultApoFastPeriod,
-		FastSmoothing: DefaultApoFastSmoothing,
-		SlowPeriod:    DefaultApoSlowPeriod,
-		SlowSmoothing: DefaultApoSlowSmoothing,
-	}
-}
+func NewApo[T helper.Number]() *Apo[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the APO
 // over the specified period.
-func (apo *Apo[T]) Compute(c <-chan T) <-chan T {
-	c = helper.Buffered(c, apo.SlowPeriod)
-	cs := helper.Duplicate(c, 2)
-
-	fastEma := NewEma[T]()
-	fastEma.Period = apo.FastPeriod
-	cs[0] = fastEma.Compute(cs[0])
-	cs[0] = helper.Skip(cs[0], apo.SlowPeriod-apo.FastPeriod)
-
-	slowEma := NewEma[T]()
-	slowEma.Period = apo.SlowPeriod
-	cs[1] = slowEma.Compute(cs[1])
-
-	return helper.Subtract(cs[0], cs[1])
-}
+func (apo *Apo[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that APO won't yield any results.
-func (apo *Apo[T]) IdlePeriod() int {
-	return apo.SlowPeriod - 1
-}
+func (apo *Apo[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

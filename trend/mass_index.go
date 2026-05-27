@@ -37,39 +37,13 @@ type MassIndex[T helper.Number] struct {
 
 // NewMassIndex function initializes a new APO instance
 // with the default parameters.
-func NewMassIndex[T helper.Number]() *MassIndex[T] {
-	mi := &MassIndex[T]{
-		Ema1:      NewEma[T](),
-		Ema2:      NewEma[T](),
-		MovingSum: NewMovingSum[T](),
-	}
-
-	mi.Ema1.Period = DefaultMassIndexPeriod1
-	mi.Ema2.Period = DefaultMassIndexPeriod2
-	mi.MovingSum.Period = DefaultMassIndexPeriod3
-
-	return mi
-}
+func NewMassIndex[T helper.Number]() *MassIndex[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Mass Index.
 func (m *MassIndex[T]) Compute(highs, lows <-chan T) <-chan T {
-	ema1 := helper.Duplicate(
-		m.Ema1.Compute(
-			helper.Subtract(highs, lows),
-		),
-		2,
-	)
-
-	ema2 := m.Ema2.Compute(ema1[0])
-	ema1[1] = helper.Skip(ema1[1], m.Ema2.Period-1)
-
-	ratio := helper.Divide(ema1[1], ema2)
-	mi := m.MovingSum.Compute(ratio)
-
-	return mi
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // IdlePeriod is the initial period that Mass Index won't yield any results.
-func (m *MassIndex[T]) IdlePeriod() int {
-	return m.Ema1.Period + m.Ema2.Period + m.MovingSum.Period - 3
-}
+func (m *MassIndex[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

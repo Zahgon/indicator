@@ -4,10 +4,6 @@
 
 package asset
 
-import (
-	"fmt"
-)
-
 const (
 	// InMemoryRepositoryBuilderName is the name for the in memory repository builder.
 	InMemoryRepositoryBuilderName = "memory"
@@ -31,30 +27,30 @@ var repositoryBuilders = map[string]RepositoryBuilderFunc{
 
 // RegisterRepositoryBuilder registers the given builder.
 func RegisterRepositoryBuilder(name string, builder RepositoryBuilderFunc) {
-	repositoryBuilders[name] = builder
+	_ = "STUB: not implemented"
+	return
 }
 
 // NewRepository builds a new repository by the given name type and the configuration.
 func NewRepository(name, config string) (Repository, error) {
-	builder, ok := repositoryBuilders[name]
-	if !ok {
-		return nil, fmt.Errorf("unknown repository: %s", name)
-	}
-
-	return builder(config)
+	_ = "STUB: not implemented"
+	return *new(Repository), nil
 }
 
 // inMemoryRepositoryBuilder builds a new in memory repository instance.
 func inMemoryRepositoryBuilder(_ string) (Repository, error) {
-	return NewInMemoryRepository(), nil
+	_ = "STUB: not implemented"
+	return *new(Repository), nil
 }
 
 // fileSystemRepositoryBuilder builds a new file system repository instance.
 func fileSystemRepositoryBuilder(config string) (Repository, error) {
-	return NewFileSystemRepository(config), nil
+	_ = "STUB: not implemented"
+	return *new(Repository), nil
 }
 
 // tiingoRepositoryBuilder builds a new Tiingo repository instance.
 func tiingoRepositoryBuilder(config string) (Repository, error) {
-	return NewTiingoRepository(config), nil
+	_ = "STUB: not implemented"
+	return *new(Repository), nil
 }

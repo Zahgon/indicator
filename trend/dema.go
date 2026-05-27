@@ -31,26 +31,11 @@ type Dema[T helper.Number] struct {
 
 // NewDema function initializes a new DEMA instance
 // with the default parameters.
-func NewDema[T helper.Number]() *Dema[T] {
-	return &Dema[T]{
-		Ema1: NewEma[T](),
-		Ema2: NewEma[T](),
-	}
-}
+func NewDema[T helper.Number]() *Dema[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the DEMA
 // over the specified period.
-func (d *Dema[T]) Compute(c <-chan T) <-chan T {
-	ema1 := helper.Duplicate(d.Ema1.Compute(c), 2)
-	ema2 := d.Ema2.Compute(ema1[1])
-
-	doubleEma1 := helper.MultiplyBy(ema1[0], 2)
-	doubleEma1 = helper.Buffered(doubleEma1, d.Ema2.Period)
-
-	return helper.Subtract(doubleEma1, ema2)
-}
+func (d *Dema[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that DEMA won't yield any results.
-func (d *Dema[T]) IdlePeriod() int {
-	return d.Ema1.Period + d.Ema2.Period - 2
-}
+func (d *Dema[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

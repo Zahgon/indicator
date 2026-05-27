@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -38,64 +36,29 @@ type Tsi[T helper.Number] struct {
 }
 
 // NewTsi function initializes a new TSI instance with the default parameters.
-func NewTsi[T helper.Number]() *Tsi[T] {
-	return NewTsiWith[T](
-		DefaultTsiFirstSmoothingPeriod,
-		DefaultTsiSecondSmoothingPeriod,
-	)
-}
+func NewTsi[T helper.Number]() *Tsi[T] { _ = "STUB: not implemented"; return nil }
 
 // NewTsiWith function initializes a new TSI instance with the given parameters.
 func NewTsiWith[T helper.Number](firstSmoothingPeriod, secondSmoothingPeriod int) *Tsi[T] {
-	return &Tsi[T]{
-		FirstSmoothing:  NewEmaWithPeriod[T](firstSmoothingPeriod),
-		SecondSmoothing: NewEmaWithPeriod[T](secondSmoothingPeriod),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the TSI over the specified period.
 func (t *Tsi[T]) Compute(closings <-chan T) <-chan T {
+	_ = "STUB: not implemented"
 	// Price change
-	pcsSplice := helper.Duplicate(
-		helper.Change(closings, 1),
-		2,
-	)
-
-	//	PCDS = Ema(13, Ema(25, (Current - Prior)))
-	pcds := t.FirstSmoothing.Compute(
-		t.SecondSmoothing.Compute(
-			pcsSplice[0],
-		),
-	)
-
-	// APCDS = Ema(13, Ema(25, Abs(Current - Prior)))
-	apcds := t.FirstSmoothing.Compute(
-		t.SecondSmoothing.Compute(
-			helper.Abs(pcsSplice[1]),
-		),
-	)
-
-	// TSI = (PCDS / APCDS) * 100
-	tsi := helper.MultiplyBy(
-		helper.Divide(
-			pcds,
-			apcds,
-		),
-		T(100),
-	)
-
-	return tsi
+	return nil
 }
+
+//	PCDS = Ema(13, Ema(25, (Current - Prior)))
+
+// APCDS = Ema(13, Ema(25, Abs(Current - Prior)))
+
+// TSI = (PCDS / APCDS) * 100
 
 // IdlePeriod is the initial period that TSI yield any results.
-func (t *Tsi[T]) IdlePeriod() int {
-	return t.FirstSmoothing.IdlePeriod() + t.SecondSmoothing.IdlePeriod() + 1
-}
+func (t *Tsi[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the TSI.
-func (t *Tsi[T]) String() string {
-	return fmt.Sprintf("TSI(%s,%s)",
-		t.FirstSmoothing.String(),
-		t.SecondSmoothing.String(),
-	)
-}
+func (t *Tsi[T]) String() string { _ = "STUB: not implemented"; return "" }

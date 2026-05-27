@@ -16,12 +16,4 @@ package helper
 //	close(c)
 //
 //	fmt.Println(helper.ChanToSlice(c)) // [1, 2, 3, 4]
-func ChanToSlice[T any](c <-chan T) []T {
-	var slice []T
-
-	for n := range c {
-		slice = append(slice, n)
-	}
-
-	return slice
-}
+func ChanToSlice[T any](c <-chan T) []T { _ = "STUB: not implemented"; return nil }

@@ -13,8 +13,4 @@ package helper
 //	input := helper.SliceToChan([]int{1, 2, 3, 4})
 //	substractOne := helper.DecrementBy(input, 1)
 //	fmt.Println(helper.ChanToSlice(substractOne)) // [0, 1, 2, 3]
-func DecrementBy[T Number](c <-chan T, d T) <-chan T {
-	return Apply(c, func(n T) T {
-		return n - d
-	})
-}
+func DecrementBy[T Number](c <-chan T, d T) <-chan T { _ = "STUB: not implemented"; return nil }

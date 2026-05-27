@@ -44,59 +44,20 @@ type Pvo[T helper.Number] struct {
 }
 
 // NewPvo function initializes a new Percentage Volume Oscillator instance.
-func NewPvo[T helper.Number]() *Pvo[T] {
-	return &Pvo[T]{
-		ShortEma:  trend.NewEmaWithPeriod[T](DefaultPvoShortPeriod),
-		LongEma:   trend.NewEmaWithPeriod[T](DefaultPvoLongPeriod),
-		SignalEma: trend.NewEmaWithPeriod[T](DefaultPvoSignalPeriod),
-	}
-}
+func NewPvo[T helper.Number]() *Pvo[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the Percentage Volume Oscillator.
 // Returns pvo, signal, histogram.
 func (p *Pvo[T]) Compute(volumes <-chan T) (<-chan T, <-chan T, <-chan T) {
-	volumesSplice := helper.Duplicate(
-		volumes,
-		2,
-	)
-
-	shortEma := p.ShortEma.Compute(volumesSplice[0])
-
-	longEmaSplice := helper.Duplicate(
-		p.LongEma.Compute(volumesSplice[1]),
-		2,
-	)
-
-	shortEma = helper.Skip(shortEma, p.LongEma.IdlePeriod()-p.ShortEma.IdlePeriod())
-
-	//	PVO = ((EMA(shortPeriod, prices) - EMA(longPeriod, prices)) / EMA(longPeriod, prices)) * 100
-	pvoSplice := helper.Duplicate(
-		helper.MultiplyBy(
-			helper.Divide(
-				helper.Subtract(shortEma, longEmaSplice[0]),
-				longEmaSplice[1],
-			),
-			100,
-		),
-		3,
-	)
-
-	//	Signal = EMA(9, PVO)
-	signalSplice := helper.Duplicate(
-		p.SignalEma.Compute(pvoSplice[0]),
-		2,
-	)
-
-	pvoSplice[1] = helper.Skip(pvoSplice[1], p.SignalEma.IdlePeriod())
-	pvoSplice[2] = helper.Skip(pvoSplice[2], p.SignalEma.IdlePeriod())
-
-	//	Histogram = PVO - Signal
-	histogram := helper.Subtract(pvoSplice[1], signalSplice[0])
-
-	return pvoSplice[2], signalSplice[1], histogram
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
+
+//	PVO = ((EMA(shortPeriod, prices) - EMA(longPeriod, prices)) / EMA(longPeriod, prices)) * 100
+
+//	Signal = EMA(9, PVO)
+
+//	Histogram = PVO - Signal
 
 // IdlePeriod is the initial period that Percentage Volume Oscillator won't yield any results.
-func (p *Pvo[T]) IdlePeriod() int {
-	return p.LongEma.IdlePeriod() + p.SignalEma.IdlePeriod()
-}
+func (p *Pvo[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

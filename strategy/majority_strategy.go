@@ -19,69 +19,29 @@ type MajorityStrategy struct {
 }
 
 // NewMajorityStrategy function initializes an empty majority strategies group with the given name.
-func NewMajorityStrategy(name string) *MajorityStrategy {
-	return NewMajorityStrategyWith(name, []Strategy{})
-}
+func NewMajorityStrategy(name string) *MajorityStrategy { _ = "STUB: not implemented"; return nil }
 
 // NewMajorityStrategyWith function initializes a majority strategies group with the given name and strategies.
 func NewMajorityStrategyWith(name string, strategies []Strategy) *MajorityStrategy {
-	return &MajorityStrategy{
-		Strategies: strategies,
-		name:       name,
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Name returns the name of the strategy.
 func (a *MajorityStrategy) Name() string {
-	return a.name
+	_ = "STUB: not implemented"
+
+	// Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
+	return ""
 }
 
-// Compute processes the provided asset snapshots and generates a stream of actionable recommendations.
 func (a *MajorityStrategy) Compute(snapshots <-chan *asset.Snapshot) <-chan Action {
-	result := make(chan Action)
-
-	sources := ActionSources(a.Strategies, snapshots)
-
-	go func() {
-		defer close(result)
-
-		for {
-			buy, hold, sell, ok := CountActions(sources)
-			if !ok {
-				break
-			}
-
-			if sell > buy && sell > hold {
-				result <- Sell
-			} else if buy > sell && buy > hold {
-				result <- Buy
-			} else {
-				result <- Hold
-			}
-		}
-	}()
-
-	return result
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Report processes the provided asset snapshots and generates a report annotated with the recommended actions.
 func (a *MajorityStrategy) Report(c <-chan *asset.Snapshot) *helper.Report {
-	snapshots := helper.Duplicate(c, 3)
-
-	dates := asset.SnapshotsAsDates(snapshots[0])
-	closings := asset.SnapshotsAsClosings(snapshots[1])
-
-	actions, outcomes := ComputeWithOutcome(a, snapshots[2])
-	annotations := ActionsToAnnotations(actions)
-	outcomes = helper.MultiplyBy(outcomes, 100)
-
-	report := helper.NewReport(a.Name(), dates)
-	report.AddChart()
-
-	report.AddColumn(helper.NewNumericReportColumn("Close", closings))
-	report.AddColumn(helper.NewAnnotationReportColumn(annotations))
-
-	report.AddColumn(helper.NewNumericReportColumn("Outcome", outcomes), 1)
-
-	return report
+	_ = "STUB: not implemented"
+	return nil
 }

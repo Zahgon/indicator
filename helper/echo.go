@@ -11,24 +11,4 @@ package helper
 //	input := helper.SliceToChan([]int{2, 4, 6, 8})
 //	output := helper.Echo(input, 2, 4))
 //	fmt.Println(helper.ChanToSlice(output)) // [2, 4, 6, 8, 6, 8, 6, 8, 6, 8, 6, 8]
-func Echo[T any](input <-chan T, last, count int) <-chan T {
-	output := make(chan T)
-	memory := NewRing[T](last)
-
-	go func() {
-		defer close(output)
-
-		for n := range input {
-			memory.Put(n)
-			output <- n
-		}
-
-		for i := 0; i < count; i++ {
-			for j := 0; j < last; j++ {
-				output <- memory.At(j)
-			}
-		}
-	}()
-
-	return output
-}
+func Echo[T any](input <-chan T, last, count int) <-chan T { _ = "STUB: not implemented"; return nil }

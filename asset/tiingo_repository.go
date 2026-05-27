@@ -5,10 +5,6 @@
 package asset
 
 import (
-	"encoding/json"
-	"errors"
-	"fmt"
-	"io"
 	"log/slog"
 	"net/http"
 	"time"
@@ -80,16 +76,7 @@ type TiingoEndOfDay struct {
 }
 
 // ToSnapshot converts the Tiingo end-of-day to a snapshot.
-func (e *TiingoEndOfDay) ToSnapshot() *Snapshot {
-	return &Snapshot{
-		Date:   e.Date,
-		Open:   e.AdjOpen,
-		High:   e.AdjHigh,
-		Low:    e.AdjLow,
-		Close:  e.AdjClose,
-		Volume: e.AdjVolume,
-	}
-}
+func (e *TiingoEndOfDay) ToSnapshot() *Snapshot { _ = "STUB: not implemented"; return nil }
 
 // TiingoRepository provides access to financial market data, retrieving
 // asset snapshots, by interacting with the Tiingo Stock & Financial
@@ -113,128 +100,31 @@ type TiingoRepository struct {
 
 // NewTiingoRepository initializes a file system repository with
 // the given API key.
-func NewTiingoRepository(apiKey string) *TiingoRepository {
-	return &TiingoRepository{
-		apiKey:  apiKey,
-		client:  &http.Client{},
-		BaseURL: "https://api.tiingo.com",
-		Logger:  slog.Default(),
-	}
-}
+func NewTiingoRepository(apiKey string) *TiingoRepository { _ = "STUB: not implemented"; return nil }
 
 // Assets returns the names of all assets in the repository.
-func (*TiingoRepository) Assets() ([]string, error) {
-	return nil, errors.ErrUnsupported
-}
+func (*TiingoRepository) Assets() ([]string, error) { _ = "STUB: not implemented"; return nil, nil }
 
 // Get attempts to return a channel of snapshots for the asset with the given name.
 func (r *TiingoRepository) Get(name string) (<-chan *Snapshot, error) {
-	return r.GetSince(name, time.Date(2000, 1, 1, 0, 0, 0, 0, time.UTC))
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // GetSince attempts to return a channel of snapshots for the asset with the given name since the given date.
 func (r *TiingoRepository) GetSince(name string, date time.Time) (<-chan *Snapshot, error) {
-	url := fmt.Sprintf("%s/tiingo/daily/%s/prices?startDate=%s&token=%s",
-		r.BaseURL,
-		name,
-		date.Format("2006-01-02"),
-		r.apiKey)
-
-	req, err := http.NewRequest(http.MethodGet, url, http.NoBody)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := r.client.Do(req)
-	if err != nil {
-		return nil, err
-	}
-
-	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("request failed with %s", res.Status)
-	}
-
-	snapshots := make(chan *Snapshot)
-
-	go func() {
-		defer close(snapshots)
-
-		decoder := json.NewDecoder(res.Body)
-
-		_, err = decoder.Token()
-		if err != nil {
-			r.Logger.Error("Unable to read token.", "error", err)
-			return
-		}
-
-		for decoder.More() {
-			var data TiingoEndOfDay
-
-			err = decoder.Decode(&data)
-			if err != nil {
-				r.Logger.Error("Unable to decode data.", "error", err)
-				break
-			}
-
-			snapshots <- data.ToSnapshot()
-		}
-
-		_, err = decoder.Token()
-		if err != nil {
-			r.Logger.Error("GetSince failed.", "error", err)
-			return
-		}
-
-		err = res.Body.Close()
-		if err != nil {
-			r.Logger.Error("Unable to close respose.", "error", err)
-		}
-	}()
-
-	return snapshots, nil
+	_ = "STUB: not implemented"
+	return nil, nil
 }
 
 // LastDate returns the date of the last snapshot for the asset with the given name.
 func (r *TiingoRepository) LastDate(name string) (time.Time, error) {
-	var lastDate time.Time
-
-	url := fmt.Sprintf("%s/tiingo/daily/%s?token=%s", r.BaseURL, name, r.apiKey)
-
-	req, err := http.NewRequest(http.MethodGet, url, http.NoBody)
-	if err != nil {
-		return lastDate, err
-	}
-
-	res, err := r.client.Do(req)
-	if err != nil {
-		return lastDate, err
-	}
-
-	if res.StatusCode != 200 {
-		return lastDate, fmt.Errorf("request failed with %s", res.Status)
-	}
-
-	body, err := io.ReadAll(res.Body)
-	if err != nil {
-		return lastDate, err
-	}
-
-	err = res.Body.Close()
-	if err != nil {
-		return lastDate, err
-	}
-
-	var meta TiingoMeta
-
-	err = json.Unmarshal(body, &meta)
-	if err != nil {
-		return lastDate, err
-	}
-
-	return meta.EndDate, nil
+	_ = "STUB: not implemented"
+	return *new(time.Time), nil
 }
 
 // Append adds the given snapshows to the asset with the given name.
 func (*TiingoRepository) Append(_ string, _ <-chan *Snapshot) error {
-	return errors.ErrUnsupported
+	_ = "STUB: not implemented"
+	return nil
 }

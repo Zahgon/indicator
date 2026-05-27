@@ -4,8 +4,6 @@
 
 package helper
 
-import "slices"
-
 // CommonPeriod calculates the smallest period at which all data channels can be synchronized
 //
 // Example:
@@ -21,17 +19,10 @@ import "slices"
 //
 //	// Synchronize the third channel
 //	c3 := helper.Sync(commonPeriod, 3, c3)
-func CommonPeriod(periods ...int) int {
-	return slices.Max(periods)
-}
+func CommonPeriod(periods ...int) int { _ = "STUB: not implemented"; return 0 }
 
 // SyncPeriod adjusts the given channel to match the given common period.
 func SyncPeriod[T any](commonPeriod, period int, c <-chan T) <-chan T {
-	forwardPeriod := commonPeriod - period
-
-	if forwardPeriod > 0 {
-		c = Skip(c, forwardPeriod)
-	}
-
-	return c
+	_ = "STUB: not implemented"
+	return nil
 }

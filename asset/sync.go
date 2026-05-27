@@ -5,12 +5,8 @@
 package asset
 
 import (
-	"errors"
 	"log/slog"
-	"sync"
 	"time"
-
-	"github.com/cinar/indicator/v2/helper"
 )
 
 const (
@@ -38,74 +34,10 @@ type Sync struct {
 }
 
 // NewSync function initializes a new sync instance with the default parameters.
-func NewSync() *Sync {
-	return &Sync{
-		Workers: DefaultSyncWorkers,
-		Delay:   DefaultSyncDelay,
-		Assets:  []string{},
-		Logger:  slog.Default(),
-	}
-}
+func NewSync() *Sync { _ = "STUB: not implemented"; return nil }
 
 // Run synchronizes assets between the source and target repositories using multi-worker concurrency.
 func (s *Sync) Run(source, target Repository, defaultStartDate time.Time) error {
-	if len(s.Assets) == 0 {
-		s.Logger.Warn("No asset names provided. Syncing in all assets in the target repository.")
-
-		assets, err := target.Assets()
-		if err != nil {
-			return err
-		}
-
-		s.Assets = assets
-	}
-
-	s.Logger.Info("Start syncing.", "assets", len(s.Assets))
-	jobs := helper.SliceToChan(s.Assets)
-
-	hasErrors := false
-	wg := &sync.WaitGroup{}
-
-	for i := 0; i < s.Workers; i++ {
-		wg.Add(1)
-
-		go func() {
-			defer wg.Done()
-
-			for name := range jobs {
-				lastDate, err := target.LastDate(name)
-				if err == nil {
-					lastDate = lastDate.AddDate(0, 0, 1)
-				} else {
-					lastDate = defaultStartDate
-				}
-
-				s.Logger.Info("Syncing asset.", "asset", name, "start", lastDate.Format("2006-01-02"))
-
-				snapshots, err := source.GetSince(name, lastDate)
-				if err != nil {
-					s.Logger.Error("GetSince failed.", "asset", name, "error", err)
-					hasErrors = true
-					continue
-				}
-
-				err = target.Append(name, snapshots)
-				if err != nil {
-					s.Logger.Error("Append failed.", "asset", name, "error", err)
-					hasErrors = true
-					continue
-				}
-
-				time.Sleep(time.Duration(s.Delay) * time.Second)
-			}
-		}()
-	}
-
-	wg.Wait()
-
-	if hasErrors {
-		return errors.New("has errors")
-	}
-
+	_ = "STUB: not implemented"
 	return nil
 }

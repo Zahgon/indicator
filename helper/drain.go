@@ -5,11 +5,4 @@
 package helper
 
 // Drain drains the given channel. It blocks the caller.
-func Drain[T any](c <-chan T) {
-	for {
-		_, ok := <-c
-		if !ok {
-			break
-		}
-	}
-}
+func Drain[T any](c <-chan T) { _ = "STUB: not implemented"; return }

@@ -35,50 +35,27 @@ type KeltnerChannel[T helper.Number] struct {
 }
 
 // NewKeltnerChannel function initializes a new Keltner Channel instance with the default parameters.
-func NewKeltnerChannel[T helper.Number]() *KeltnerChannel[T] {
-	return NewKeltnerChannelWithPeriod[T](DefaultKeltnerChannelPeriod)
-}
+func NewKeltnerChannel[T helper.Number]() *KeltnerChannel[T] { _ = "STUB: not implemented"; return nil }
 
 // NewKeltnerChannelWithPeriod function initializes a new Keltner Channel instance with the given period.
 func NewKeltnerChannelWithPeriod[T helper.Number](period int) *KeltnerChannel[T] {
-	return &KeltnerChannel[T]{
-		Atr: NewAtrWithPeriod[T](period),
-		Ema: trend.NewEmaWithPeriod[T](period),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of numbers and computes the Keltner Channel over the specified period.
 func (k *KeltnerChannel[T]) Compute(highs, lows, closings <-chan T) (<-chan T, <-chan T, <-chan T) {
-	closingsSplice := helper.Duplicate(closings, 2)
-
-	//	2 * ATR(period, highs, lows, closings)
-	atrs := helper.Duplicate(
-		helper.MultiplyBy(
-			k.Atr.Compute(highs, lows, closingsSplice[0]),
-			2,
-		),
-		2,
-	)
-
-	//	Middle Line = EMA(period, closings)
-	middles := helper.Duplicate(
-		helper.Skip(
-			k.Ema.Compute(closingsSplice[1]),
-			k.Atr.IdlePeriod()-k.Ema.IdlePeriod(),
-		),
-		3,
-	)
-
-	//	Upper Band = EMA(period, closings) + 2 * ATR(period, highs, lows, closings)
-	upper := helper.Add(middles[0], atrs[0])
-
-	//	Lower Band = EMA(period, closings) - 2 * ATR(period, highs, lows, closings)
-	lower := helper.Subtract(middles[1], atrs[1])
-
-	return upper, middles[2], lower
+	_ = "STUB: not implemented"
+	return nil, nil, nil
 }
+
+//	2 * ATR(period, highs, lows, closings)
+
+//	Middle Line = EMA(period, closings)
+
+//	Upper Band = EMA(period, closings) + 2 * ATR(period, highs, lows, closings)
+
+//	Lower Band = EMA(period, closings) - 2 * ATR(period, highs, lows, closings)
 
 // IdlePeriod is the initial period that Keltner Channel won't yield any results.
-func (k *KeltnerChannel[T]) IdlePeriod() int {
-	return k.Atr.IdlePeriod()
-}
+func (k *KeltnerChannel[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

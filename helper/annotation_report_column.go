@@ -4,8 +4,6 @@
 
 package helper
 
-import "fmt"
-
 // annotationReportColumn is the annotation report column struct.
 type annotationReportColumn struct {
 	ReportColumn
@@ -14,33 +12,26 @@ type annotationReportColumn struct {
 
 // NewAnnotationReportColumn returns a new instance of an annotation column for a report.
 func NewAnnotationReportColumn(values <-chan string) ReportColumn {
-	return &annotationReportColumn{
-		values: values,
-	}
+	_ = "STUB: not implemented"
+	return *new(ReportColumn)
 }
 
 // Name returns the name of the report column.
 func (*annotationReportColumn) Name() string {
+	_ = "STUB: not implemented"
+
+	// Type returns number as the data type.
 	return ""
 }
 
-// Type returns number as the data type.
 func (*annotationReportColumn) Type() string {
-	return "string"
+	_ = "STUB: not implemented"
+
+	// Role returns the role of the report column.
+	return ""
 }
 
-// Role returns the role of the report column.
-func (*annotationReportColumn) Role() string {
-	return "annotation"
-}
+func (*annotationReportColumn) Role() string { _ = "STUB: not implemented"; return "" }
 
 // Value returns the next data value for the report column.
-func (c *annotationReportColumn) Value() string {
-	value := <-c.values
-
-	if value != "" {
-		return fmt.Sprintf("%q", value)
-	}
-
-	return "null"
-}
+func (c *annotationReportColumn) Value() string { _ = "STUB: not implemented"; return "" }

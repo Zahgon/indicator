@@ -5,8 +5,6 @@
 package trend
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 )
 
@@ -29,33 +27,16 @@ type Sma[T helper.Number] struct {
 }
 
 // NewSma function initializes a new SMA instance with the default parameters.
-func NewSma[T helper.Number]() *Sma[T] {
-	return NewSmaWithPeriod[T](DefaultSmaPeriod)
-}
+func NewSma[T helper.Number]() *Sma[T] { _ = "STUB: not implemented"; return nil }
 
 // NewSmaWithPeriod function initializes a new SMA instance with the default parameters.
-func NewSmaWithPeriod[T helper.Number](period int) *Sma[T] {
-	return &Sma[T]{
-		Period: period,
-	}
-}
+func NewSmaWithPeriod[T helper.Number](period int) *Sma[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the SMA over the specified period.
-func (s *Sma[T]) Compute(c <-chan T) <-chan T {
-	sum := NewMovingSum[T]()
-	sum.Period = s.Period
-
-	return helper.Apply(sum.Compute(c), func(sum T) T {
-		return sum / T(s.Period)
-	})
-}
+func (s *Sma[T]) Compute(c <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
 // IdlePeriod is the initial period that SMA won't yield any results.
-func (s *Sma[T]) IdlePeriod() int {
-	return s.Period - 1
-}
+func (s *Sma[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
 
 // String is the string representation of the SMA.
-func (s *Sma[T]) String() string {
-	return fmt.Sprintf("SMA(%d)", s.Period)
-}
+func (s *Sma[T]) String() string { _ = "STUB: not implemented"; return "" }

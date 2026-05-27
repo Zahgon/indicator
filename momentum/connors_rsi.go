@@ -5,8 +5,6 @@
 package momentum
 
 import (
-	"fmt"
-
 	"github.com/cinar/indicator/v2/helper"
 	"github.com/cinar/indicator/v2/trend"
 )
@@ -51,128 +49,60 @@ type ConnorsRsi[T helper.Float] struct {
 }
 
 // NewConnorsRsi function initializes a new Connors RSI instance with the default parameters.
-func NewConnorsRsi[T helper.Float]() *ConnorsRsi[T] {
-	return NewConnorsRsiWithPeriods[T](
-		DefaultConnorsRsiRsiPeriod,
-		DefaultConnorsRsiStreakRsiPeriod,
-		DefaultConnorsRsiPercentRankPeriod,
-	)
-}
+func NewConnorsRsi[T helper.Float]() *ConnorsRsi[T] { _ = "STUB: not implemented"; return nil }
 
 // NewConnorsRsiWithPeriods function initializes a new Connors RSI instance with the given periods.
 func NewConnorsRsiWithPeriods[T helper.Float](rsiPeriod, streakRsiPeriod, percentRankPeriod int) *ConnorsRsi[T] {
-	if rsiPeriod <= 0 {
-		rsiPeriod = DefaultConnorsRsiRsiPeriod
-	}
-	if streakRsiPeriod <= 0 {
-		streakRsiPeriod = DefaultConnorsRsiStreakRsiPeriod
-	}
-	if percentRankPeriod <= 0 {
-		percentRankPeriod = DefaultConnorsRsiPercentRankPeriod
-	}
-
-	return &ConnorsRsi[T]{
-		RsiPeriod:         rsiPeriod,
-		StreakRsiPeriod:   streakRsiPeriod,
-		PercentRankPeriod: percentRankPeriod,
-		Rsi:               NewRsiWithPeriod[T](rsiPeriod),
-		StreakRsi:         NewRsiWithPeriod[T](streakRsiPeriod),
-		Roc:               trend.NewRocWithPeriod[T](1),
-		Streak:            NewStreak[T](),
-	}
+	_ = "STUB: not implemented"
+	return nil
 }
 
 // Compute function takes a channel of closings numbers and computes the Connors RSI.
-func (c *ConnorsRsi[T]) Compute(closings <-chan T) <-chan T {
-	cs := helper.Duplicate(closings, 3)
+func (c *ConnorsRsi[T]) Compute(closings <-chan T) <-chan T { _ = "STUB: not implemented"; return nil }
 
-	cs[0] = helper.Buffered(cs[0], 100)
-	cs[1] = helper.Buffered(cs[1], 100)
-	cs[2] = helper.Buffered(cs[2], 100)
+// Component 1: RSI on closing prices
 
-	// Component 1: RSI on closing prices
-	rsis := c.Rsi.Compute(cs[0])
+// Component 2: RSI on streak length
 
-	// Component 2: RSI on streak length
-	streaks := c.Streak.Compute(cs[1])
-	streakRsis := c.StreakRsi.Compute(streaks)
+// Component 3: PercentRank of ROC
 
-	// Component 3: PercentRank of ROC
-	rocs := c.Roc.Compute(cs[2])
-	percentRanks := helper.PercentRank(rocs, c.PercentRankPeriod)
-
-	// Combine: average of three components
-	result := helper.MultiplyBy(
-		helper.Add(
-			helper.Add(rsis, streakRsis),
-			percentRanks,
-		),
-		T(1)/T(3),
-	)
-
-	return result
-}
+// Combine: average of three components
 
 // IdlePeriod is the initial period that Connors RSI won't yield any results.
 func (c *ConnorsRsi[T]) IdlePeriod() int {
+	_ = "STUB: not implemented"
 	// ROC period 1 + RSI period 3 + RMA period 14 + PercentRank period 100
 	// = 1 + 3 + 14 + 100 = 118
-	return c.Roc.IdlePeriod() + c.Rsi.IdlePeriod() + c.PercentRankPeriod
+	return 0
 }
 
 // String is the string representation of the Connors RSI.
-func (c *ConnorsRsi[T]) String() string {
-	return fmt.Sprintf("ConnorsRSI(%d, %d, %d)", c.RsiPeriod, c.StreakRsiPeriod, c.PercentRankPeriod)
-}
+func (c *ConnorsRsi[T]) String() string { _ = "STUB: not implemented"; return "" }
 
 // Streak represents the configuration for calculating the up/down streak length.
 // The streak is the number of consecutive days the price has closed up or down.
 type Streak[T helper.Float] struct{}
 
 // NewStreak function initializes a new Streak instance.
-func NewStreak[T helper.Float]() *Streak[T] {
-	return &Streak[T]{}
-}
+func NewStreak[T helper.Float]() *Streak[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of closings numbers and computes the streak length.
 // Positive values indicate consecutive up closes, negative values indicate consecutive down closes.
 func (s *Streak[T]) Compute(closings <-chan T) <-chan T {
+	_ = "STUB: not implemented"
 	// Get the change
-	changes := helper.Change(closings, 1)
-
-	// Calculate streak based on direction
-	result := helper.Map(changes, func(change T) T {
-		if change > T(0) {
-			return T(1)
-		} else if change < T(0) {
-			return T(-1)
-		}
-		return T(0)
-	})
-
-	// Now calculate cumulative streak
-	cumulative := helper.MapWithPrevious(result, func(prev, curr T) T {
-		if curr > T(0) {
-			// Price went up - increment if previous was positive, else start at 1
-			if prev > T(0) {
-				return prev + T(1)
-			}
-			return T(1)
-		} else if curr < T(0) {
-			// Price went down - decrement if previous was negative, else start at -1
-			if prev < T(0) {
-				return prev - T(1)
-			}
-			return T(-1)
-		}
-		// Price unchanged - reset to 0
-		return T(0)
-	}, T(0))
-
-	return cumulative
+	return nil
 }
+
+// Calculate streak based on direction
+
+// Now calculate cumulative streak
+
+// Price went up - increment if previous was positive, else start at 1
+
+// Price went down - decrement if previous was negative, else start at -1
+
+// Price unchanged - reset to 0
 
 // IdlePeriod is the initial period that Streak won't yield any results.
-func (s *Streak[T]) IdlePeriod() int {
-	return 1
-}
+func (s *Streak[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }

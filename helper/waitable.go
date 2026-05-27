@@ -9,18 +9,6 @@ import "sync"
 // Waitable increments the wait group before reading from the channel
 // and signals completion when the channel is closed.
 func Waitable[T any](wg *sync.WaitGroup, c <-chan T) <-chan T {
-	result := make(chan T, cap(c))
-
-	wg.Add(1)
-
-	go func() {
-		defer close(result)
-		defer wg.Done()
-
-		for n := range c {
-			result <- n
-		}
-	}()
-
-	return result
+	_ = "STUB: not implemented"
+	return nil
 }

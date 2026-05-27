@@ -10,14 +10,10 @@ import (
 )
 
 // CloseAndLogError attempts to close the closer and logs any error.
-func CloseAndLogError(closer io.Closer, message string) {
-	CloseAndLogErrorWithLogger(closer, message, slog.Default())
-}
+func CloseAndLogError(closer io.Closer, message string) { _ = "STUB: not implemented"; return }
 
 // CloseAndLogErrorWithLogger attempts to close the closer and logs any error to the given logger.
 func CloseAndLogErrorWithLogger(closer io.Closer, message string, logger *slog.Logger) {
-	err := closer.Close()
-	if err != nil {
-		logger.Error(message, "error", err)
-	}
+	_ = "STUB: not implemented"
+	return
 }

@@ -35,69 +35,21 @@ type Mfi[T helper.Number] struct {
 }
 
 // NewMfi function initializes a new MFI instance with the default parameters.
-func NewMfi[T helper.Number]() *Mfi[T] {
-	return NewMfiWithPeriod[T](DefaultMfiPeriod)
-}
+func NewMfi[T helper.Number]() *Mfi[T] { _ = "STUB: not implemented"; return nil }
 
 // NewMfiWithPeriod function initializes a new MFI instance with the given period.
-func NewMfiWithPeriod[T helper.Number](period int) *Mfi[T] {
-	return &Mfi[T]{
-		TypicalPrice: trend.NewTypicalPrice[T](),
-		Sum:          trend.NewMovingSumWithPeriod[T](period),
-	}
-}
+func NewMfiWithPeriod[T helper.Number](period int) *Mfi[T] { _ = "STUB: not implemented"; return nil }
 
 // Compute function takes a channel of numbers and computes the MFI.
 func (m *Mfi[T]) Compute(highs, lows, closings, volumes <-chan T) <-chan T {
+	_ = "STUB: not implemented"
 	//	Raw Money Flow = Typical Price * Volume
-	rawMoneyFlowSplice := helper.Duplicate(
-		helper.Multiply(
-			m.TypicalPrice.Compute(highs, lows, closings),
-			volumes,
-		),
-		2,
-	)
-
-	moneyFlowSplice := helper.Duplicate(
-		helper.Multiply(
-			helper.Sign(
-				helper.Change(rawMoneyFlowSplice[0], 1),
-			),
-			helper.Skip(rawMoneyFlowSplice[1], 1),
-		),
-		2,
-	)
-
-	// Money Ratio = Positive Money Flow / Negative Money Flow
-	moneyRatio := helper.Divide(
-		m.Sum.Compute(
-			helper.KeepPositives(moneyFlowSplice[0]),
-		),
-		m.Sum.Compute(
-			helper.MultiplyBy(
-				helper.KeepNegatives(moneyFlowSplice[1]),
-				-1,
-			),
-		),
-	)
-
-	// Money Flow Index = 100 - (100 / (1 + Money Ratio))
-	return helper.IncrementBy(
-		helper.MultiplyBy(
-			helper.Pow(
-				helper.IncrementBy(
-					moneyRatio,
-					1,
-				),
-				-1,
-			),
-			-100,
-		),
-		100,
-	)
+	return nil
 }
+
+// Money Ratio = Positive Money Flow / Negative Money Flow
+
+// Money Flow Index = 100 - (100 / (1 + Money Ratio))
 
 // IdlePeriod is the initial period that MFI won't yield any results.
-func (m *Mfi[T]) IdlePeriod() int {
-	return m.Sum.IdlePeriod() + 1
-}
+func (m *Mfi[T]) IdlePeriod() int { _ = "STUB: not implemented"; return 0 }
